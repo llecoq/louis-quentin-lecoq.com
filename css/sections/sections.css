@@ -26,38 +26,18 @@ p {
   height: 1000px;
 }
 
-.light-mode #home {
-  background-color: white;
-}
-
 #about {
   background-color: rgba(var(--section2-background-dark-r), var(--section2-background-dark-g), var(--section2-background-dark-b), 0.6);
-}
-
-.light-mode #about {
-  background-color: rgba(var(--section2-background-light-r), var(--section2-background-light-g), var(--section2-background-light-b), var(--section-background-light-alpha));
 }
 
 #skills {
   background-color: rgba(var(--section1-background-dark-r), var(--section1-background-dark-g), var(--section1-background-dark-b), 0.6);
 }
 
-.light-mode #skills {
-  background-color: rgba(var(--section1-background-light-r), var(--section1-background-light-g), var(--section1-background-light-b), var(--section-background-light-alpha));
-}
-
 #projects {
   background-color: rgba(var(--section2-background-dark-r), var(--section2-background-dark-g), var(--section2-background-dark-b), 0.6);
 }
 
-.light-mode #projects {
-  background-color: rgba(var(--section2-background-light-r), var(--section2-background-light-g), var(--section2-background-light-b), var(--section-background-light-alpha));
-}
-
 #contact {
   background-color: rgba(var(--section1-background-dark-r), var(--section1-background-dark-g), var(--section1-background-dark-b), 0.6);
-}
-
-.light-mode #contact {
-  background-color: rgba(var(--section1-background-light-r), var(--section1-background-light-g), var(--section1-background-light-b), var(--section-background-light-alpha));
 }
