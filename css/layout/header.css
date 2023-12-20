@@ -32,11 +32,9 @@ html {
   
   /*----------------------------- Logo - Home */
   .logo-container img {
-      /* border-radius: 50%; */
       width:50px; 
       height:50px; 
       object-fit: cover;
-      /* box-shadow: 0.3px 0.1px 0 0.3px #f89b49aa; */
   }
   
   #logo {
@@ -45,14 +43,12 @@ html {
   }
   
   #logo a {
-      /* margin: 15px; */
       text-decoration: none;
       font-family: 'Satoshi-Medium';
       font-size: large;
       color: #fff;
       align-items: center;
       display: flex;
-      /* transition: all 0.2s ease-in-out; */
   }
   
   /*------------------------------- nav-links */
@@ -67,20 +63,8 @@ html {
       position: relative;
       text-decoration: none;
       font-family: 'Satoshi-Regular';
-      /* transition: color 0.2s ease-in-out; */
       margin: 10px;
   }
-  
-  /* #nav-links a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -39px;
-      width: 0%;
-      height: 1px;
-      background-color: var(--link-color);
-      transition: width 0.3s ease-in-out;
-  } */
   
   #nav-links a:hover::after, 
   #nav-links a.active::after {

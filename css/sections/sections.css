@@ -13,16 +13,10 @@ p {
     background-color: #120b0574;
     border-radius: 15px;
     height: 1000px;
-    /* transition: color 0.2s ease-in-out; */
-    /* backdrop-filter: blur(5px); */
 }
 
 #home {
   background-color: black;
-  /* background-image: url('../../assets/images/home.png'); */
-  /* background-position: center; */
-  /* background-size: cover; */
-  /* background-color: rgba(var(--section1-background-dark-r), var(--section1-background-dark-g), var(--section1-background-dark-b), 0.6); */
   height: 1000px;
 }
 
