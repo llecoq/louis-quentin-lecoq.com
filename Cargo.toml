@@ -1,0 +1,14 @@
+[package]
+name = "louis-quentin-lecoq"
+version = "0.1.0"
+authors = ["Louis-Quentin Lecoq <lecoqlq@gmail.com>"]
+description = "Personal SPA projet built with wasm-pack"
+repository = "https://gitlab.com/llecoq/louis-quentin-lecoq.com"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+web-sys = { version="0.3.5", features=[ "Document", "Element", "Window", "Console" ] }

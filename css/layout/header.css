@@ -1,0 +1,107 @@
+/*--------------------------------------------------------------- Navbar */
+:root {
+    --navbar-height: 100px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#navbar {
+    z-index: 4;
+      width: 100%;
+      background-color: rgba(var(--navbar-background-dark-r), var(--navbar-background-dark-g), var(--navbar-background-dark-b), 0.1);
+      position: fixed;
+      backdrop-filter: blur(5px);
+      height: var(--navbar-height);
+      top: 0;
+      left: 0;
+      right: 0;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      /* box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5); */
+  }
+  
+  .light-mode #navbar {
+    background-color: rgba(var(--navbar-background-light-r), var(--navbar-background-light-g), var(--navbar-background-light-b), 0.5);
+    color: var(--text-color-light);
+    /* box-shadow: 0px 0.5px 5px rgba(146, 146, 146, 0.5); */
+  }
+  
+  #navbar-box {
+      width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  
+  /*----------------------------- Logo - Home */
+  .logo-container img {
+      border-radius: 50%;
+      width:90px; 
+      height:90px; 
+      object-fit: cover;
+      box-shadow: 0.3px 0.1px 0 0.3px #f89b49aa;
+  }
+  
+  #logo {
+      width: 400px;
+      display: flex;
+  }
+  
+  #logo a {
+      margin: 15px;
+      text-decoration: none;
+      font-family: 'Satoshi-Medium';
+      font-size: large;
+      color: #fff;
+      align-items: center;
+      display: flex;
+      /* transition: all 0.2s ease-in-out; */
+  }
+
+  .light-mode #logo a {
+    color: var(--text-color-light);
+    /* transition: color 0.2s ease-in-out; */
+  }
+  
+  /*------------------------------- nav-links */
+  #nav-links {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+  }
+  
+  #nav-links a {
+      color: var(--text-color);
+      position: relative;
+      text-decoration: none;
+      font-family: 'Satoshi-Regular';
+      /* transition: color 0.2s ease-in-out; */
+      margin: 10px;
+  }
+  
+  /* #nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -39px;
+      width: 0%;
+      height: 1px;
+      background-color: var(--link-color);
+      transition: width 0.3s ease-in-out;
+  } */
+  
+  #nav-links a:hover::after, 
+  #nav-links a.active::after {
+      width: 100%;
+  }
+  
+  #nav-links a:hover {
+      color: var(--link-color);
+  }
+  
+  .light-mode #nav-links a {
+    color: var(--text-color-light);
+  }
