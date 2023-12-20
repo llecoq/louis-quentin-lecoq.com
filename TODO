@@ -1,0 +1,20 @@
+*/----------------------------ANIMATIONS */
+[] Home => Animation labyrinthe + solution avec Rust + WebAssembly + Canvas ?
+[] Animation en descendant page (les sections arrivent de maniere smooth ?)
+[x] Animation en cliquant sur section pour aller a la section de maniere smooth
+
+*/-------------------------------CONTENT */
+[] Section About
+[] Section Skills (avec animation langages connus)
+[] Section Projects ?
+[] Section Contact (si assez de temps, peut etre faire une petite DB pour travailler le backend avec rust)
+[] Footer
+[] Switch anglais / francais si le temps
+
+*/--------------------------------DESIGN */
+[] Responsive (Breakpoints etc.)
+[] Font d'ecran sur mesure
+
+*/---------------------------------AUTRE */
+[] Travailler CI avec gitlab (a partir de janvier pour mise en prod)
+[] License ?!

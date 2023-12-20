@@ -1,0 +1,27 @@
+body {
+    background-color: var(--background-color);
+    background-image: url('../../assets/images/background-dark-theme.png');
+    background-position: center;
+    background-repeat: repeat-y;
+    color: var(--text-color);
+    font-family: Satoshi-Light;
+    padding-top: var(--navbar-height);
+    margin: 0;
+}
+
+:root {
+    --background-color: #000000;
+    --navbar-background-dark-r: 0;
+    --navbar-background-dark-g: 0;
+    --navbar-background-dark-b: 0;
+    --section1-background-dark-r: 29;
+    --section1-background-dark-g: 26;
+    --section1-background-dark-b: 22;
+    --section2-background-dark-r: 0;
+    --section2-background-dark-g: 0;
+    --section2-background-dark-b: 0;
+    --section-background-dark-alpha: 0.6;
+    --text-color: #fff;
+    --link-color: #f89b49;
+    --navbar-color: black;
+}
