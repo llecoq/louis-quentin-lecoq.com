@@ -46,8 +46,3 @@ document.querySelectorAll('#nav-links a').forEach(link => {
         }
     });
 });
-
-/* dark/light */
-document.getElementById('toggle').addEventListener('click', function() {
-    document.body.classList.toggle('light-mode');
-});
