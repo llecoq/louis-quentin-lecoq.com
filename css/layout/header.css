@@ -70,6 +70,10 @@ html {
   #nav-links a.active::after {
       width: 100%;
   }
+
+  #nav-links a.active {
+    color: var(--link-color);
+  }
   
   #nav-links a:hover {
       color: var(--link-color);
