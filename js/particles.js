@@ -16,25 +16,31 @@ function getDist(x1, y1, x2, y2) {
 }
 
 function init() {
-  for (let i = 0; i < 500; i += 1) {
-    const x = Math.floor(Math.random() * canvas.width);
-    const y = Math.floor(Math.random() * canvas.height);
-    const speedX = Math.random();
-    const speedY = Math.random();
-    const dirX = Math.random() > 0.5 ? 1 : -1;
-    const dirY = Math.random() > 0.5 ? 1 : -1;
-    const size = Math.random() * (2.5 - 0.6) + 0.6;
-
-    particles.push({
-      x,
-      y,
-      size,
-      speedX: dirX * speedX,
-      speedY: dirY * speedY,
-      neighbors: [],
-    });
-  }
-  requestAnimationFrame(draw);
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radiusX = canvas.width * 0.3; 
+    const radiusY = canvas.height * 0.3; 
+  
+    for (let i = 0; i < 500; i += 1) {
+      const theta = Math.random() * 2 * Math.PI;
+      const x = centerX + radiusX * Math.cos(theta);
+      const y = centerY + radiusY * Math.sin(theta);
+      const speedX = Math.random();
+      const speedY = Math.random();
+      const dirX = Math.random() > 0.5 ? 1 : -1;
+      const dirY = Math.random() > 0.5 ? 1 : -1;
+      const size = Math.random() * (2.5 - 0.6) + 0.6;
+  
+      particles.push({
+        x,
+        y,
+        size,
+        speedX: dirX * speedX,
+        speedY: dirY * speedY,
+        neighbors: [],
+      });
+    }
+    requestAnimationFrame(draw);
 }
 
 let mouseX;
