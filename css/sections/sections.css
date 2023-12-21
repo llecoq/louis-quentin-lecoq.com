@@ -18,7 +18,18 @@ p {
 #home {
   background-color: black;
   height: 1000px;
+  position: relative;
 }
+
+.overlay-text {
+  position: absolute;
+  top: 50%;  /* Centrer verticalement */
+  left: 50%; /* Centrer horizontalement */
+  transform: translate(-50%, -50%); /* Aligner le centre du texte avec le centre du canvas */
+  color: white; /* Couleur du texte */
+  /* Ajouter d'autres styles pour le texte ici */
+}
+
 
 #about {
   background-color: rgba(var(--section2-background-dark-r), var(--section2-background-dark-g), var(--section2-background-dark-b), 0.6);
