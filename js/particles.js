@@ -13,10 +13,15 @@ export function initParticles() {
 
   const NUMBER_OF_PARTICLES = 200;
   const IMPULSE_DIST_AUTONOMY = 1000;
+  const IMPULSE_SPEED = 10;
+  const IMPULSE_SPEED_OFFSET = 2;
   const MAX_DIST = 200;
   const PARTICLE_ACTIVE_DELAY = 1000;
+  const MAX_ACTIVE_IMPULSES = 15;
+  
   let mouseX;
   let mouseY;
+  let activeImpulses = 0;
 
   // Calculate distance between two points
   function getDist(x1, y1, x2, y2) {
@@ -76,7 +81,7 @@ export function initParticles() {
               x: x,
               y: y,
               target: neighbor,
-              speed: Math.random() * 10 + 5,
+              speed: Math.random() * IMPULSE_SPEED + IMPULSE_SPEED_OFFSET,
               distAutonomy: IMPULSE_DIST_AUTONOMY,
           });
       }
@@ -102,11 +107,10 @@ export function initParticles() {
 
   // Draw impulses
   function drawImpulses() {
-      const time = Date.now() * 0.002;
-
       impulses.forEach((impulse, index) => {
           if (impulse.distAutonomy <= 0 || !impulse.target) {
               impulses.splice(index, 1);
+              activeImpulses--;
               return;
           }
 
@@ -118,6 +122,7 @@ export function initParticles() {
                   nextTarget.activateTimer();
               } else {
                   impulses.splice(index, 1);
+                  activeImpulses--;
                   return;
               }
           }
@@ -170,9 +175,10 @@ export function initParticles() {
           }
 
           const distToMouse = getDist(x, y, mouseX || 2000, mouseY || 2000);
-          if (distToMouse < MAX_DIST && !particle.active) {
+          if (distToMouse < MAX_DIST && !particle.active && activeImpulses <= MAX_ACTIVE_IMPULSES) {
               particle.activateTimer();
               newImpulse(mouseX, mouseY, particle);
+              activeImpulses++;
           }
 
           ctx.beginPath();
