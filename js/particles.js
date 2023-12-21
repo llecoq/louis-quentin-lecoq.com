@@ -17,7 +17,8 @@ export function initParticles() {
   const IMPULSE_SPEED_OFFSET = 2;
   const MAX_DIST = 200;
   const PARTICLE_ACTIVE_DELAY = 1000;
-  const MAX_ACTIVE_IMPULSES = 15;
+  // const MAX_ACTIVE_IMPULSES = 15;
+  const IMPULSE_SIZE = 1.;
   
   let mouseX;
   let mouseY;
@@ -110,7 +111,7 @@ export function initParticles() {
       impulses.forEach((impulse, index) => {
           if (impulse.distAutonomy <= 0 || !impulse.target) {
               impulses.splice(index, 1);
-              activeImpulses--;
+              // activeImpulses--;
               return;
           }
 
@@ -122,14 +123,14 @@ export function initParticles() {
                   nextTarget.activateTimer();
               } else {
                   impulses.splice(index, 1);
-                  activeImpulses--;
+                  // activeImpulses--;
                   return;
               }
           }
 
           ctx.beginPath();
           ctx.fillStyle = getRandomRedToOrangeColor();
-          ctx.arc(impulse.x, impulse.y, 1.5, 0, Math.PI * 2);
+          ctx.arc(impulse.x, impulse.y, IMPULSE_SIZE, 0, Math.PI * 2);
           ctx.fill();
           updateImpulsePosition(impulse, impulse.target);
       });
@@ -175,7 +176,7 @@ export function initParticles() {
           }
 
           const distToMouse = getDist(x, y, mouseX || 2000, mouseY || 2000);
-          if (distToMouse < MAX_DIST && !particle.active && activeImpulses <= MAX_ACTIVE_IMPULSES) {
+          if (distToMouse < MAX_DIST && !particle.active) {
               particle.activateTimer();
               newImpulse(mouseX, mouseY, particle);
               activeImpulses++;
