@@ -139,8 +139,19 @@ export function initParticles() {
                   ctx.lineTo(neighbor.x, neighbor.y);
                   ctx.globalAlpha = 1.2 - dist / MAX_DIST;
                   ctx.stroke();
-                  ctx.globalAlpha = 1.0;
               }
+
+              // draw link with mouse
+              if (getDist(mouseX, mouseY, particle.x, particle.y) < MAX_DIST) {
+                ctx.beginPath();
+                ctx.moveTo(particle.x, particle.y);
+                ctx.lineTo(mouseX, mouseY);
+                ctx.globalAlpha = 0.1;
+                ctx.stroke();
+              }
+
+              // Reset globalAlpha
+              ctx.globalAlpha = 1.0;
           });
       });
   }
