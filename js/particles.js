@@ -69,13 +69,13 @@ export function initParticles() {
   }
 
   // Create a new impulse
-  function newImpulse(particle) {
-      const neighbor = particle.neighbors.find(n => getDist(particle.x, particle.y, n.x, n.y) < MAX_DIST);
+  function newImpulse(x, y, particle) {
+      const neighbor = particle.neighbors.find(n => getDist(x, y, n.x, n.y) < MAX_DIST);
       if (neighbor) {
           impulses.push({
               particle,
-              x: particle.x,
-              y: particle.y,
+              x: x,
+              y: y,
               target: neighbor,
               speed: Math.random() * 10 + 5,
               distAutonomy: IMPULSE_DIST_AUTONOMY,
@@ -143,7 +143,7 @@ export function initParticles() {
 
               // draw link with mouse
               const distToMouse = getDist(particle.x, particle.y, mouseX || 2000, mouseY || 2000);
-              if (distToMouse < MAX_DIST && !particle.active) {
+              if (distToMouse < MAX_DIST) {
                 ctx.beginPath();
                 ctx.moveTo(particle.x, particle.y);
                 ctx.lineTo(mouseX, mouseY);
@@ -168,9 +168,9 @@ export function initParticles() {
           }
 
           const distToMouse = getDist(x, y, mouseX || 2000, mouseY || 2000);
-          if (distToMouse < MIN_DIST && !particle.active) {
+          if (distToMouse < MAX_DIST && !particle.active) {
               particle.activateTimer();
-              newImpulse(particle);
+              newImpulse(mouseX, mouseY, particle);
           }
 
           ctx.beginPath();
