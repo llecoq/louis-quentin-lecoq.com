@@ -14,7 +14,6 @@ export function initParticles() {
   const NUMBER_OF_PARTICLES = 200;
   const IMPULSE_DIST_AUTONOMY = 1000;
   const MAX_DIST = 200;
-  const MIN_DIST = 25;
   const PARTICLE_ACTIVE_DELAY = 1000;
   let mouseX;
   let mouseY;
@@ -124,7 +123,7 @@ export function initParticles() {
           }
 
           ctx.beginPath();
-          ctx.fillStyle = getRandomRedToVioletColor();
+          ctx.fillStyle = getRandomRedToOrangeColor();
           ctx.arc(impulse.x, impulse.y, 1.5, 0, Math.PI * 2);
           ctx.fill();
           updateImpulsePosition(impulse, impulse.target);
