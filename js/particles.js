@@ -14,9 +14,9 @@ export function initParticles() {
 
   const NUMBER_OF_PARTICLES = 200;
   const IMPULSE_SPEED = 10;
-  const IMPULSE_DIST_AUTONOMY = 1000;
+  const IMPULSE_DIST_AUTONOMY = 800;
   const MAX_DIST = 200;
-  const MIN_DIST = 50;
+  const MIN_DIST = 25;
   const PARTICLE_ACTIVE_DELAY = 1000;
 
   function getDist(x1, y1, x2, y2) {
@@ -194,6 +194,14 @@ export function initParticles() {
       if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) {
         x = Math.floor(Math.random() * canvas.width);
         y = Math.floor(Math.random() * canvas.height);
+      }
+
+      const x1 = mouseX || 2000;
+      const y1 = mouseY || 2000;
+      const dist = getDist(x, y, x1, y1);
+      if (dist < MIN_DIST && particles[i].active === false) {
+        particles[i].activateTimer();
+        newImpulse(particles[i], null);
       }
 
       ctx.moveTo(x, y);
