@@ -103,6 +103,8 @@ export function initParticles() {
 
   // Draw impulses
   function drawImpulses() {
+      const time = Date.now() * 0.002;
+
       impulses.forEach((impulse, index) => {
           if (impulse.distAutonomy <= 0 || !impulse.target) {
               impulses.splice(index, 1);
@@ -122,7 +124,8 @@ export function initParticles() {
           }
 
           ctx.beginPath();
-          ctx.arc(impulse.x, impulse.y, 1.0, 0, Math.PI * 2);
+          ctx.fillStyle = getRandomRedToVioletColor();
+          ctx.arc(impulse.x, impulse.y, 1.5, 0, Math.PI * 2);
           ctx.fill();
           updateImpulsePosition(impulse, impulse.target);
       });
@@ -174,18 +177,45 @@ export function initParticles() {
           }
 
           ctx.beginPath();
-          ctx.arc(x, y, particle.size, 0, Math.PI * 2);
+          ctx.fillStyle = "#FFFFF";
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fill();
           particle.x = x;
           particle.y = y;
-          ctx.fill();
       });
+  }
+
+  function getColor(time, frequency, phaseShift) {
+    const red = Math.round(Math.sin(frequency * time + phaseShift) * 127.5 + 127.5);
+    const green = Math.round(Math.sin(frequency * time + 2 * phaseShift) * 127.5 + 127.5);
+    const blue = Math.round(Math.sin(frequency * time + 4 * phaseShift) * 127.5 + 127.5);
+    return `rgb(${red}, ${green}, ${blue})`;
+  }
+
+  function getRandomRedToVioletColor() {
+    // Rouge : (255, 0, 0)
+    // Violet : (128, 0, 128)
+    // Interpoler entre les composantes rouge et bleu
+    const red = Math.floor(Math.random() * (255 - 128 + 1)) + 128; // De 128 à 255
+    const blue = red; // Pour le violet, les composantes rouge et bleue sont égales
+
+    return `rgb(${red}, 0, ${blue})`;
+  }
+
+  function getRandomRedToOrangeColor() {
+    // Rouge pur : (255, 0, 0)
+    // Orange : (255, 165, 0)
+    // Interpoler uniquement la composante verte
+    const green = Math.floor(Math.random() * 166); // De 0 à 165
+
+    return `rgb(255, ${green}, 0)`;
   }
 
   // Main draw function
   function draw() {
       ctx.fillStyle = "rgba(0,0,0,0.5)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#FFFFFF";
+      // ctx.fillStyle = "#FFFFFF";
 
       drawParticles();
       drawNeighborsLinks();
