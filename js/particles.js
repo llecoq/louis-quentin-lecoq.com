@@ -12,9 +12,12 @@ export function initParticles() {
   const particles = [];
   const impulses = [];
 
-  const IMPULSE_LIFE_CYLE = 2;
+  const NUMBER_OF_PARTICLES = 200;
+  const IMPULSE_SPEED = 10;
+  const IMPULSE_DIST_AUTONOMY = 1000;
   const MAX_DIST = 200;
-  const MIN_DIST = 10;
+  const MIN_DIST = 50;
+  const PARTICLE_ACTIVE_DELAY = 1000;
 
   function getDist(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
@@ -26,7 +29,7 @@ export function initParticles() {
       const radiusX = canvas.width * 0.3; 
       const radiusY = canvas.height * 0.3; 
 
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < NUMBER_OF_PARTICLES; i++) {
         const theta = Math.random() * 2 * Math.PI;
         const x = centerX + radiusX * Math.cos(theta);
         const y = centerY + radiusY * Math.sin(theta);
@@ -44,6 +47,12 @@ export function initParticles() {
           speedY: dirY * speedY,
           neighbors: [],
           active: false,
+          activateTimer: function() {
+            this.active = true;
+            setTimeout(() => {
+              this.active = false;
+            }, PARTICLE_ACTIVE_DELAY);
+          },
         });
       }
       requestAnimationFrame(draw);
@@ -66,15 +75,12 @@ export function initParticles() {
           return dist1 - dist2;
         });
       
-        particles[i].neighbors = copy.slice(0, 10);
+        particles[i].neighbors = copy.slice(1, 10);
       }
     }, 250);
   }
 
-  function newImpulses(particle, origin, lifeCycle) {
-    if (lifeCycle === 0)
-      return;
-
+  function newImpulse(particle, origin) {
     const neighbors = particle.neighbors;
 
     for (let i = 0; i < neighbors.length; i++) {
@@ -89,9 +95,10 @@ export function initParticles() {
           x: particle.x,
           y: particle.y,
           target: neighbor,
-          speed: 10.0,
-          lifeCycle: lifeCycle,
+          speed: IMPULSE_SPEED,
+          distAutonomy: IMPULSE_DIST_AUTONOMY,
         })
+        break;
       }
     }
   }
@@ -109,6 +116,25 @@ export function initParticles() {
     // Appliquer la vitesse
     impulse.x += dx * impulse.speed;
     impulse.y += dy * impulse.speed;
+
+    impulse.distAutonomy -= 10;
+  }
+
+  function getNextNeighbor(origin, particle) {
+    const neighbors = particle.neighbors;
+
+    for (let i = 0; i < neighbors.length; i++) {
+      const x = particle.x;
+      const y = particle.y;
+      const neighbor = neighbors[i];
+      const dist = getDist(x, y, neighbor.x, neighbor.y);
+
+      if (dist < MAX_DIST && neighbor != origin && neighbor.active === false) {
+        neighbor.activateTimer();
+        return neighbor;
+      }
+    } 
+    return null;
   }
 
   function drawImpulses() {
@@ -117,14 +143,16 @@ export function initParticles() {
       const y = impulses[i].y;
       const target = impulses[i].target;
 
-      if (impulses[i].cycle === 0) {
+      if (target === null)
+        continue;
+
+      if (impulses[i].distAutonomy <= 0) {
         impulses.splice(i, 1);
         continue;
       }
       if (getDist(x, y, target.x, target.y) < 5) {
-        // impulses[i].particle.active = false;
-        newImpulses(target, impulses[i].particle, impulses[i].lifeCycle - 1);
-        impulses.splice(i, 1);
+        impulses[i].particle = target;
+        impulses[i].target = getNextNeighbor(impulses[i], target);
         continue;
       }
 
@@ -205,8 +233,8 @@ export function initParticles() {
           const dist = getDist(x, y, x1, y1);
 
           if (dist < MIN_DIST && particles[i].active === false) {
-            particles[i].active = true;
-            newImpulses(particles[i], null, IMPULSE_LIFE_CYLE);
+            particles[i].activateTimer();
+            newImpulse(particles[i], null);
           }
           particles[i].x = x;
           particles[i].y = y;
