@@ -1,3 +1,6 @@
+const PARTICLE_MAX_SIZE = 3
+const PARTICLE_MIN_SIZE = 0.6
+
 export default class Particle {
     canvas
     ctx
@@ -24,7 +27,7 @@ export default class Particle {
         this.canvas = canvas;
         this.x = centerX + radiusX * Math.cos(theta);
         this.y = centerY + radiusY * Math.sin(theta);
-        this.size = Math.random() * (2.5 - 0.6) + 0.6;
+        this.size = Math.random() * (PARTICLE_MAX_SIZE - PARTICLE_MIN_SIZE) + PARTICLE_MIN_SIZE;
         this.color = getRandomParticleColor();
         this.speedX = speedX * dirX;
         this.speedY = speedY * dirY;

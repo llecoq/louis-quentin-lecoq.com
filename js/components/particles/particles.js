@@ -14,8 +14,8 @@ export function particles() {
     const MAX_DIST = 200;
 
     // Connections style
-    const CONNECTIONS_STROKE_STYLE = 'rgba(255, 255, 255, 0.3)';
-    const CONNECTIONS_LINE_WIDTH = 0.3;
+    const CONNECTIONS_STROKE_STYLE = 'rgba(72, 217, 247, 0.2)';
+    const CONNECTIONS_LINE_WIDTH = 0.5;
     const MAX_CONNECTIONS = 10;
 
     const particles = [];
@@ -90,18 +90,18 @@ export function particles() {
 
         // draw base canvas rectangle
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = "rgba(0,0,0,0.5)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // ctx.fillStyle = "rgba(0,0,0,0.5)";
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // draw connections and lights
         ctx.globalCompositeOperation = 'lighter';
         drawConnections();
 
         // draw particles
+        ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
         particles.forEach(particle => particle.draw(ctx));
-        ctx.globalAlpha = 1.0;
-
         
     }
 
