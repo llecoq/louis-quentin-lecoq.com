@@ -1,4 +1,5 @@
 import Particle from "./objs/Particle.js";
+import Data from "./objs/Data.js";
 
 export function particles() {
     const canvas = document.querySelector("canvas");
@@ -52,6 +53,7 @@ export function particles() {
         }, 250);
     }
 
+    // Draw connections between neighbors
     function drawConnections() {
         ctx.strokeStyle = CONNECTIONS_STROKE_STYLE;
         ctx.lineWidth = CONNECTIONS_LINE_WIDTH;
@@ -59,6 +61,8 @@ export function particles() {
         particles.forEach(particle => {
             particle.neighbors.forEach(neighbor => {
                 const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
+                
+                // draw connections between particles
                 if (dist < MAX_DIST) {
                     ctx.beginPath();
                     ctx.moveTo(particle.x, particle.y);
@@ -67,18 +71,15 @@ export function particles() {
                     ctx.stroke();
                 }
   
-                // draw link with mouse
-                // const distToMouse = getDist(particle.x, particle.y, mouseX || 2000, mouseY || 2000);
-                // if (distToMouse < MAX_DIST) {
-                //   ctx.beginPath();
-                //   ctx.moveTo(particle.x, particle.y);
-                //   ctx.lineTo(mouseX, mouseY);
-                //   ctx.globalAlpha = 0.1;
-                //   ctx.stroke();
-                // }
-  
-                // Reset globalAlpha
-                ctx.globalAlpha = 1.0;
+                // draw connections with mouse
+                const distToMouse = getDist(particle.x, particle.y, mouseX || 2000, mouseY || 2000);
+                if (distToMouse < MAX_DIST) {
+                  ctx.beginPath();
+                  ctx.moveTo(particle.x, particle.y);
+                  ctx.lineTo(mouseX, mouseY);
+                  ctx.globalAlpha = 0.1;
+                  ctx.stroke();
+                }
             });
         });
     }
@@ -98,7 +99,15 @@ export function particles() {
 
         // draw particles
         ctx.globalCompositeOperation = 'source-over';
-        particles.forEach(particle => particle.draw());
+        particles.forEach(particle => particle.draw(ctx));
+        ctx.globalAlpha = 1.0;
+
         
     }
+
+      // Mousemove event listener
+      canvas.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
 }
