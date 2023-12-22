@@ -52,19 +52,23 @@ export default class Particle {
         }, PARTICLE_ACTIVE_DELAY);
     }
 
+    setNeighbors(sortedSlice) {
+        this.neighbors = sortedSlice;
+    }
+
 }
 
 // Returns RGB values for the color of each particle
 function getRandomParticleColor() {
     var chance = Math.random();
-    if (chance < 0.85) {
-        // 85% chance of white
+    if (chance < 0.70) {
+        // 70% chance of white
         return 'rgb(255, 255, 255)';
-    } else if (chance < 0.95) {
-        // 10% chance of 'rgb(72, 217, 247)'
+    } else if (chance < 0.90) {
+        // 20% chance of 'rgb(72, 217, 247)'
         return 'rgb(72, 217, 247)';
     } else {
-        // 5% chance of 'rgb(248, 155, 73)'
+        // 10% chance of 'rgb(248, 155, 73)'
         return 'rgb(248, 155, 73)';
     }
 }

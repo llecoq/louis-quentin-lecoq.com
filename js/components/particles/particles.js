@@ -10,12 +10,21 @@ export function particles() {
 
     const NUMBER_OF_PARTICLES = 200;
     const PARTICLE_ACTIVE_DELAY = 1000;
+    const MAX_DIST = 200;
 
-    const particles = []
-    const connections = []
-    const data = []
+    // Connections style
+    const CONNECTIONS_STROKE_STYLE = 'rgba(255, 255, 255, 0.3)';
+    const CONNECTIONS_LINE_WIDTH = 0.3;
+    const MAX_CONNECTIONS = 10;
+
+    const particles = [];
+    const connections = [];
+    const data = [];
+    let mouseX;
+    let mouseY;
 
     init();
+    sortNeighbors();
 
     // Initialize particles
     function init() {
@@ -33,6 +42,47 @@ export function particles() {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
+    // Sort neighbors based on distance
+    function sortNeighbors() {
+        setInterval(() => {
+            particles.forEach(particle => {
+                const sorted = [...particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
+                particle.setNeighbors(sorted.slice(0, MAX_CONNECTIONS));
+            });
+        }, 250);
+    }
+
+    function drawConnections() {
+        ctx.strokeStyle = CONNECTIONS_STROKE_STYLE;
+        ctx.lineWidth = CONNECTIONS_LINE_WIDTH;
+
+        particles.forEach(particle => {
+            particle.neighbors.forEach(neighbor => {
+                const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
+                if (dist < MAX_DIST) {
+                    ctx.beginPath();
+                    ctx.moveTo(particle.x, particle.y);
+                    ctx.lineTo(neighbor.x, neighbor.y);
+                    ctx.globalAlpha = 1.2 - dist / MAX_DIST;
+                    ctx.stroke();
+                }
+  
+                // draw link with mouse
+                // const distToMouse = getDist(particle.x, particle.y, mouseX || 2000, mouseY || 2000);
+                // if (distToMouse < MAX_DIST) {
+                //   ctx.beginPath();
+                //   ctx.moveTo(particle.x, particle.y);
+                //   ctx.lineTo(mouseX, mouseY);
+                //   ctx.globalAlpha = 0.1;
+                //   ctx.stroke();
+                // }
+  
+                // Reset globalAlpha
+                ctx.globalAlpha = 1.0;
+            });
+        });
+    }
+
     // Animate the particles
     function anim() {
         requestAnimationFrame(anim);
@@ -44,9 +94,7 @@ export function particles() {
 
         // draw connections and lights
         ctx.globalCompositeOperation = 'lighter';
-        ctx.beginPath();
-        // all.map( function( item ){ item.step(); } );
-        ctx.stroke();
+        drawConnections();
 
         // draw particles
         ctx.globalCompositeOperation = 'source-over';
