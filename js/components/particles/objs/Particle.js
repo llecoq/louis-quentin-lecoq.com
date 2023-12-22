@@ -10,7 +10,7 @@ export default class Particle {
     neighbors = []
     active = false
 
-    constructor(canvas, ctx) {
+    constructor(canvas) {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const radiusX = canvas.width * 0.3; 
@@ -22,7 +22,6 @@ export default class Particle {
         const dirY = Math.random() > 0.5 ? 1 : -1;
         
         this.canvas = canvas;
-        this.ctx = ctx;
         this.x = centerX + radiusX * Math.cos(theta);
         this.y = centerY + radiusY * Math.sin(theta);
         this.size = Math.random() * (2.5 - 0.6) + 0.6;
@@ -31,18 +30,29 @@ export default class Particle {
         this.speedY = speedY * dirY;
     }
 
-    draw() {
+    draw(ctx) {
         this.x += this.speedX;
         this.y += this.speedY;
-        if (this.x < 0 || this.x > this.canvas.width || this.y < 0 || this.y > this.canvas.height) {
-            this.x = Math.floor(Math.random() * this.canvas.width);
-            this.y = Math.floor(Math.random() * this.canvas.height);
+
+        switch (true) {
+            case this.x < 0:
+                this.x = this.canvas.width;
+                break;
+            case this.x > this.canvas.width:
+                this.x = 0;
+                break;
+            case this.y < 0:
+                this.y = this.canvas.height;
+                break;
+            case this.y > this.canvas.height:
+                this.y = 0;
+                break;
         }
 
-        this.ctx.beginPath();
-        this.ctx.fillStyle = this.color;
-        this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        this.ctx.fill();
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
     }
 
     activateTimer() {
