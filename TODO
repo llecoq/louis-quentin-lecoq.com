@@ -1,10 +1,10 @@
 */----------------------------ANIMATIONS */
-[] Home => Animation labyrinthe + solution avec Rust + WebAssembly + Canvas ?
 [] Animation en descendant page (les sections arrivent de maniere smooth ?)
 [x] Animation en cliquant sur section pour aller a la section de maniere smooth
 
 */-------------------------------CONTENT */
-[] Section About
+[] Section Home: Hello world ! I'm Louis-Quentin Lecoq
+[] Section About 
 [] Section Skills (avec animation langages connus)
 [] Section Projects ?
 [] Section Contact (si assez de temps, peut etre faire une petite DB pour travailler le backend avec rust)
@@ -13,8 +13,29 @@
 
 */--------------------------------DESIGN */
 [] Responsive (Breakpoints etc.)
-[] Font d'ecran sur mesure
+[] Font d'ecran sur mesure ?
+[] Logo
 
 */---------------------------------AUTRE */
 [] Travailler CI avec gitlab (a partir de janvier pour mise en prod)
 [] License ?!
+
+*/---------------------------------MEMORY LEAKS */
+[] Remove event listener
+[] Check Animation for leaks
+
+*/---------------------------------PARTICLES ANIM */
+[x] Restrain impulses from drawing if particles are too far away (delete impulse) 
+[x] Stop impulses anim if mouse outside of canvas
+[x] Stop anim if canvas outside of field of view
+[x] Sync anim with FPS
+[x] Handling Window Resize Event (scaling canvas)
+[x] Refactoring for Better Structure (CanvasManager = nop / ParticleManager / AnimationController)
+[] Make sure eventlisteners are cleared when not needed anymore
+[] Animation particles Rust WebAssembly
+[] Switch anim JS / Rust
+[] toggle to change number of particles ?
+
+
+
+

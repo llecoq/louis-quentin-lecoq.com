@@ -1,9 +1,9 @@
 import { initNavbar } from "./components/header.js";
 import { initHome, adjustHomeSize } from "./sections/home.js";
-import { initParticles } from "./particles.js";
+import { particles } from "./components/particles/particles.js";
 
 initNavbar();
 initHome();
 adjustHomeSize();
-initParticles();
+particles();
 // connectParticles();
