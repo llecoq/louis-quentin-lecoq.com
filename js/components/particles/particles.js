@@ -13,14 +13,14 @@ export function particles() {
     const MAX_DIST = 200;
 
     // Connections style
-    const CONNECTIONS_STROKE_STYLE = 'rgba(72, 217, 247, 0.2)';
+    const CONNECTIONS_STROKE_STYLE = 'rgba(72, 217, 247, 0.5)';
     const CONNECTIONS_LINE_WIDTH = 0.5;
     const MAX_CONNECTIONS = 10;
 
     const IMPULSE_DIST_AUTONOMY = 10000;
     const IMPULSE_SPEED = 20;
     const IMPULSE_SPEED_OFFSET = 0;
-    const IMPULSE_SIZE = 1;
+    const IMPULSE_SIZE = 1.5;
     const MAX_IMPULSES = 5;
 
     const particles = [];
@@ -76,7 +76,7 @@ export function particles() {
                 }
   
                 // draw connections with mouse
-                const distToMouse = getDist(particle.x, particle.y, mouseX || 2000, mouseY || 2000);
+                const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY);
                 if (distToMouse < MAX_DIST) {
                   ctx.beginPath();
                   ctx.moveTo(particle.x, particle.y);

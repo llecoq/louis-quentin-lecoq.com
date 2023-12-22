@@ -1,4 +1,4 @@
-const PARTICLE_MAX_SIZE = 3
+const PARTICLE_MAX_SIZE = 2.5
 const PARTICLE_MIN_SIZE = 0.6
 const PARTICLE_ACTIVE_DELAY = 1000;
 
@@ -83,6 +83,7 @@ function getRandomParticleColor() {
         return 'rgb(72, 217, 247)';
     } else {
         // 10% chance of 'rgb(248, 155, 73)'
-        return 'rgb(248, 155, 73)';
+        return 'rgb(50, 130, 240)';
+        // return 'rgb(248, 155, 73)';
     }
 }

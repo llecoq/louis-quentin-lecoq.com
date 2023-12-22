@@ -16,9 +16,16 @@ p {
 }
 
 #home {
-  background-color: rgba(0, 0, 0, 0.8);
-  height: 1000px;
-  position: relative;
+    /* Dégradé linéaire du noir vers le bleu marine */
+    background: linear-gradient(to bottom, black, rgba(0, 0, 30, 0));
+
+    /* Superposition d'un dégradé radial pour créer l'effet de vignette */
+    background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0, 30, 50));
+
+    background-size: cover; /* Assurez-vous que le fond couvre tout l'écran */
+    height: 100vh; /* Hauteur complète de la vue */
+
+    position: relative;
 }
 
 .overlay-text {
