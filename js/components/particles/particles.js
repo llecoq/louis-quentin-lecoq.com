@@ -38,6 +38,7 @@ export function particles() {
         }
         // sort particles from smallest to biggest
         particles.sort(function(a, b) {return a.size - b.size;});
+
         // Start animation
         requestAnimationFrame(anim);
     }
@@ -129,7 +130,7 @@ export function particles() {
                 return;
             }
 
-            if (getDist(impulse.x, impulse.y, impulse.target.x, impulse.target.y) < 5) {
+            if (getDist(impulse.x, impulse.y, impulse.target.x, impulse.target.y) < 10) {
                 const nextTarget = getNextNeighbor(impulse.particle, impulse.target);
                 if (nextTarget) {
                     impulse.particle = impulse.target;

@@ -28,6 +28,17 @@ p {
     position: relative;
 }
 
+#canvas {
+  opacity: 0; /* Départ de l'animation avec l'opacité à 0 */
+  animation: apparitionCanvas 2s ease-in forwards; /* Animation nommée apparitionCanvas */
+}
+
+/* Définir les étapes de l'animation */
+@keyframes apparitionCanvas {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .overlay-text {
   position: absolute;
   top: 50%;  /* Centrer verticalement */
