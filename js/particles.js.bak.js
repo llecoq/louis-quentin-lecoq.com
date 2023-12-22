@@ -22,7 +22,7 @@ export function initParticles() {
   
   let mouseX;
   let mouseY;
-  let activeImpulses = 0;
+//   let activeImpulses = 0;
 
   // Calculate distance between two points
   function getDist(x1, y1, x2, y2) {

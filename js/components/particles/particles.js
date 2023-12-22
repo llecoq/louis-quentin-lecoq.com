@@ -1,5 +1,5 @@
 import Particle from "./objs/Particle.js";
-import Data from "./objs/Data.js";
+// import Data from "./objs/Data.js";
 
 export function particles() {
     const canvas = document.querySelector("canvas");
@@ -10,7 +10,6 @@ export function particles() {
     const ctx = canvas.getContext("2d");
 
     const NUMBER_OF_PARTICLES = 200;
-    const PARTICLE_ACTIVE_DELAY = 1000;
     const MAX_DIST = 200;
 
     // Connections style
@@ -18,9 +17,14 @@ export function particles() {
     const CONNECTIONS_LINE_WIDTH = 0.5;
     const MAX_CONNECTIONS = 10;
 
+    const IMPULSE_DIST_AUTONOMY = 10000;
+    const IMPULSE_SPEED = 20;
+    const IMPULSE_SPEED_OFFSET = 0;
+    const IMPULSE_SIZE = 1;
+    const MAX_IMPULSES = 5;
+
     const particles = [];
-    const connections = [];
-    const data = [];
+    const impulses = [];
     let mouseX;
     let mouseY;
 
@@ -84,6 +88,92 @@ export function particles() {
         });
     }
 
+    // Create a new impulse
+    function newImpulse(x, y, particle) {
+        const neighbor = particle.neighbors.find(n => getDist(x, y, n.x, n.y) < MAX_DIST);
+        if (neighbor) {
+            impulses.push({
+                particle,
+                x: x,
+                y: y,
+                target: neighbor,
+                speed: Math.random() * IMPULSE_SPEED + IMPULSE_SPEED_OFFSET,
+                distAutonomy: IMPULSE_DIST_AUTONOMY,
+            });
+        }
+    }
+
+    // Update impulse position
+    function updateImpulsePosition(impulse, target) {
+        let dx = target.x - impulse.x;
+        let dy = target.y - impulse.y;
+        let length = Math.sqrt(dx * dx + dy * dy);
+        dx /= length;
+        dy /= length;
+
+        impulse.x += dx * impulse.speed;
+        impulse.y += dy * impulse.speed;
+        impulse.distAutonomy -= 10;
+    }
+    
+    // Get next neighbor for impulse
+    function getNextNeighbor(origin, particle) {
+        return particle.neighbors.find(neighbor => getDist(particle.x, particle.y, neighbor.x, neighbor.y) < MAX_DIST && neighbor !== origin && !neighbor.active);
+    }
+
+    // Draw impulses
+    function drawImpulses() {
+        impulses.forEach((impulse, index) => {
+            if (impulse.distAutonomy <= 0 || !impulse.target) {
+                impulses.splice(index, 1);
+                return;
+            }
+
+            if (getDist(impulse.x, impulse.y, impulse.target.x, impulse.target.y) < 5) {
+                const nextTarget = getNextNeighbor(impulse.particle, impulse.target);
+                if (nextTarget) {
+                    impulse.particle = impulse.target;
+                    impulse.target = nextTarget;
+                    nextTarget.activateTimer();
+                } else {
+                    impulses.splice(index, 1);
+                    return;
+                }
+            }
+
+            updateImpulsePosition(impulse, impulse.target);
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgb(72, 217, 247)';
+            ctx.lineWidth = IMPULSE_SIZE;
+            ctx.moveTo( impulse.x, impulse.y );
+            updateImpulsePosition(impulse, impulse.target);
+            updateImpulsePosition(impulse, impulse.target);
+            updateImpulsePosition(impulse, impulse.target);
+            updateImpulsePosition(impulse, impulse.target);
+            updateImpulsePosition(impulse, impulse.target);
+            updateImpulsePosition(impulse, impulse.target);
+            updateImpulsePosition(impulse, impulse.target);
+            updateImpulsePosition(impulse, impulse.target);
+            ctx.lineTo( impulse.x, impulse.y );
+            ctx.stroke();
+
+            // ctx.beginPath();
+            // ctx.fillStyle = 'rgb(72, 217, 247)';
+            // ctx.arc(impulse.x, impulse.y, IMPULSE_SIZE, 0, Math.PI * 2);
+            // ctx.fill();
+        });
+    }
+
+
+    function getRandomRedToOrangeColor() {
+        // Rouge pur : (255, 0, 0)
+        // Orange : (255, 165, 0)
+        // Interpoler uniquement la composante verte
+        const green = Math.floor(Math.random() * 166); // De 0 à 165
+    
+        return `rgb(255, ${green}, 0)`;
+      }
+
     // Animate the particles
     function anim() {
         requestAnimationFrame(anim);
@@ -97,6 +187,16 @@ export function particles() {
         // draw connections and lights
         ctx.globalCompositeOperation = 'lighter';
         drawConnections();
+        particles.forEach(particle => {
+            const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY);
+            if (distToMouse < MAX_DIST && !particle.active && impulses.length < MAX_IMPULSES) {
+                particle.activateTimer();
+                newImpulse(mouseX, mouseY, particle);
+            }
+        })
+        ctx.globalAlpha = 1.0;
+        drawImpulses();
+
 
         // draw particles
         ctx.globalAlpha = 1.0;

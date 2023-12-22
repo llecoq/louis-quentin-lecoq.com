@@ -1,5 +1,6 @@
 const PARTICLE_MAX_SIZE = 3
 const PARTICLE_MIN_SIZE = 0.6
+const PARTICLE_ACTIVE_DELAY = 1000;
 
 export default class Particle {
     canvas
