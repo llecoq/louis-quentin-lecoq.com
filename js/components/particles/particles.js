@@ -1,5 +1,4 @@
 import Particle from "./objs/Particle.js";
-import Impulse from "./objs/Impulse.js";
 
 export const opts = {
     // Particles
@@ -39,12 +38,12 @@ export function particles() {
 
     // Initialize particles
     function init() {
+        // create and push particles
         for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
             particles.push(new Particle(canvas, ctx))
         }
         // sort particles from smallest to biggest
         particles.sort(function(a, b) {return a.size - b.size;});
-
         // Start animation
         requestAnimationFrame(anim);
     }
@@ -72,16 +71,11 @@ export function particles() {
     // Create impulses
     function createImpulse() {
         particles.forEach(particle => {
-            const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY);
-            if (distToMouse < opts.MAX_DIST && !particle.active && impulses.length < opts.MAX_IMPULSES) {
-                particle.activateTimer();
-                
-                const neighbor = particle.neighbors.find(n => getDist(mouseX, mouseY, particle.x, particle.y) < opts.MAX_DIST);
-                if (neighbor) {
-                    impulses.push(new Impulse(mouseX, mouseY, particle, neighbor));
-                }
+            if (particle.canCreateImpulse(mouseX, mouseY, impulses.length)) {
+                const impulse = particle.createImpulse(mouseX, mouseY);
+                if (impulse) impulses.push(impulse);
             }
-        })
+        });
     }
 
     // Draw impulses
@@ -89,23 +83,10 @@ export function particles() {
         ctx.globalAlpha = 1.0;
 
         impulses.forEach((impulse, index) => {
-            if (impulse.distAutonomy <= 0 || !impulse.target) {
+            if (impulse.isExpired() || impulse.move() === false) {
                 impulses.splice(index, 1);
                 return;
             }
-
-            if (getDist(impulse.x, impulse.y, impulse.target.x, impulse.target.y) < 10) {
-                const nextTarget = impulse.getNextNeighbor(impulse.particle, impulse.target);
-                if (nextTarget) {
-                    impulse.particle = impulse.target;
-                    impulse.target = nextTarget;
-                    nextTarget.activateTimer();
-                } else {
-                    impulses.splice(index, 1);
-                    return;
-                }
-            }
-
             impulse.draw(ctx);
         });
     }

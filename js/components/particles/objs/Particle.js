@@ -1,5 +1,6 @@
 import { opts } from "../particles.js";
 import { getDist } from "../particles.js";
+import Impulse from "./Impulse.js";
 
 export default class Particle {
     canvas
@@ -13,6 +14,7 @@ export default class Particle {
     neighbors = []
     active = false
 
+    // Constructor
     constructor(canvas) {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
@@ -33,6 +35,7 @@ export default class Particle {
         this.speedY = speedY * dirY;
     }
 
+    // Draw the Particle on the canvas
     draw(ctx) {
         this.x += this.speedX;
         this.y += this.speedY;
@@ -58,6 +61,7 @@ export default class Particle {
         ctx.fill();
     }
 
+    // Set the Particle to `active` and set a timer to desactive it aftera given delay
     activateTimer() {
         this.active = true;
         setTimeout(() => {
@@ -65,10 +69,12 @@ export default class Particle {
         }, opts.PARTICLE_ACTIVE_DELAY);
     }
 
+    // Set neighbors[]
     setNeighbors(sortedSlice) {
         this.neighbors = sortedSlice;
     }
 
+    // Draw connections between `Particle` on the canvas
     drawConnections(ctx, mouseX, mouseY) {
         this.neighbors.forEach(neighbor => {
             const dist = getDist(this.x, this.y, neighbor.x, neighbor.y);
@@ -92,6 +98,28 @@ export default class Particle {
               ctx.stroke();
             }
         });
+    }
+
+    // Check if possible to create a new `Impulse`
+    canCreateImpulse(mouseX, mouseY, numberOfActiveImpules) {
+        const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
+
+        if (distToMouse < opts.MAX_DIST 
+                && this.active === false
+                && numberOfActiveImpules < opts.MAX_IMPULSES) {
+            return true;
+        }
+        return false;
+    }
+
+    // Create a new `Impulse` and returns it on success
+    createImpulse(mouseX, mouseY) {
+        const neighbor = this.neighbors.find(n => getDist(mouseX, mouseY, this.x, this.y) < opts.MAX_DIST);
+        if (neighbor) {
+            this.activateTimer();
+            return new Impulse(mouseX, mouseY, this, neighbor);
+        }
+        return null;
     }
 
 }
