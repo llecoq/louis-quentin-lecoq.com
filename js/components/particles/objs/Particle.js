@@ -3,6 +3,7 @@ import { getDist } from "../particles.js";
 import Impulse from "./Impulse.js";
 
 export default class Particle {
+    
     canvas
     ctx
     x

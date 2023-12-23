@@ -3,12 +3,12 @@ import { getDist } from "../particles.js";
 
 export default class Impulse {
     
-    particle;
-    x;
-    y;
-    target;
-    speed;
-    distAutonomy;
+    particle
+    x
+    y
+    target
+    speed
+    distAutonomy
 
     // Constructor
     constructor(x, y, particle, neighbor) {
@@ -55,7 +55,7 @@ export default class Impulse {
 
     // Returns true if the `Impulse` is expired
     isExpired() {
-        return this.distAutonomy <= 0 && !this.target
+        return this.distAutonomy <= 0 || this.target === false
     }
 
     // Move to next target
