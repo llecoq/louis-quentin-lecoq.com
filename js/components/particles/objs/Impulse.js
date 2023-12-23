@@ -1,4 +1,5 @@
 import { opts } from "../particles.js";
+import { getDist } from "../particles.js";
 
 export default class Impulse {
     
@@ -48,5 +49,10 @@ export default class Impulse {
         this.updateImpulsePosition();
         ctx.lineTo( this.x, this.y );
         ctx.stroke();
+    }
+
+    // Get next neighbor
+    getNextNeighbor(origin, particle) {
+        return particle.neighbors.find(neighbor => getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.MAX_DIST && neighbor !== origin && !neighbor.active);
     }
 }

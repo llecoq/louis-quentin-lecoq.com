@@ -1,4 +1,5 @@
 import { opts } from "../particles.js";
+import { getDist } from "../particles.js";
 
 export default class Particle {
     canvas
@@ -66,6 +67,31 @@ export default class Particle {
 
     setNeighbors(sortedSlice) {
         this.neighbors = sortedSlice;
+    }
+
+    drawConnections(ctx, mouseX, mouseY) {
+        this.neighbors.forEach(neighbor => {
+            const dist = getDist(this.x, this.y, neighbor.x, neighbor.y);
+            
+            // draw connections between particles
+            if (dist < opts.MAX_DIST) {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(neighbor.x, neighbor.y);
+                ctx.globalAlpha = 1.2 - dist / opts.MAX_DIST;
+                ctx.stroke();
+            }
+
+            // draw connections with mouse
+            const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
+            if (distToMouse < opts.MAX_DIST) {
+              ctx.beginPath();
+              ctx.moveTo(this.x, this.y);
+              ctx.lineTo(mouseX, mouseY);
+              ctx.globalAlpha = 0.1;
+              ctx.stroke();
+            }
+        });
     }
 
 }
