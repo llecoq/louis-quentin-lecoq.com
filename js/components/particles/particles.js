@@ -2,21 +2,9 @@ import Particle from "./objs/Particle.js";
 import Impulse from "./objs/Impulse.js";
 
 export const opts = {
+    // Particles
     NUMBER_OF_PARTICLES: 200,
     MAX_DIST: 200,
-
-    // Connections style
-    CONNECTIONS_STROKE_STYLE: 'rgba(72, 217, 247, 0.5)',
-    CONNECTIONS_LINE_WIDTH: 0.5,
-    MAX_CONNECTIONS: 10,
-
-    IMPULSE_DIST_AUTONOMY: 10000,
-    IMPULSE_SPEED: 20,
-    IMPULSE_SPEED_OFFSET: 0,
-    IMPULSE_SIZE: 1.5,
-    MAX_IMPULSES: 5,
-
-    // Particles
     PARTICLE_MAX_SIZE: 2.5,
     PARTICLE_MIN_SIZE: 0.6,
     PARTICLE_ACTIVE_DELAY: 1000,
@@ -24,6 +12,17 @@ export const opts = {
     PARTICLE_COLOR_2: 'rgb(72, 217, 247)',
     PARTICLE_COLOR_3: 'rgb(50, 130, 240)',
 
+    // Connections
+    CONNECTIONS_STROKE_STYLE: 'rgba(72, 217, 247, 0.5)',
+    CONNECTIONS_LINE_WIDTH: 0.5,
+    MAX_CONNECTIONS: 10,
+
+    // Impulses
+    IMPULSE_DIST_AUTONOMY: 10000,
+    IMPULSE_SPEED: 20,
+    IMPULSE_SPEED_OFFSET: 0,
+    IMPULSE_SIZE: 1.5,
+    MAX_IMPULSES: 5,
 }
 
 export function particles() {
@@ -33,14 +32,10 @@ export function particles() {
     canvas.width = document.body.clientWidth;
 
     const ctx = canvas.getContext("2d");
-
     const particles = [];
     const impulses = [];
     let mouseX;
     let mouseY;
-
-    init();
-    sortNeighbors();
 
     // Initialize particles
     function init() {
@@ -52,11 +47,6 @@ export function particles() {
 
         // Start animation
         requestAnimationFrame(anim);
-    }
-
-    // Calculate distance between two points
-    function getDist(x1, y1, x2, y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     // Sort neighbors based on distance
@@ -75,34 +65,8 @@ export function particles() {
         ctx.lineWidth = opts.CONNECTIONS_LINE_WIDTH;
 
         particles.forEach(particle => {
-            particle.neighbors.forEach(neighbor => {
-                const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
-                
-                // draw connections between particles
-                if (dist < opts.MAX_DIST) {
-                    ctx.beginPath();
-                    ctx.moveTo(particle.x, particle.y);
-                    ctx.lineTo(neighbor.x, neighbor.y);
-                    ctx.globalAlpha = 1.2 - dist / opts.MAX_DIST;
-                    ctx.stroke();
-                }
-  
-                // draw connections with mouse
-                const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY);
-                if (distToMouse < opts.MAX_DIST) {
-                  ctx.beginPath();
-                  ctx.moveTo(particle.x, particle.y);
-                  ctx.lineTo(mouseX, mouseY);
-                  ctx.globalAlpha = 0.1;
-                  ctx.stroke();
-                }
-            });
+            particle.drawConnections(ctx, mouseX, mouseY);
         });
-    }
-    
-    // Get next neighbor for impulse
-    function getNextNeighbor(origin, particle) {
-        return particle.neighbors.find(neighbor => getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.MAX_DIST && neighbor !== origin && !neighbor.active);
     }
 
     // Create impulses
@@ -131,7 +95,7 @@ export function particles() {
             }
 
             if (getDist(impulse.x, impulse.y, impulse.target.x, impulse.target.y) < 10) {
-                const nextTarget = getNextNeighbor(impulse.particle, impulse.target);
+                const nextTarget = impulse.getNextNeighbor(impulse.particle, impulse.target);
                 if (nextTarget) {
                     impulse.particle = impulse.target;
                     impulse.target = nextTarget;
@@ -150,10 +114,8 @@ export function particles() {
     function anim() {
         requestAnimationFrame(anim);
 
-        // draw base canvas rectangle
+        // clear canvas rectangle
         ctx.globalCompositeOperation = 'source-over';
-        // ctx.fillStyle = "rgba(0,0,0,0.5)";
-        // ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // draw connections and lights
@@ -162,7 +124,6 @@ export function particles() {
         createImpulse();
         drawImpulses();
 
-
         // draw particles
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
@@ -170,9 +131,17 @@ export function particles() {
         
     }
 
-      // Mousemove event listener
-      canvas.addEventListener("mousemove", (e) => {
+    // Mousemove event listener
+    canvas.addEventListener("mousemove", (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
     });
+
+    init();
+    sortNeighbors();
+}
+
+// Calculate distance between two points
+export function getDist(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
