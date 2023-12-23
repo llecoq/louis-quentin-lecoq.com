@@ -2,6 +2,7 @@
 [] Home => Animation labyrinthe + solution avec Rust + WebAssembly + Canvas ?
 [] Animation en descendant page (les sections arrivent de maniere smooth ?)
 [x] Animation en cliquant sur section pour aller a la section de maniere smooth
+[] Sync anim with FPS
 
 */-------------------------------CONTENT */
 [] Section About

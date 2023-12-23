@@ -1,5 +1,30 @@
 import Particle from "./objs/Particle.js";
-// import Data from "./objs/Data.js";
+import Impulse from "./objs/Impulse.js";
+
+export const opts = {
+    NUMBER_OF_PARTICLES: 200,
+    MAX_DIST: 200,
+
+    // Connections style
+    CONNECTIONS_STROKE_STYLE: 'rgba(72, 217, 247, 0.5)',
+    CONNECTIONS_LINE_WIDTH: 0.5,
+    MAX_CONNECTIONS: 10,
+
+    IMPULSE_DIST_AUTONOMY: 10000,
+    IMPULSE_SPEED: 20,
+    IMPULSE_SPEED_OFFSET: 0,
+    IMPULSE_SIZE: 1.5,
+    MAX_IMPULSES: 5,
+
+    // Particles
+    PARTICLE_MAX_SIZE: 2.5,
+    PARTICLE_MIN_SIZE: 0.6,
+    PARTICLE_ACTIVE_DELAY: 1000,
+    PARTICLE_COLOR_1: 'rgb(255, 255, 255)',
+    PARTICLE_COLOR_2: 'rgb(72, 217, 247)',
+    PARTICLE_COLOR_3: 'rgb(50, 130, 240)',
+
+}
 
 export function particles() {
     const canvas = document.querySelector("canvas");
@@ -8,20 +33,6 @@ export function particles() {
     canvas.width = document.body.clientWidth;
 
     const ctx = canvas.getContext("2d");
-
-    const NUMBER_OF_PARTICLES = 200;
-    const MAX_DIST = 200;
-
-    // Connections style
-    const CONNECTIONS_STROKE_STYLE = 'rgba(72, 217, 247, 0.5)';
-    const CONNECTIONS_LINE_WIDTH = 0.5;
-    const MAX_CONNECTIONS = 10;
-
-    const IMPULSE_DIST_AUTONOMY = 10000;
-    const IMPULSE_SPEED = 20;
-    const IMPULSE_SPEED_OFFSET = 0;
-    const IMPULSE_SIZE = 1.5;
-    const MAX_IMPULSES = 5;
 
     const particles = [];
     const impulses = [];
@@ -33,7 +44,7 @@ export function particles() {
 
     // Initialize particles
     function init() {
-        for (let i = 0; i < NUMBER_OF_PARTICLES; i++) {
+        for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
             particles.push(new Particle(canvas, ctx))
         }
         // sort particles from smallest to biggest
@@ -53,32 +64,32 @@ export function particles() {
         setInterval(() => {
             particles.forEach(particle => {
                 const sorted = [...particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
-                particle.setNeighbors(sorted.slice(0, MAX_CONNECTIONS));
+                particle.setNeighbors(sorted.slice(0, opts.MAX_CONNECTIONS));
             });
         }, 250);
     }
 
     // Draw connections between neighbors
     function drawConnections() {
-        ctx.strokeStyle = CONNECTIONS_STROKE_STYLE;
-        ctx.lineWidth = CONNECTIONS_LINE_WIDTH;
+        ctx.strokeStyle = opts.CONNECTIONS_STROKE_STYLE;
+        ctx.lineWidth = opts.CONNECTIONS_LINE_WIDTH;
 
         particles.forEach(particle => {
             particle.neighbors.forEach(neighbor => {
                 const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
                 
                 // draw connections between particles
-                if (dist < MAX_DIST) {
+                if (dist < opts.MAX_DIST) {
                     ctx.beginPath();
                     ctx.moveTo(particle.x, particle.y);
                     ctx.lineTo(neighbor.x, neighbor.y);
-                    ctx.globalAlpha = 1.2 - dist / MAX_DIST;
+                    ctx.globalAlpha = 1.2 - dist / opts.MAX_DIST;
                     ctx.stroke();
                 }
   
                 // draw connections with mouse
                 const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY);
-                if (distToMouse < MAX_DIST) {
+                if (distToMouse < opts.MAX_DIST) {
                   ctx.beginPath();
                   ctx.moveTo(particle.x, particle.y);
                   ctx.lineTo(mouseX, mouseY);
@@ -88,42 +99,31 @@ export function particles() {
             });
         });
     }
-
-    // Create a new impulse
-    function newImpulse(x, y, particle) {
-        const neighbor = particle.neighbors.find(n => getDist(x, y, n.x, n.y) < MAX_DIST);
-        if (neighbor) {
-            impulses.push({
-                particle,
-                x: x,
-                y: y,
-                target: neighbor,
-                speed: Math.random() * IMPULSE_SPEED + IMPULSE_SPEED_OFFSET,
-                distAutonomy: IMPULSE_DIST_AUTONOMY,
-            });
-        }
-    }
-
-    // Update impulse position
-    function updateImpulsePosition(impulse, target) {
-        let dx = target.x - impulse.x;
-        let dy = target.y - impulse.y;
-        let length = Math.sqrt(dx * dx + dy * dy);
-        dx /= length;
-        dy /= length;
-
-        impulse.x += dx * impulse.speed;
-        impulse.y += dy * impulse.speed;
-        impulse.distAutonomy -= 10;
-    }
     
     // Get next neighbor for impulse
     function getNextNeighbor(origin, particle) {
-        return particle.neighbors.find(neighbor => getDist(particle.x, particle.y, neighbor.x, neighbor.y) < MAX_DIST && neighbor !== origin && !neighbor.active);
+        return particle.neighbors.find(neighbor => getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.MAX_DIST && neighbor !== origin && !neighbor.active);
+    }
+
+    // Create impulses
+    function createImpulse() {
+        particles.forEach(particle => {
+            const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY);
+            if (distToMouse < opts.MAX_DIST && !particle.active && impulses.length < opts.MAX_IMPULSES) {
+                particle.activateTimer();
+                
+                const neighbor = particle.neighbors.find(n => getDist(mouseX, mouseY, particle.x, particle.y) < opts.MAX_DIST);
+                if (neighbor) {
+                    impulses.push(new Impulse(mouseX, mouseY, particle, neighbor));
+                }
+            }
+        })
     }
 
     // Draw impulses
     function drawImpulses() {
+        ctx.globalAlpha = 1.0;
+
         impulses.forEach((impulse, index) => {
             if (impulse.distAutonomy <= 0 || !impulse.target) {
                 impulses.splice(index, 1);
@@ -142,38 +142,9 @@ export function particles() {
                 }
             }
 
-            updateImpulsePosition(impulse, impulse.target);
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgb(72, 217, 247)';
-            ctx.lineWidth = IMPULSE_SIZE;
-            ctx.moveTo( impulse.x, impulse.y );
-            updateImpulsePosition(impulse, impulse.target);
-            updateImpulsePosition(impulse, impulse.target);
-            updateImpulsePosition(impulse, impulse.target);
-            updateImpulsePosition(impulse, impulse.target);
-            updateImpulsePosition(impulse, impulse.target);
-            updateImpulsePosition(impulse, impulse.target);
-            updateImpulsePosition(impulse, impulse.target);
-            updateImpulsePosition(impulse, impulse.target);
-            ctx.lineTo( impulse.x, impulse.y );
-            ctx.stroke();
-
-            // ctx.beginPath();
-            // ctx.fillStyle = 'rgb(72, 217, 247)';
-            // ctx.arc(impulse.x, impulse.y, IMPULSE_SIZE, 0, Math.PI * 2);
-            // ctx.fill();
+            impulse.draw(ctx);
         });
     }
-
-
-    function getRandomRedToOrangeColor() {
-        // Rouge pur : (255, 0, 0)
-        // Orange : (255, 165, 0)
-        // Interpoler uniquement la composante verte
-        const green = Math.floor(Math.random() * 166); // De 0 à 165
-    
-        return `rgb(255, ${green}, 0)`;
-      }
 
     // Animate the particles
     function anim() {
@@ -188,14 +159,7 @@ export function particles() {
         // draw connections and lights
         ctx.globalCompositeOperation = 'lighter';
         drawConnections();
-        particles.forEach(particle => {
-            const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY);
-            if (distToMouse < MAX_DIST && !particle.active && impulses.length < MAX_IMPULSES) {
-                particle.activateTimer();
-                newImpulse(mouseX, mouseY, particle);
-            }
-        })
-        ctx.globalAlpha = 1.0;
+        createImpulse();
         drawImpulses();
 
 

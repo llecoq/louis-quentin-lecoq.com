@@ -1,6 +1,4 @@
-const PARTICLE_MAX_SIZE = 2.5
-const PARTICLE_MIN_SIZE = 0.6
-const PARTICLE_ACTIVE_DELAY = 1000;
+import { opts } from "../particles.js";
 
 export default class Particle {
     canvas
@@ -28,7 +26,7 @@ export default class Particle {
         this.canvas = canvas;
         this.x = centerX + radiusX * Math.cos(theta);
         this.y = centerY + radiusY * Math.sin(theta);
-        this.size = Math.random() * (PARTICLE_MAX_SIZE - PARTICLE_MIN_SIZE) + PARTICLE_MIN_SIZE;
+        this.size = Math.random() * (opts.PARTICLE_MAX_SIZE - opts.PARTICLE_MIN_SIZE) + opts.PARTICLE_MIN_SIZE;
         this.color = getRandomParticleColor();
         this.speedX = speedX * dirX;
         this.speedY = speedY * dirY;
@@ -63,7 +61,7 @@ export default class Particle {
         this.active = true;
         setTimeout(() => {
             this.active = false;
-        }, PARTICLE_ACTIVE_DELAY);
+        }, opts.PARTICLE_ACTIVE_DELAY);
     }
 
     setNeighbors(sortedSlice) {
@@ -76,14 +74,10 @@ export default class Particle {
 function getRandomParticleColor() {
     var chance = Math.random();
     if (chance < 0.70) {
-        // 70% chance of white
-        return 'rgb(255, 255, 255)';
+        return opts.PARTICLE_COLOR_1;
     } else if (chance < 0.90) {
-        // 20% chance of 'rgb(72, 217, 247)'
-        return 'rgb(72, 217, 247)';
+        return opts.PARTICLE_COLOR_2;
     } else {
-        // 10% chance of 'rgb(248, 155, 73)'
-        return 'rgb(50, 130, 240)';
-        // return 'rgb(248, 155, 73)';
+        return opts.PARTICLE_COLOR_3;
     }
 }
