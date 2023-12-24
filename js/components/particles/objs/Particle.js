@@ -80,7 +80,7 @@ export default class Particle {
     }
 
     // Draw connections between `Particle` on the canvas
-    drawConnections(ctx, mouseX, mouseY) {
+    drawConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
         this.neighbors.forEach(neighbor => {
             const dist = getDist(this.x, this.y, neighbor.x, neighbor.y);
             
@@ -96,13 +96,15 @@ export default class Particle {
             }
 
             // draw connections with mouse
-            const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
-            if (distToMouse < opts.CONNECTION_MAX_DIST) {
-              ctx.beginPath();
-              ctx.moveTo(this.x, this.y);
-              ctx.lineTo(mouseX, mouseY);
-              ctx.globalAlpha = 0.1;
-              ctx.stroke();
+            if (mouseIsOverCanvas) {
+                const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
+                if (distToMouse < opts.CONNECTION_MAX_DIST) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(mouseX, mouseY);
+                    ctx.globalAlpha = 0.1;
+                    ctx.stroke();
+                }
             }
         });
     }

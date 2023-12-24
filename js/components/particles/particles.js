@@ -43,6 +43,7 @@ export function particles() {
     let mouseX;
     let mouseY;
     let lastTimestamp = 0;
+    let mouseIsOverCanvas = false;
 
     // Initialize particles
     function init() {
@@ -73,12 +74,12 @@ export function particles() {
         ctx.lineWidth = opts.CONNECTIONS_LINE_WIDTH;
 
         particles.forEach(particle => {
-            particle.drawConnections(ctx, mouseX, mouseY);
+            particle.drawConnections(ctx, mouseX, mouseY, mouseIsOverCanvas);
         });
     }
 
     // Create impulses
-    function createImpulse() {
+    function createImpulses() {
         particles.forEach(particle => {
             if (particle.canCreateImpulse(mouseX, mouseY, impulses.length)) {
                 const impulse = particle.createImpulse(mouseX, mouseY);
@@ -114,7 +115,7 @@ export function particles() {
         // draw connections and lights
         ctx.globalCompositeOperation = 'lighter';
         drawConnections();
-        createImpulse();
+        if (mouseIsOverCanvas) createImpulses();
         drawImpulses(scaleFPS);
         
         // draw particles
@@ -126,10 +127,18 @@ export function particles() {
         requestAnimationFrame(anim);
     }
 
-    // Mousemove event listener
+    //------------------------------------------ Mouse event listeners
     canvas.addEventListener("mousemove", (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+    });
+
+    canvas.addEventListener("mouseenter", () => {
+        mouseIsOverCanvas = true;
+    });
+
+    canvas.addEventListener("mouseleave", () => {
+        mouseIsOverCanvas = false;
     });
 
     init();
