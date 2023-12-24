@@ -18,7 +18,7 @@ export const opts = {
     CONNECTIONS_LINE_WIDTH: 0.5,
     CONNECTIONS_GLOBAL_ALPHA: 1.1, 
     ACTIVE_CONNECTIONS_GLOBAL_ALPHA: 1.4, 
-    MAX_CONNECTIONS: 10,
+    PARTICLE_MAX_CONNECTIONS: 10,
 
     // Impulses
     IMPULSE_DIST_AUTONOMY: 10000,
@@ -67,7 +67,7 @@ export function particles() {
         return setInterval(() => {
             particles.forEach(particle => {
                 const sorted = [...particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
-                particle.setNeighbors(sorted.slice(0, opts.MAX_CONNECTIONS));
+                particle.setNeighbors(sorted.slice(0, opts.PARTICLE_MAX_CONNECTIONS));
             });
         }, 250);
     }
