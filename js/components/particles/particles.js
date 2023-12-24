@@ -46,6 +46,7 @@ export function particles() {
     let mouseIsOverCanvas = false;
     let animationIsActive = true;
     let animationFrameId;
+    let sortNeighborsId;
 
     // Initialize particles
     function init() {
@@ -62,7 +63,7 @@ export function particles() {
 
     // Sort neighbors based on distance
     function sortNeighbors() {
-        setInterval(() => {
+        return setInterval(() => {
             particles.forEach(particle => {
                 const sorted = [...particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
                 particle.setNeighbors(sorted.slice(0, opts.MAX_CONNECTIONS));
@@ -150,20 +151,23 @@ export function particles() {
                 // Canvas is in the viewport
                 if (animationIsActive === false) {
                     animationIsActive = true;
+                    lastTimestamp = 0;
                     animationFrameId = requestAnimationFrame(anim);
+                    sortNeighborsId = sortNeighbors();
                 }
             } else {
                 // Canvas is not in the viewport
                 if (animationIsActive === true) {
                     animationIsActive = false;
                     cancelAnimationFrame(animationFrameId);
+                    clearInterval(sortNeighborsId);
                 }
             }
         });
     }, { threshold: 0.1 }); // Adjust threshold as needed
     
     init();
-    sortNeighbors();
+    sortNeighborsId = sortNeighbors();
     observer.observe(canvas);
 }
 
