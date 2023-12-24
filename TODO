@@ -1,10 +1,6 @@
 */----------------------------ANIMATIONS */
-[] Home => Animation particles JS
-[] Home => Animation particles Rust WebAssembly
-[] Home => switch anim JS / Rust
 [] Animation en descendant page (les sections arrivent de maniere smooth ?)
 [x] Animation en cliquant sur section pour aller a la section de maniere smooth
-[x] Sync anim with FPS
 
 */-------------------------------CONTENT */
 [] Section Home: Hello world ! I'm Louis-Quentin Lecoq
@@ -17,7 +13,7 @@
 
 */--------------------------------DESIGN */
 [] Responsive (Breakpoints etc.)
-[] Font d'ecran sur mesure
+[] Font d'ecran sur mesure ?
 [] Logo
 
 */---------------------------------AUTRE */
@@ -28,11 +24,18 @@
 [] Remove event listener
 [] Check Animation for leaks
 
-*/---------------------------------PARTICLES */
+*/---------------------------------PARTICLES ANIM */
 [x] Restrain impulses from drawing if particles are too far away (delete impulse) 
 [x] Stop impulses anim if mouse outside of canvas
 [x] Stop anim if canvas outside of field of view
+[x] Sync anim with FPS
 [] Handling Window Resize Event (scaling canvas)
 [] Refactoring for Better Structure (CanvasManager / ParticleManager / AnimationController)
 [] Make sure eventlisteners are cleared when not needed anymore
+[] Animation particles Rust WebAssembly
+[] Switch anim JS / Rust
+[] toggle to change number of particles ?
+
+
+
 
