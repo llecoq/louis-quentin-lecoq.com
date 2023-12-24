@@ -23,8 +23,6 @@ export default class Impulse {
     // Update impulse position
     updateImpulsePosition(scaleFPS, steps = 8) {
         for (let i = 0; i < steps; i++) {
-
-
             let dx = this.target.x - this.x;
             let dy = this.target.y - this.y;
             let length = Math.sqrt(dx * dx + dy * dy);
