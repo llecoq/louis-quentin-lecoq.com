@@ -16,6 +16,8 @@ export const opts = {
     // Connections
     CONNECTIONS_STROKE_STYLE: 'rgba(72, 217, 247, 0.5)',
     CONNECTIONS_LINE_WIDTH: 0.5,
+    CONNECTIONS_GLOBAL_ALPHA: 1.1, 
+    ACTIVE_CONNECTIONS_GLOBAL_ALPHA: 1.4, 
     MAX_CONNECTIONS: 10,
 
     // Impulses
@@ -23,7 +25,7 @@ export const opts = {
     IMPULSE_SPEED: 20,
     IMPULSE_SPEED_OFFSET: 2,
     IMPULSE_SIZE: 1,
-    MAX_IMPULSES: 5,
+    MAX_IMPULSES: 20,
 
     // FPS / DELTA
     BASE_DELTA: 100 / 6,

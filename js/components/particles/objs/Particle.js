@@ -86,7 +86,7 @@ export default class Particle {
             
             // draw connections between particles
             if (dist < opts.MAX_DIST) {
-                const globalAlpha = this.active && neighbor.active ? 1.5 : 1.2;
+                const globalAlpha = this.active && neighbor.active ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
 
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
