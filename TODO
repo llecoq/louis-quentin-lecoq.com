@@ -28,4 +28,6 @@
 
 */---------------------------------PARTICLES */
 [] Restrain impulses from drawing if particles are too far away (delete impulse) 
+[] Stop impulses anim if mouse outside of canvas
+[] Stop anim if canvas outside of field of view
 
