@@ -11,13 +11,13 @@ export default class Impulse {
     distAutonomy
 
     // Constructor
-    constructor(x, y, particle, neighbor) {
+    constructor(x, y, particle, neighbor, distAutonomy = opts.IMPULSE_DIST_AUTONOMY) {
         this.x = x;
         this.y = y;
         this.particle = particle;
         this.target = neighbor;
         this.speed = Math.random() * opts.IMPULSE_SPEED + opts.IMPULSE_SPEED_OFFSET;
-        this.distAutonomy = opts.IMPULSE_DIST_AUTONOMY;
+        this.distAutonomy = distAutonomy;
     }
 
     // Update impulse position
