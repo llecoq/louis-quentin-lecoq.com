@@ -44,7 +44,7 @@ export function particles() {
     let mouseY;
     let lastTimestamp = 0;
     let mouseIsOverCanvas = false;
-    let animationIsActive = true;
+    let animationIsActive = false;
     let animationFrameId;
     let sortNeighborsId;
 
@@ -58,6 +58,7 @@ export function particles() {
         particles.sort(function(a, b) {return a.size - b.size;});
 
         // Start animation
+        animationIsActive = true;
         animationFrameId = requestAnimationFrame(anim);
     }
 
@@ -164,7 +165,7 @@ export function particles() {
                 }
             }
         });
-    }, { threshold: 0.1 }); // Adjust threshold as needed
+    }, { threshold: 0.0 }); // Adjust threshold as needed
     
     init();
     sortNeighborsId = sortNeighbors();
