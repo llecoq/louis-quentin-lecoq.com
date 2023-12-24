@@ -48,10 +48,17 @@ export default class Impulse {
         ctx.stroke();
     }
 
-    // Get next neighbor
-    getNextNeighbor(origin, particle) {
-        return particle.neighbors.find(neighbor => getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.MAX_DIST && neighbor !== origin && !neighbor.active);
+    // Get up to two neighbors
+    getNextNeighbors(origin, particle) {
+        const neighbors = particle.neighbors.filter(neighbor => 
+            getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.MAX_DIST &&
+            neighbor !== origin && 
+            !neighbor.active
+        );
+
+        return neighbors.length > 1 ? neighbors.slice(0, 2) : neighbors;
     }
+
 
     // Returns true if the `Impulse` is expired
     isExpired() {
@@ -59,14 +66,28 @@ export default class Impulse {
     }
 
     // Move to next target
-    move() {
+    move(impulses) {
         if (getDist(this.x, this.y, this.target.x, this.target.y) < 10) {
-            const nextTarget = this.getNextNeighbor(this.particle, this.target);
-            if (nextTarget) {
-                this.particle = this.target;
-                this.target = nextTarget;
-                nextTarget.activateTimer();
-                return true;
+            const neighbors = this.getNextNeighbors(this.particle, this.target);
+
+            switch (true) {
+                // Dulplicate Impulse
+                case neighbors.length === 2: {
+                    const nextTarget = neighbors[1];
+                    const duplicateImpulse = new Impulse(this.target.x, this.target.y, this.target, nextTarget, this.distAutonomy);
+
+                    nextTarget.activateTimer();
+                    impulses.push(duplicateImpulse);
+                }
+                case neighbors.length > 0: {
+                    const nextTarget = neighbors[0];
+
+                    this.particle = this.target;
+                    this.target = nextTarget;
+                    nextTarget.activateTimer();
+                    return true;
+                }
+
             }
             return false;
         }

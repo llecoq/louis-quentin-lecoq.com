@@ -21,3 +21,7 @@
 */---------------------------------AUTRE */
 [] Travailler CI avec gitlab (a partir de janvier pour mise en prod)
 [] License ?!
+
+*/---------------------------------MEMORY LEAKS */
+[] Remove event listener
+[] Check Animation for leaks
