@@ -85,19 +85,19 @@ export default class Particle {
             const dist = getDist(this.x, this.y, neighbor.x, neighbor.y);
             
             // draw connections between particles
-            if (dist < opts.MAX_DIST) {
+            if (dist < opts.CONNECTION_MAX_DIST) {
                 const globalAlpha = this.active && neighbor.active ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
 
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
                 ctx.lineTo(neighbor.x, neighbor.y);
-                ctx.globalAlpha = globalAlpha - dist / opts.MAX_DIST;
+                ctx.globalAlpha = globalAlpha - dist / opts.CONNECTION_MAX_DIST;
                 ctx.stroke();
             }
 
             // draw connections with mouse
             const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
-            if (distToMouse < opts.MAX_DIST) {
+            if (distToMouse < opts.CONNECTION_MAX_DIST) {
               ctx.beginPath();
               ctx.moveTo(this.x, this.y);
               ctx.lineTo(mouseX, mouseY);
@@ -111,7 +111,7 @@ export default class Particle {
     canCreateImpulse(mouseX, mouseY, numberOfActiveImpules) {
         const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
 
-        if (distToMouse < opts.MAX_DIST 
+        if (distToMouse < opts.CONNECTION_MAX_DIST 
                 && this.active === false
                 && numberOfActiveImpules < opts.MAX_IMPULSES) {
             return true;
@@ -121,7 +121,7 @@ export default class Particle {
 
     // Create a new `Impulse` and returns it on success
     createImpulse(mouseX, mouseY) {
-        const neighbor = this.neighbors.find(n => getDist(mouseX, mouseY, this.x, this.y) < opts.MAX_DIST);
+        const neighbor = this.neighbors.find(n => getDist(mouseX, mouseY, this.x, this.y) < opts.CONNECTION_MAX_DIST);
         if (neighbor) {
             this.activateTimer();
             return new Impulse(mouseX, mouseY, this, neighbor);

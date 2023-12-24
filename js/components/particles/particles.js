@@ -3,7 +3,6 @@ import Particle from "./objs/Particle.js";
 export const opts = {
     // Particles
     NUMBER_OF_PARTICLES: 200,
-    MAX_DIST: 200,
     PARTICLE_MAX_SIZE: 2.5,
     PARTICLE_MIN_SIZE: 0.6,
     PARTICLE_ACTIVE_DELAY: 1000,
@@ -12,8 +11,9 @@ export const opts = {
     PARTICLE_COLOR_1: 'rgb(255, 255, 255)',
     PARTICLE_COLOR_2: 'rgb(72, 217, 247)',
     PARTICLE_COLOR_3: 'rgb(50, 130, 240)',
-
+    
     // Connections
+    CONNECTION_MAX_DIST: 200,
     CONNECTIONS_STROKE_STYLE: 'rgba(72, 217, 247, 0.5)',
     CONNECTIONS_LINE_WIDTH: 0.5,
     CONNECTIONS_GLOBAL_ALPHA: 1.1, 
@@ -96,7 +96,8 @@ export function particles() {
                 impulses.splice(index, 1);
                 return;
             }
-            impulse.draw(ctx, delta);
+            if (impulse.draw(ctx, delta) === false)
+                impulses.splice(index, 1);
         });
     }
 

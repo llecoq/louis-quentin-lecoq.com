@@ -38,20 +38,24 @@ export default class Impulse {
 
     // Draw impulse
     draw(ctx, scaleFPS) {
-        this.updateImpulsePosition(scaleFPS, 1);
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgb(72, 217, 247)';
-        ctx.lineWidth = opts.IMPULSE_SIZE;
-        ctx.moveTo( this.x, this.y );
-        this.updateImpulsePosition(scaleFPS);
-        ctx.lineTo( this.x, this.y );
-        ctx.stroke();
+        if (getDist(this.x, this.y, this.target.x, this.target.y) <= opts.CONNECTION_MAX_DIST) {
+            this.updateImpulsePosition(scaleFPS, 1);
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgb(72, 217, 247)';
+            ctx.lineWidth = opts.IMPULSE_SIZE;
+            ctx.moveTo( this.x, this.y );
+            this.updateImpulsePosition(scaleFPS);
+            ctx.lineTo( this.x, this.y );
+            ctx.stroke();
+            return true;
+        }
+        return false;
     }
 
     // Get up to two neighbors
     getNextNeighbors(origin, particle) {
         const neighbors = particle.neighbors.filter(neighbor => 
-            getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.MAX_DIST &&
+            getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.CONNECTION_MAX_DIST &&
             neighbor !== origin && 
             !neighbor.active
         );
