@@ -145,24 +145,40 @@ export function particles() {
         mouseIsOverCanvas = false;
     });
 
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            startAnimation();
+        } else {
+            stopAnimation();
+        }
+    });    
+
+    function startAnimation() {
+        if (animationIsActive === false) {
+            animationIsActive = true;
+            lastTimestamp = 0;
+            animationFrameId = requestAnimationFrame(anim);
+            sortNeighborsId = sortNeighbors();
+        }
+    }
+
+    function stopAnimation() {
+        if (animationIsActive === true) {
+            animationIsActive = false;
+            cancelAnimationFrame(animationFrameId);
+            clearInterval(sortNeighborsId);
+        }
+    }
+
     // Check if the obsever is viewing the canvas or not    
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 // Canvas is in the viewport
-                if (animationIsActive === false) {
-                    animationIsActive = true;
-                    lastTimestamp = 0;
-                    animationFrameId = requestAnimationFrame(anim);
-                    sortNeighborsId = sortNeighbors();
-                }
+                startAnimation();
             } else {
                 // Canvas is not in the viewport
-                if (animationIsActive === true) {
-                    animationIsActive = false;
-                    cancelAnimationFrame(animationFrameId);
-                    clearInterval(sortNeighborsId);
-                }
+                stopAnimation();
             }
         });
     }, { threshold: 0.0 }); // Adjust threshold as needed
