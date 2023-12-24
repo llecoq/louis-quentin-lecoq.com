@@ -21,29 +21,31 @@ export default class Impulse {
     }
 
     // Update impulse position
-    updateImpulsePosition(steps = 8) {
+    updateImpulsePosition(scaleFPS, steps = 8) {
         for (let i = 0; i < steps; i++) {
+
+
             let dx = this.target.x - this.x;
             let dy = this.target.y - this.y;
             let length = Math.sqrt(dx * dx + dy * dy);
             dx /= length;
             dy /= length;
 
-            this.x += dx * this.speed;
-            this.y += dy * this.speed;
+            this.x += dx * this.speed * scaleFPS;
+            this.y += dy * this.speed * scaleFPS;
         }
 
-        this.distAutonomy -= this.speed * steps;
+        this.distAutonomy -= this.speed * steps * scaleFPS;
     }
 
     // Draw impulse
-    draw(ctx) {
-        this.updateImpulsePosition(1);
+    draw(ctx, scaleFPS) {
+        this.updateImpulsePosition(scaleFPS, 1);
         ctx.beginPath();
         ctx.strokeStyle = 'rgb(72, 217, 247)';
         ctx.lineWidth = opts.IMPULSE_SIZE;
         ctx.moveTo( this.x, this.y );
-        this.updateImpulsePosition();
+        this.updateImpulsePosition(scaleFPS);
         ctx.lineTo( this.x, this.y );
         ctx.stroke();
     }

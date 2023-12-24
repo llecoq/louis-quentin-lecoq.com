@@ -22,6 +22,9 @@ export const opts = {
     IMPULSE_SPEED_OFFSET: 0,
     IMPULSE_SIZE: 1.5,
     MAX_IMPULSES: 5,
+
+    // FPS / DELTA
+    BASE_DELTA: 100 / 6,
 }
 
 export function particles() {
@@ -35,6 +38,7 @@ export function particles() {
     const impulses = [];
     let mouseX;
     let mouseY;
+    let lastTimestamp = 0;
 
     // Initialize particles
     function init() {
@@ -44,6 +48,7 @@ export function particles() {
         }
         // sort particles from smallest to biggest
         particles.sort(function(a, b) {return a.size - b.size;});
+
         // Start animation
         requestAnimationFrame(anim);
     }
@@ -79,7 +84,7 @@ export function particles() {
     }
 
     // Draw impulses
-    function drawImpulses() {
+    function drawImpulses(delta) {
         ctx.globalAlpha = 1.0;
 
         impulses.forEach((impulse, index) => {
@@ -87,29 +92,33 @@ export function particles() {
                 impulses.splice(index, 1);
                 return;
             }
-            impulse.draw(ctx);
+            impulse.draw(ctx, delta);
         });
     }
 
     // Animate the particles
-    function anim() {
-        requestAnimationFrame(anim);
+    function anim(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const delta = timestamp - lastTimestamp;
+        const scaleFPS = delta / opts.BASE_DELTA;
 
         // clear canvas rectangle
         ctx.globalCompositeOperation = 'source-over';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        
         // draw connections and lights
         ctx.globalCompositeOperation = 'lighter';
         drawConnections();
         createImpulse();
-        drawImpulses();
-
+        drawImpulses(scaleFPS);
+        
         // draw particles
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
-        particles.forEach(particle => particle.draw(ctx));
-        
+        particles.forEach(particle => particle.draw(ctx, scaleFPS));
+
+        lastTimestamp = timestamp;
+        requestAnimationFrame(anim);
     }
 
     // Mousemove event listener

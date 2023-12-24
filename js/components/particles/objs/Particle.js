@@ -37,9 +37,9 @@ export default class Particle {
     }
 
     // Draw the Particle on the canvas
-    draw(ctx) {
-        this.x += this.speedX;
-        this.y += this.speedY;
+    draw(ctx, scaleFPS) {
+        this.x += this.speedX * scaleFPS;
+        this.y += this.speedY * scaleFPS;
 
         switch (true) {
             case this.x < 0:
