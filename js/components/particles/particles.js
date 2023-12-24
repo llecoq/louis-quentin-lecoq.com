@@ -145,6 +145,7 @@ export function particles() {
         mouseIsOverCanvas = false;
     });
 
+    // Stop animation if the viewer's tab is not active
     document.addEventListener("visibilitychange", () => {
         if (document.visibilityState === "visible") {
             startAnimation();
@@ -153,6 +154,7 @@ export function particles() {
         }
     });    
 
+    // Start Animation
     function startAnimation() {
         if (animationIsActive === false) {
             animationIsActive = true;
@@ -162,6 +164,7 @@ export function particles() {
         }
     }
 
+    // Stop Animation
     function stopAnimation() {
         if (animationIsActive === true) {
             animationIsActive = false;
