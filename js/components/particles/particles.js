@@ -6,7 +6,7 @@ export const opts = {
     MAX_DIST: 200,
     PARTICLE_MAX_SIZE: 2.5,
     PARTICLE_MIN_SIZE: 0.6,
-    PARTICLE_ACTIVE_DELAY: 800,
+    PARTICLE_ACTIVE_DELAY: 1000,
     PARTICLE_ACTIVE_COLOR: 'rgb(0, 150, 255)',
     PARTICLE_ACTIVE_SIZE_SCALE: 1.5,
     PARTICLE_COLOR_1: 'rgb(255, 255, 255)',
@@ -90,7 +90,7 @@ export function particles() {
         ctx.globalAlpha = 1.0;
 
         impulses.forEach((impulse, index) => {
-            if (impulse.isExpired() || impulse.move() === false) {
+            if (impulse.isExpired() || impulse.move(impulses) === false) {
                 impulses.splice(index, 1);
                 return;
             }
