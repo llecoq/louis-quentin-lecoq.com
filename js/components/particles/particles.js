@@ -22,7 +22,7 @@ export const opts = {
     IMPULSE_DIST_AUTONOMY: 10000,
     IMPULSE_SPEED: 20,
     IMPULSE_SPEED_OFFSET: 2,
-    IMPULSE_SIZE: 1.5,
+    IMPULSE_SIZE: 1,
     MAX_IMPULSES: 5,
 
     // FPS / DELTA

@@ -86,10 +86,12 @@ export default class Particle {
             
             // draw connections between particles
             if (dist < opts.MAX_DIST) {
+                const globalAlpha = this.active && neighbor.active ? 1.5 : 1.2;
+
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
                 ctx.lineTo(neighbor.x, neighbor.y);
-                ctx.globalAlpha = 1.2 - dist / opts.MAX_DIST;
+                ctx.globalAlpha = globalAlpha - dist / opts.MAX_DIST;
                 ctx.stroke();
             }
 
