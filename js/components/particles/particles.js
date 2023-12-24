@@ -44,6 +44,8 @@ export function particles() {
     let mouseY;
     let lastTimestamp = 0;
     let mouseIsOverCanvas = false;
+    let animationIsActive = true;
+    let animationFrameId;
 
     // Initialize particles
     function init() {
@@ -55,7 +57,7 @@ export function particles() {
         particles.sort(function(a, b) {return a.size - b.size;});
 
         // Start animation
-        requestAnimationFrame(anim);
+        animationFrameId = requestAnimationFrame(anim);
     }
 
     // Sort neighbors based on distance
@@ -124,7 +126,7 @@ export function particles() {
         particles.forEach(particle => particle.draw(ctx, scaleFPS));
 
         lastTimestamp = timestamp;
-        requestAnimationFrame(anim);
+        animationFrameId = requestAnimationFrame(anim);
     }
 
     //------------------------------------------ Mouse event listeners
@@ -141,8 +143,28 @@ export function particles() {
         mouseIsOverCanvas = false;
     });
 
+    // Check if the obsever is viewing the canvas or not    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Canvas is in the viewport
+                if (animationIsActive === false) {
+                    animationIsActive = true;
+                    animationFrameId = requestAnimationFrame(anim);
+                }
+            } else {
+                // Canvas is not in the viewport
+                if (animationIsActive === true) {
+                    animationIsActive = false;
+                    cancelAnimationFrame(animationFrameId);
+                }
+            }
+        });
+    }, { threshold: 0.1 }); // Adjust threshold as needed
+    
     init();
     sortNeighbors();
+    observer.observe(canvas);
 }
 
 // Calculate distance between two points
