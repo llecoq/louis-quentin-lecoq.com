@@ -7,7 +7,7 @@
 [x] Sync anim with FPS
 
 */-------------------------------CONTENT */
-[] Section About
+[] Section About 
 [] Section Skills (avec animation langages connus)
 [] Section Projects ?
 [] Section Contact (si assez de temps, peut etre faire une petite DB pour travailler le backend avec rust)
