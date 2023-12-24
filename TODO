@@ -7,6 +7,7 @@
 [x] Sync anim with FPS
 
 */-------------------------------CONTENT */
+[] Section Home: Hello world ! I'm Louis-Quentin Lecoq
 [] Section About 
 [] Section Skills (avec animation langages connus)
 [] Section Projects ?
@@ -17,6 +18,7 @@
 */--------------------------------DESIGN */
 [] Responsive (Breakpoints etc.)
 [] Font d'ecran sur mesure
+[] Logo
 
 */---------------------------------AUTRE */
 [] Travailler CI avec gitlab (a partir de janvier pour mise en prod)
