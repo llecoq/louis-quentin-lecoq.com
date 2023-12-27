@@ -43,4 +43,5 @@ export function particles() {
     const eventListener = new EventListener(animationController, canvas);
 
     animationController.init();
+    eventListener.init();
 }

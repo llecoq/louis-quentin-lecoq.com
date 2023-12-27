@@ -6,16 +6,18 @@ export default class EventListener {
     constructor(animationController, canvas) {
         this.animationController = animationController;
         this.canvas = canvas;
-
-        // Ajouter les écouteurs d'événements pour la souris
+    }
+    
+    init() {
+        // Add mouse's event listeners
         this.canvas.addEventListener("mousemove", (e) => this.handleMouseMove(e));
         this.canvas.addEventListener("mouseenter", () => this.handleMouseEnter());
         this.canvas.addEventListener("mouseleave", () => this.handleMouseLeave());
-
-        // Gestion de la visibilité de l'onglet
+    
+        // Handle visibility change (change of tab)
         document.addEventListener("visibilitychange", () => this.handleVisibilityChange());
-
-        // Intersection Observer pour surveiller le canvas
+    
+        // Canvas Intersection Observer
         const observer = new IntersectionObserver((entries) => this.handleIntersectionChange(entries), { threshold: 0.0 });
         observer.observe(this.canvas);
     }
