@@ -29,7 +29,7 @@
 [x] Stop impulses anim if mouse outside of canvas
 [x] Stop anim if canvas outside of field of view
 [x] Sync anim with FPS
-[] Handling Window Resize Event (scaling canvas)
+[x] Handling Window Resize Event (scaling canvas)
 [x] Refactoring for Better Structure (CanvasManager = nop / ParticleManager / AnimationController)
 [] Make sure eventlisteners are cleared when not needed anymore
 [] Animation particles Rust WebAssembly
