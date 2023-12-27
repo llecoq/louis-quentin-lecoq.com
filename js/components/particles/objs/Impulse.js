@@ -1,5 +1,5 @@
 import { opts } from "../particles.js";
-import { getDist } from "../particles.js";
+import { getDist } from "../utils.js";
 
 export default class Impulse {
     
