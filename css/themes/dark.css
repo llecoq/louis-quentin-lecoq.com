@@ -21,8 +21,16 @@ body {
     --section2-background-dark-b: 0;
     --section-background-dark-alpha: 0.6;
     --text-color: #fff;
-    --link-color: rgb(72, 217, 247);
-    /* --link-color: rgb(0, 213, 255); */
+    --link-color: #48d9f7;
     --navbar-color: black;
     --footer-color: rgb(7, 22, 25);
+
+    --text-color-1: #48F7DB;
+    --text-color-2: #48A3F7;
+    --text-color-3: #48D9F7;
+    --text-color-4: #48F7A0;
+    --text-color-5: #486BF7;
+    --text-color-6: #60B4C4;
+    --text-color-7: #648A91;
+    
 }
