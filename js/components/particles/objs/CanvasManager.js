@@ -5,14 +5,11 @@ export default class CanvasManager {
     height
     width
 
-
     constructor(canvas) {
         this.canvas = document.querySelector("canvas");
         this.ctx = canvas.getContext('2d');
         this.height = document.body.clientHeight;
         this.width = document.body.clientWidth;
-
-        // Other properties
     }
 
     // Methods for canvas-related operations
@@ -37,6 +34,4 @@ export default class CanvasManager {
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
     }
-
-    // ...other methods
 }
