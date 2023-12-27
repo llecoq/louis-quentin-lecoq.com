@@ -66,7 +66,7 @@ export default class AnimationController {
             this.isAnimating = true;
             this.lastTimestamp = 0;
             this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
-            this.sortNeighborsId = sortNeighbors();
+            this.sortNeighborsId = this.particlesManager.sortNeighbors();
         }
     }
 
@@ -74,8 +74,8 @@ export default class AnimationController {
     stop() {
         if (this.isAnimating === true) {
             this.isAnimating = false;
-            cancelAnimationFrame(animationFrameId);
-            clearInterval(sortNeighborsId);
+            cancelAnimationFrame(this.animationFrameId);
+            clearInterval(this.sortNeighborsId);
         }
     }
 
