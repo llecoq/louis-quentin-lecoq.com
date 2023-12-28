@@ -11,7 +11,6 @@ export function initHome() {
     window.addEventListener('resize', adjustHomeSize);
 }
 
-
 const ANIMATION_SPEED = 25;
 const SCRAMBLING_CHANCES = 0.6;
 
