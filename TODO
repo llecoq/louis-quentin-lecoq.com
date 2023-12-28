@@ -10,6 +10,7 @@
 [] Section Contact (si assez de temps, peut etre faire une petite DB pour travailler le backend avec rust)
 [] Footer
 [] Switch anglais / francais si le temps
+[] Ajouter une section "autre"? Photos / cuisine / musique
 
 */--------------------------------DESIGN */
 [] Responsive (Breakpoints etc.)
