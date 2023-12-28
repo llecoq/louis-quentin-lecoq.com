@@ -10,14 +10,14 @@
         <div id="navbar">
             <nav id="navbar-box">
                 <div class="logo-container" id="logo">
-                    <img src="/assets/images/logo.png" alt="Louis-Quentin Lecoq">
+                    <img src="/assets/images/profile_picture.png" alt="Louis-Quentin Lecoq">
                     <a href="#home">Louis-Quentin Lecoq</a>
                 </div>
                 <div id="nav-links">
                     <a href="#about">About</a>
                     <a href="#skills">Skills</a>
                     <a href="#projects">Projects</a>
-                    <a href="#contact">Contact</a>
+                    <button onclick="window.location.href='#contact'">Contact</button>
                 </div>
             </nav>
         </div>
@@ -26,9 +26,16 @@
         <section id="home">
             <canvas id="canvas"></canvas>
             <div class="overlay-text">
-                <h3>Hello world! My name is</h3>
-                <h1>Louis-Quentin Lecoq.</h1>
-                <h2>I'm a <span class="title">Software Engineer.</span></h2>
+                <div class="top-row">
+                    <h3 id="hello-world"><span class="invisible">Hello world! </span></h3>
+                    <h3 id="my-name-is"><span class="invisible">My name is...</span></h3>
+                </div>
+                <h1 id="louis-quentin-lecoq"><span class="invisible">Louis-Quentin Lecoq,</span></h1>
+                <div class="top-row">
+                    <h2 id="i-m-a"><span class="invisible">I'm a </span></h2>
+                    <h2 id="software-engineer"><span class="invisible">Software Engineer.</span></h2>
+                </div>
+                <button id="about-button" class="button-to-blink" onclick="window.location.href='#about'">About me</button>
             </div>
             <!-- <p class="overlay-text">Hello world ! My name is... Louis-Quentin LECOQ</p> -->
         </section>

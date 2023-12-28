@@ -15,54 +15,6 @@ p {
     height: 1000px;
 }
 
-#home {
-    background: linear-gradient(to bottom, black, rgba(0, 0, 30, 0));
-    background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0, 30, 50));
-    background-size: cover;
-    height: 100vh;
-    position: relative;
-}
-
-#canvas {
-  opacity: 0; /* Départ de l'animation avec l'opacité à 0 */
-  animation: apparitionCanvas 2s ease-in forwards; /* Animation nommée apparitionCanvas */
-}
-
-/* Définir les étapes de l'animation */
-@keyframes apparitionCanvas {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.overlay-text {
-  position: absolute;
-  top: 50%;  /* Centrer verticalement */
-  left: 50%; /* Centrer horizontalement */
-  transform: translate(-50%, -50%); /* Aligner le centre du texte avec le centre du canvas */
-  color: white; /* Couleur du texte */
-  font-family: Satoshi-Regular;
-  /* Ajouter d'autres styles pour le texte ici */
-}
-
-h1, h2 {
-  font-size: 4vw;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  color: white;
-}
-
-h3 {
-  font-size: 1.3vw;
-  font-family: Satoshi-Light;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  color: var(--text-color-3);
-}
-
-.title {
-  color: var(--text-color-2);
-}
-
 #about {
   background: linear-gradient(to bottom, black, rgba(0, 0, 30, 0));
   background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0, 30, 50));
