@@ -6,4 +6,3 @@ initNavbar();
 initHome();
 adjustHomeSize();
 particles();
-// connectParticles();

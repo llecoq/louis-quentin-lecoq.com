@@ -112,11 +112,19 @@ const texts = [
 ];
 
 // Execute the animations
-chainAnimations(elements, texts).then(() => {
-    const button = document.getElementById('about-button');
-    button.style.opacity = '1';
+function animateHomeContent() {
+    chainAnimations(elements, texts).then(() => {
+        const button = document.getElementById('about-button');
+        button.style.opacity = '1';
 
-    setTimeout(() => {
-        button.classList.add('blink-animation');
-    }, 1000);
-});
+        // Après la fin des animations, exécutez le code suivant
+        const navbarItems = document.querySelectorAll('.navbar-item');
+        navbarItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.add('navbar-item-visible');
+            }, index * 200);
+        });
+    });
+}
+
+animateHomeContent();
