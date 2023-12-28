@@ -22,6 +22,18 @@ html {
     display: flex;
 }
 
+.navbar-item {
+    opacity: 0; /* Initialement invisible */
+    transform: translateY(-20px); /* Commence au-dessus de sa position finale */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition sur l'opacité et le déplacement */
+}
+
+/* Ajoutez une classe pour animer l'élément */
+.navbar-item-visible {
+    opacity: 1;
+    transform: translateY(0); /* Retour à sa position initiale */
+}
+
 #navbar-box {
     width: 65vw;
     display: flex;

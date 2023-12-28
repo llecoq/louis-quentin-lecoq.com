@@ -2,6 +2,16 @@
 
 export function initNavbar() {
 
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbarItems = document.querySelectorAll('.navbar-item');
+        navbarItems.forEach((item, index) => {
+            // Définissez un délai pour chaque élément
+            setTimeout(() => {
+                item.classList.add('navbar-item-visible');
+            }, index * 200); // Augmentez le délai pour chaque élément (200ms, 400ms, etc.)
+        });
+    });
+
     /* Active element */
     let lastActiveElement = null;
     
