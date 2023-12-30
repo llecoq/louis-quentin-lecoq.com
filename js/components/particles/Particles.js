@@ -55,7 +55,7 @@ export class Particles {
         this.animationControllerWASM = new AnimationControllerWASM(this.ctx);  
 
         // EventListener
-        this.eventListener = new EventListener(this.canvas, this.animationControllerJS.animationControllerJS, this.animationControllerWASM.animationControllerWASM);
+        this.eventListener = new EventListener(this.canvas, this.animationControllerJS, this.animationControllerWASM);
         this.useWASM = true;
 
         // Anim
@@ -64,6 +64,7 @@ export class Particles {
 
     init() {
         this.animationControllerJS.init();
+        this.eventListener.init();
     }
     
     toggleAnimation() {

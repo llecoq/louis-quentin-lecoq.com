@@ -3,11 +3,13 @@ export default class EventListener {
     animationControllerJS
     animationControllerWASM
     canvas
+    useWASM
 
     constructor(canvas, animationControllerJS, animationControllerWASM) {
         this.animationControllerJS = animationControllerJS;
         this.animationControllerWASM = animationControllerWASM;
         this.canvas = canvas;
+        this.useWASM = true;
     }
     
     init() {
@@ -25,32 +27,46 @@ export default class EventListener {
     }
 
     handleMouseMove(e) {
-        this.animationControllerJS.updateMousePosition(e.clientX, e.clientY);
+        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
+
+        activeController.updateMousePosition(e.clientX, e.clientY);
     }
 
     handleMouseEnter() {
-        this.animationControllerJS.setMouseIsOverCanvas(true);
+        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
+
+        activeController.setMouseIsOverCanvas(true);
     }
 
     handleMouseLeave() {
-        this.animationControllerJS.setMouseIsOverCanvas(false);
+        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
+
+        activeController.setMouseIsOverCanvas(false);
     }
 
     handleVisibilityChange() {
+        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
+
         if (document.visibilityState === "visible") {
-            this.animationControllerJS.start();
+            activeController.start();
         } else {
-            this.animationControllerJS.stop();
+            activeController.stop();
         }
     }
 
     handleIntersectionChange(entries) {
+        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
+
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                this.animationControllerJS.start();
+                activeController.start();
             } else {
-                this.animationControllerJS.stop();
+                activeController.stop();
             }
         });
+    }
+
+    setUseWASM(value) {
+        this.useWASM = value;
     }
 }

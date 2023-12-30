@@ -2,7 +2,7 @@ import { opts } from "../Particles.js";
 import ImpulseManagerJS from "./objs/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./objs/ParticlesManagerJS.js";
 
-export default class AnimationController {
+export default class AnimationControllerJS {
 
     ctx
     animationFrameId
