@@ -1,6 +1,6 @@
-import { opts } from "../../particles.js";
-import ImpulsesManager from "./ImpulsesManagerJS.js";
-import ParticlesManager from "./ParticlesManagerJS.js";
+import { opts } from "../Particles.js";
+import ImpulseManagerJS from "./objs/ImpulsesManagerJS.js";
+import ParticlesManagerJS from "./objs/ParticlesManagerJS.js";
 
 export default class AnimationController {
 
@@ -24,14 +24,8 @@ export default class AnimationController {
 
     init() {
         // Initialize particles and impulses
-        this.particlesManager = new ParticlesManager(this.ctx, opts.NUMBER_OF_PARTICLES);
-        this.impulsesManager = new ImpulsesManager(this.ctx, this.particlesManager.getParticles());
-
-        // Start animation
-        this.isAnimating = true;
-        this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
-
-        this.sortNeighborsId = this.particlesManager.sortNeighbors();
+        this.particlesManager = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
+        this.impulsesManager = new ImpulseManagerJS(this.ctx, this.particlesManager.getParticles());
     }    
 
     // Animate the particles and impulses

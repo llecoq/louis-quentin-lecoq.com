@@ -1,8 +1,8 @@
 import Particle from "./ParticleJS.js";
-import { opts } from "../../particles.js";
+import { opts } from "../../Particles.js";
 import { getDist } from "../utilsJS.js";
 
-export default class ParticlesManager {
+export default class ParticlesManagerJS {
     
     ctx
     particles

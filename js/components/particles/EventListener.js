@@ -1,10 +1,12 @@
 export default class EventListener {
 
-    animationController
+    animationControllerJS
+    animationControllerWASM
     canvas
 
-    constructor(animationController, canvas) {
-        this.animationController = animationController;
+    constructor(canvas, animationControllerJS, animationControllerWASM) {
+        this.animationControllerJS = animationControllerJS;
+        this.animationControllerWASM = animationControllerWASM;
         this.canvas = canvas;
     }
     
@@ -23,31 +25,31 @@ export default class EventListener {
     }
 
     handleMouseMove(e) {
-        this.animationController.updateMousePosition(e.clientX, e.clientY);
+        this.animationControllerJS.updateMousePosition(e.clientX, e.clientY);
     }
 
     handleMouseEnter() {
-        this.animationController.setMouseIsOverCanvas(true);
+        this.animationControllerJS.setMouseIsOverCanvas(true);
     }
 
     handleMouseLeave() {
-        this.animationController.setMouseIsOverCanvas(false);
+        this.animationControllerJS.setMouseIsOverCanvas(false);
     }
 
     handleVisibilityChange() {
         if (document.visibilityState === "visible") {
-            this.animationController.start();
+            this.animationControllerJS.start();
         } else {
-            this.animationController.stop();
+            this.animationControllerJS.stop();
         }
     }
 
     handleIntersectionChange(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                this.animationController.start();
+                this.animationControllerJS.start();
             } else {
-                this.animationController.stop();
+                this.animationControllerJS.stop();
             }
         });
     }
