@@ -10,16 +10,20 @@ export default class MyApp {
 
     constructor() {
         this.useWASM = true;
+        document.getElementById("animation-toggle-switch").addEventListener("change", this.toggleAnimation.bind(this));
     }
     
-    toggleAnimation(value) {
-        this.useWASM = value;
+    toggleAnimation() {
         if (this.useWASM === true) {
-            this.jsAnimation.stop();
-            this.wasmAnimation.start();
+            this.useWASM = false;
+            // this.wasmAnimation.stop();
+            // this.jsAnimation.start();
+            console.log('JS anim')
         } else {
-            this.wasmAnimation.stop();
-            this.jsAnimation.start();
+            this.useWASM = true;
+            // this.jsAnimation.stop();
+            // this.wasmAnimation.start();
+            console.log('WASM anim')
         }
     }
     
