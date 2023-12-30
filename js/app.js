@@ -1,8 +1,6 @@
-import { initNavbar } from "./components/header.js";
-import { initHome, adjustHomeSize } from "./sections/home.js";
-import { particles } from "./components/particles/particles.js";
+import MyApp from './MyApp.js';
 
-initNavbar();
-initHome();
-adjustHomeSize();
-particles();
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new MyApp();
+    app.start();
+});

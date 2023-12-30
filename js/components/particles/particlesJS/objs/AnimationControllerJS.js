@@ -1,6 +1,6 @@
-import { opts } from "../particles.js";
-import ImpulsesManager from "./ImpulsesManager.js";
-import ParticlesManager from "./ParticlesManager.js";
+import { opts } from "../../particles.js";
+import ImpulsesManager from "./ImpulsesManagerJS.js";
+import ParticlesManager from "./ParticlesManagerJS.js";
 
 export default class AnimationController {
 

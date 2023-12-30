@@ -1,5 +1,5 @@
-import AnimationController from "./objs/AnimationController.js";
-import EventListener from "./objs/EventListener.js";
+import AnimationController from "./particlesJS/objs/AnimationControllerJS.js";
+import EventListener from "./particlesJS/objs/EventListenerJS.js";
 
 export const opts = {
     // Particles
