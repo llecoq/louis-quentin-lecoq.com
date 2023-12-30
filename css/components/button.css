@@ -6,7 +6,7 @@ button
 	pointer-events: all;
 	border: 1px solid var(--text-color-3);
 	padding: 10px 20px 10px 20px;
-	border-radius: 40px;
+	border-radius: 50px;
 	font-size: large;
     font-family: 'Satoshi-Regular';
 	color: var(--text-color-3);

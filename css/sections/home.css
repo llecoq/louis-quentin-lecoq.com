@@ -5,6 +5,7 @@
   background-size: cover;
   height: 100vh;
   position: relative;
+  display: flex;
 }
 
 /* Canvas styling with initial animation */
@@ -79,4 +80,31 @@ h3 {
 .button-to-blink {
   opacity: 0;
   transition: opacity 2s ease;
+}
+
+/* info-toggle-box {
+} */
+
+/* Specific styling for 'info-button' */
+#info-button {
+  position: absolute;
+  top: 95%;  
+  left: 80.5%;
+  padding: 10px 17px 10px 17px;
+}
+
+#overlay-info {
+  position: absolute;
+  top: 82%;  
+  left: 73%;
+  width: 7vw;
+  text-align: justify;
+	border: 1px solid var(--text-color-3);
+  color: var(--text-color-3);
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(2px);
+  background-color: rgba(72, 163, 247, 0.05);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  /* display: none; */
 }

@@ -128,3 +128,8 @@ function animateHomeContent() {
 }
 
 animateHomeContent();
+
+// Info Button
+document.getElementById('info-button').onclick = function() {
+
+};

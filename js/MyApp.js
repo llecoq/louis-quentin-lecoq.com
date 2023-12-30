@@ -6,15 +6,27 @@ export default class MyApp {
 
     particlesWASM
     particlesJS
+    useWASM
 
     constructor() {
+        this.useWASM = true;
+    }
+    
+    toggleAnimation(value) {
+        this.useWASM = value;
+        if (this.useWASM === true) {
+            this.jsAnimation.stop();
+            this.wasmAnimation.start();
+        } else {
+            this.wasmAnimation.stop();
+            this.jsAnimation.start();
+        }
+    }
+    
+    start() {
         initNavbar();
         initHome();
         adjustHomeSize();
         particles();
-    }
-
-    start() {
-
     }
 }

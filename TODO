@@ -21,7 +21,8 @@
 [] Travailler CI avec gitlab (a partir de janvier pour mise en prod)
 [] License ?!
 [] Meta? Inspi site web + inspection code pour mieux comprendre bonnes pratiques etc.
-[] clean HTML 
+[] clean HTML
+[] refacto function => class
 
 */---------------------------------MEMORY LEAKS */
 [] Remove event listener
