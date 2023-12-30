@@ -1,4 +1,6 @@
-import ParticlesJS from "./particlesJS/ParticlesJS.js";
+import AnimationControllerJS from './particlesJS/AnimationControllerJS.js'
+import AnimationControllerWASM from './particlesWASM/AnimationControllerWASM.js'
+import EventListener from './EventListener.js'
 
 export const opts = {
     // Particles
@@ -35,34 +37,44 @@ export class Particles {
 
     canvas
     ctx
-    particlesWASM
-    particlesJS
+    animationControllerWASM
+    animationControllerJS
+    eventListener
     useWASM
 
     constructor() {
+        // Canvas + Style
         document.body.style.height = "100vh";
         this.canvas = document.querySelector("canvas");
         this.canvas.height = document.body.clientHeight;
         this.canvas.width = document.body.clientWidth;
         this.ctx = canvas.getContext("2d");
-        this.particlesJS = new ParticlesJS(this.ctx, this.canvas);
+
+        // Particles
+        this.animationControllerJS = new AnimationControllerJS(this.ctx);
+        this.animationControllerWASM = new AnimationControllerWASM(this.ctx);  
+
+        // EventListener
+        this.eventListener = new EventListener(this.canvas, this.animationControllerJS.animationControllerJS, this.animationControllerWASM.animationControllerWASM);
         this.useWASM = true;
+
+        // Anim
         document.getElementById("animation-toggle-switch").addEventListener("change", this.toggleAnimation.bind(this));
     }
 
     init() {
-        this.particlesJS.init();
+        this.animationControllerJS.init();
     }
     
     toggleAnimation() {
         if (this.useWASM === true) {
             this.useWASM = false;
             // this.wasmAnimation.stop();
-            // this.jsAnimation.start();
+            this.animationControllerJS.start();
             console.log('JS anim')
         } else {
             this.useWASM = true;
-            // this.jsAnimation.stop();
+            this.animationControllerJS.stop();
             // this.wasmAnimation.start();
             console.log('WASM anim')
         }

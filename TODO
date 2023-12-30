@@ -37,7 +37,7 @@
 [x] Refactoring for Better Structure (CanvasManager = nop / ParticleManager / AnimationController)
 [] Make sure eventlisteners are cleared when not needed anymore
 [] Animation particles Rust WebAssembly
-[] Switch anim JS / Rust
+[] Switch anim JS / Rust => faire en sorte de passer toutes les Particles + Impulses et attendre que l'anim soit prete de l'autre cote si besoin pour la lancer + smooth
 [] toggle to change number of particles ?
 
 

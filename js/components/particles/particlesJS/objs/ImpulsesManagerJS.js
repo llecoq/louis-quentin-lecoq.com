@@ -1,4 +1,4 @@
-export default class ImpulsesManager {
+export default class ImpulseManagerJS {
 
     ctx
     impulses

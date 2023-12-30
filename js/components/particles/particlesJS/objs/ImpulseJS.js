@@ -1,7 +1,7 @@
-import { opts } from "../../particles.js";
+import { opts } from "../../Particles.js";
 import { getDist } from "../utilsJS.js";
 
-export default class Impulse {
+export default class ImpulseJS {
     
     particle
     x
@@ -78,7 +78,7 @@ export default class Impulse {
                 // Dulplicate Impulse
                 case neighbors.length === 2: {
                     const nextTarget = neighbors[1];
-                    const duplicateImpulse = new Impulse(this.target.x, this.target.y, this.target, nextTarget, this.distAutonomy);
+                    const duplicateImpulse = new ImpulseJS(this.target.x, this.target.y, this.target, nextTarget, this.distAutonomy);
 
                     nextTarget.activateTimer();
                     impulses.push(duplicateImpulse);

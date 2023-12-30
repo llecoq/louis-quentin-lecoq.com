@@ -1,6 +1,6 @@
-import { opts } from "../../particles.js";
+import { opts } from "../../Particles.js";
 import { getDist } from "../utilsJS.js";
-import Impulse from "./ImpulseJS.js";
+import ImpulseJS from "./ImpulseJS.js";
 
 export default class Particle {
     
@@ -109,7 +109,7 @@ export default class Particle {
         });
     }
 
-    // Check if possible to create a new `Impulse`
+    // Check if possible to create a new `ImpulseJS`
     canCreateImpulse(mouseX, mouseY, numberOfActiveImpules) {
         const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
 
@@ -121,12 +121,12 @@ export default class Particle {
         return false;
     }
 
-    // Create a new `Impulse` and returns it on success
+    // Create a new `ImpulseJS` and returns it on success
     createImpulse(mouseX, mouseY) {
         const neighbor = this.neighbors.find(n => getDist(mouseX, mouseY, this.x, this.y) < opts.CONNECTION_MAX_DIST);
         if (neighbor) {
             this.activateTimer();
-            return new Impulse(mouseX, mouseY, this, neighbor);
+            return new ImpulseJS(mouseX, mouseY, this, neighbor);
         }
         return null;
     }
