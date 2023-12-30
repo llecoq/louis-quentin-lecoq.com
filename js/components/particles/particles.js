@@ -1,5 +1,4 @@
-import AnimationController from "./particlesJS/objs/AnimationControllerJS.js";
-import EventListener from "./particlesJS/objs/EventListenerJS.js";
+import ParticlesJS from "./particlesJS/ParticlesJS.js";
 
 export const opts = {
     // Particles
@@ -32,16 +31,40 @@ export const opts = {
     BASE_DELTA: 100 / 6,
 }
 
-export function particles() {
-    const canvas = document.querySelector("canvas");
-    document.body.style.height = "100vh";
-    canvas.height = document.body.clientHeight;
-    canvas.width = document.body.clientWidth;
+export class Particles {
 
-    const ctx = canvas.getContext("2d");
-    const animationController = new AnimationController(ctx);
-    const eventListener = new EventListener(animationController, canvas);
+    canvas
+    ctx
+    particlesWASM
+    particlesJS
+    useWASM
 
-    animationController.init();
-    eventListener.init();
+    constructor() {
+        document.body.style.height = "100vh";
+        this.canvas = document.querySelector("canvas");
+        this.canvas.height = document.body.clientHeight;
+        this.canvas.width = document.body.clientWidth;
+        this.ctx = canvas.getContext("2d");
+        this.particlesJS = new ParticlesJS(this.ctx, this.canvas);
+        this.useWASM = true;
+        document.getElementById("animation-toggle-switch").addEventListener("change", this.toggleAnimation.bind(this));
+    }
+
+    init() {
+        this.particlesJS.init();
+    }
+    
+    toggleAnimation() {
+        if (this.useWASM === true) {
+            this.useWASM = false;
+            // this.wasmAnimation.stop();
+            // this.jsAnimation.start();
+            console.log('JS anim')
+        } else {
+            this.useWASM = true;
+            // this.jsAnimation.stop();
+            // this.wasmAnimation.start();
+            console.log('WASM anim')
+        }
+    }
 }
