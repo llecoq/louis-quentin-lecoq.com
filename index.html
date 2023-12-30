@@ -37,7 +37,15 @@
                 </div>
                 <button id="about-button" class="button-to-blink" onclick="window.location.href='#about'">About me</button>
             </div>
-            <!-- <p class="overlay-text">Hello world ! My name is... Louis-Quentin LECOQ</p> -->
+            <div>
+                <div id="info-toggle-box">
+                    <button id="info-button">?</button>
+                    <div id="overlay-info">
+                        The particles animation is codded from scratch with <span id="actual-animation-language">Rust and WebAssembly</span>.</br></br>
+                        Activate this toggle to switch the animation to <span id="switch-to-animation-language">JavaScript</span> and see for yourself the performance difference.
+                    </div>
+                </div>
+            </div>
         </section>
         <section id="about">
             <p>
