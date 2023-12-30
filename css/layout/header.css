@@ -48,12 +48,12 @@ html {
     height: 60px; 
     object-fit: cover;
     box-shadow: 0.5px 1px 1px 0.5px var(--text-color-2);
-	/* border: 1px solid var(--text-color-2); */
+    background-color: rgba(72, 163, 247, 0.05);
 }
 
 #logo {
     width: 400px;
-    display: flex;
+    display: flex;	
 }
 
 #logo a {
