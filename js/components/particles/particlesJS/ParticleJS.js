@@ -1,8 +1,8 @@
-import { opts } from "../../Particles.js";
-import { getDist } from "../utilsJS.js";
+import { opts } from "../Particles.js";
+import { getDist } from "./utilsJS.js";
 import ImpulseJS from "./ImpulseJS.js";
 
-export default class Particle {
+export default class ParticleJS {
     
     canvas
     ctx

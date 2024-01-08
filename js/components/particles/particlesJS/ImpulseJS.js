@@ -1,5 +1,5 @@
-import { opts } from "../../Particles.js";
-import { getDist } from "../utilsJS.js";
+import { opts } from "../Particles.js";
+import { getDist } from "./utilsJS.js";
 
 export default class ImpulseJS {
     

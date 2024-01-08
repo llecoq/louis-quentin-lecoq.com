@@ -1,15 +1,17 @@
-import { opts } from "../Particles.js";
-import ImpulseManagerJS from "./objs/ImpulsesManagerJS.js";
-import ParticlesManagerJS from "./objs/ParticlesManagerJS.js";
+import { opts } from "./Particles.js";
+import ImpulseManagerJS from "./particlesJS/ImpulsesManagerJS.js";
+import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
 
-export default class AnimationControllerJS {
+export default class AnimationController {
 
     ctx
     animationFrameId
     sortNeighborsId
     isAnimating
-    particlesManager
-    impulsesManager
+    particlesManagerJS
+    particlesManagerWASM
+    impulsesManagerJS
+    impulsesManagerWASM
     lastTimestamp
     mouseX
     mouseY
@@ -24,9 +26,9 @@ export default class AnimationControllerJS {
 
     init() {
         // Initialize particles and impulses
-        this.particlesManager = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
-        this.impulsesManager = new ImpulseManagerJS(this.ctx, this.particlesManager.getParticles());
-    }    
+        this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
+        this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
+    }
 
     // Animate the particles and impulses
     animate(timestamp) {
@@ -41,14 +43,14 @@ export default class AnimationControllerJS {
         
         // draw connections and lights
         this.ctx.globalCompositeOperation = 'lighter';
-        this.particlesManager.drawConnections(this.mouseX, this.mouseY, this.mouseIsOverCanvas);
-        if (this.mouseIsOverCanvas) this.impulsesManager.createImpulses(this.mouseX, this.mouseY);
-        this.impulsesManager.drawImpulses(scaleFPS);
+        this.particlesManagerJS.drawConnections(this.mouseX, this.mouseY, this.mouseIsOverCanvas);
+        if (this.mouseIsOverCanvas) this.impulsesManagerJS.createImpulses(this.mouseX, this.mouseY);
+        this.impulsesManagerJS.drawImpulses(scaleFPS);
         
         // draw particles
         this.ctx.globalAlpha = 1.0;
         this.ctx.globalCompositeOperation = 'source-over';
-        this.particlesManager.drawParticles(scaleFPS);
+        this.particlesManagerJS.drawParticles(scaleFPS);
 
         this.lastTimestamp = timestamp;
         this.animationFrameId = requestAnimationFrame(this.animate.bind(this));        
@@ -60,7 +62,7 @@ export default class AnimationControllerJS {
             this.isAnimating = true;
             this.lastTimestamp = 0;
             this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
-            this.sortNeighborsId = this.particlesManager.sortNeighbors();
+            this.sortNeighborsId = this.particlesManagerJS.sortNeighbors();
         }
     }
 

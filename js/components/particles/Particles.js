@@ -1,5 +1,4 @@
-import AnimationControllerJS from './particlesJS/AnimationControllerJS.js'
-import AnimationControllerWASM from './particlesWASM/AnimationControllerWASM.js'
+import AnimationController from './AnimationController.js'
 import EventListener from './EventListener.js'
 
 export const opts = {
@@ -37,8 +36,7 @@ export class Particles {
 
     canvas
     ctx
-    animationControllerWASM
-    animationControllerJS
+    animationController
     eventListener
     useWASM
 
@@ -50,12 +48,11 @@ export class Particles {
         this.canvas.width = document.body.clientWidth;
         this.ctx = canvas.getContext("2d");
 
-        // Particles
-        this.animationControllerJS = new AnimationControllerJS(this.ctx);
-        this.animationControllerWASM = new AnimationControllerWASM(this.ctx);  
+        // AnimationController
+        this.animationController = new AnimationController(this.ctx);
 
         // EventListener
-        this.eventListener = new EventListener(this.canvas, this.animationControllerJS, this.animationControllerWASM);
+        this.eventListener = new EventListener(this.canvas, this.animationController);
         this.useWASM = true;
 
         // Anim
@@ -63,19 +60,21 @@ export class Particles {
     }
 
     init() {
-        this.animationControllerJS.init();
+        this.animationController.init();
         this.eventListener.init();
     }
     
+    // must create new methods `startAnimationJS` and `startAnimationWASM` for animationController
     toggleAnimation() {
         if (this.useWASM === true) {
             this.useWASM = false;
             // this.wasmAnimation.stop();
-            this.animationControllerJS.start();
+            // this.animationController.startAnimationWASM();
+            this.animationController.start();
             console.log('JS anim')
         } else {
             this.useWASM = true;
-            this.animationControllerJS.stop();
+            this.animationController.stop();
             // this.wasmAnimation.start();
             console.log('WASM anim')
         }
