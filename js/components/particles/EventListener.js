@@ -1,13 +1,11 @@
 export default class EventListener {
 
-    animationControllerJS
-    animationControllerWASM
+    animationController
     canvas
     useWASM
 
-    constructor(canvas, animationControllerJS, animationControllerWASM) {
-        this.animationControllerJS = animationControllerJS;
-        this.animationControllerWASM = animationControllerWASM;
+    constructor(canvas, animationController) {
+        this.animationController = animationController;
         this.canvas = canvas;
         this.useWASM = true;
     }
@@ -27,41 +25,31 @@ export default class EventListener {
     }
 
     handleMouseMove(e) {
-        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
-
-        activeController.updateMousePosition(e.clientX, e.clientY);
+        this.animationController.updateMousePosition(e.clientX, e.clientY);
     }
 
     handleMouseEnter() {
-        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
-
-        activeController.setMouseIsOverCanvas(true);
+        this.animationController.setMouseIsOverCanvas(true);
     }
 
     handleMouseLeave() {
-        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
-
-        activeController.setMouseIsOverCanvas(false);
+        this.animationController.setMouseIsOverCanvas(false);
     }
 
     handleVisibilityChange() {
-        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
-
         if (document.visibilityState === "visible") {
-            activeController.start();
+            this.animationController.start();
         } else {
-            activeController.stop();
+            this.animationController.stop();
         }
     }
 
     handleIntersectionChange(entries) {
-        const activeController = this.useWASM ? this.animationControllerWASM : this.animationControllerJS;
-
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                activeController.start();
+                this.animationController.start();
             } else {
-                activeController.stop();
+                this.animationController.stop();
             }
         });
     }

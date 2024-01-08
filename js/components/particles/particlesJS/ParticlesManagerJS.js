@@ -1,6 +1,6 @@
-import Particle from "./ParticleJS.js";
-import { opts } from "../../Particles.js";
-import { getDist } from "../utilsJS.js";
+import ParticleJS from "./ParticleJS.js";
+import { opts } from "../Particles.js";
+import { getDist } from "./utilsJS.js";
 
 export default class ParticlesManagerJS {
     
@@ -13,7 +13,7 @@ export default class ParticlesManagerJS {
         
         // Initialize particles
         for (let i = 0; i < numberOfParticles; i++) {
-            this.particles.push(new Particle(canvas, ctx))
+            this.particles.push(new ParticleJS(canvas, ctx))
         }
         // sort particles from smallest to biggest
         this.particles.sort(function(a, b) {return a.size - b.size;});
