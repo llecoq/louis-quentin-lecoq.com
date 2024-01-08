@@ -38,8 +38,8 @@ export default class ParticleJS {
         this.speedY = speedY * dirY;
     }
 
-    // Draw the Particle on the canvas
-    draw(ctx, scaleFPS) {
+    // Update Particle's position
+    updatePosition(scaleFPS) {
         this.x += this.speedX * scaleFPS;
         this.y += this.speedY * scaleFPS;
 
@@ -57,7 +57,11 @@ export default class ParticleJS {
                 this.y = 0;
                 break;
         }
+    }
 
+    // Update position and Draw the Particle on the canvas
+    draw(ctx, scaleFPS) {
+        this.updatePosition(scaleFPS);
         ctx.beginPath();
         ctx.fillStyle = this.active ? this.activeColor : this.color;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
