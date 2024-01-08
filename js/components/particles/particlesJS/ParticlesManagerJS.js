@@ -27,7 +27,7 @@ export default class ParticlesManagerJS {
                 particle.setNeighbors(sorted.slice(0, opts.PARTICLE_MAX_CONNECTIONS));
             });
         }, 250);
-    }    
+    }   
 
     // Draw connections between neighbors
     drawConnections(mouseX, mouseY, mouseIsOverCanvas) {
