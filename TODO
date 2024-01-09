@@ -9,13 +9,10 @@
 [] Section Projects ?
 [] Section Contact (si assez de temps, peut etre faire une petite DB pour travailler le backend avec rust)
 [] Footer
-[] Switch anglais / francais si le temps
 [] Ajouter une section "autre"? Photos / cuisine / musique
 
 */--------------------------------DESIGN */
 [] Responsive (Breakpoints etc.)
-[] Font d'ecran sur mesure ?
-[] Logo
 
 */---------------------------------AUTRE */
 [] Travailler CI avec gitlab (a partir de janvier pour mise en prod)
@@ -35,8 +32,7 @@
 [x] Sync anim with FPS
 [x] Handling Window Resize Event (scaling canvas)
 [x] Refactoring for Better Structure (CanvasManager = nop / ParticleManager / AnimationController)
-[] Make sure eventlisteners are cleared when not needed anymore
-[] Animation particles Rust WebAssembly
+[x] Make sure eventlisteners are cleared when not needed anymore
 [] Switch anim JS / Rust => faire en sorte de passer toutes les Particles + Impulses et attendre que l'anim soit prete de l'autre cote si besoin pour la lancer + smooth
 [] toggle to change number of particles ?
 
