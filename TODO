@@ -40,6 +40,7 @@
 [] Switch anim JS / Rust => faire en sorte de passer toutes les Particles + Impulses et attendre que l'anim soit prete de l'autre cote si besoin pour la lancer + smooth
 [] toggle to change number of particles ?
 
-
+*/---------------------------------RUST WASM */
+[] Instanciate all the particles in a shared buffer from Rust and refacto JS side to read from it
 
 
