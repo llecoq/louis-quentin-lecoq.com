@@ -42,5 +42,6 @@
 
 */---------------------------------RUST WASM */
 [] Instanciate all the particles in a shared buffer from Rust and refacto JS side to read from it
+[] update Particles position with Rust, access the data from the shared buffer with JS to prin it on canvas
 
 
