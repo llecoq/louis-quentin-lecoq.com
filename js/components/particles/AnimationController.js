@@ -26,7 +26,12 @@ export default class AnimationController {
 
     init() {
         // Initialize particles and impulses
+        let startTime = performance.now();
         this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
+        let endTime = performance.now();
+        let timeTaken = endTime - startTime;
+        console.log(`Le temps pour instancier les particules est : ${timeTaken} millisecondes.`);
+
         this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
     }
 
