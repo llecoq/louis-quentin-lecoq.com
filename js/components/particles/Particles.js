@@ -32,6 +32,13 @@ export const opts = {
     BASE_DELTA: 100 / 6,
 }
 
+// Export opts to expose it to wasm_bindgen
+export function getOpts() {
+    return opts;
+}
+
+window.getOpts = getOpts;
+
 export class Particles {
 
     canvas
