@@ -33,7 +33,6 @@ export default class ParticleJS {
         this.y = centerY + radiusY * Math.sin(theta);
         this.size = Math.random() * (opts.PARTICLE_MAX_SIZE - opts.PARTICLE_MIN_SIZE) + opts.PARTICLE_MIN_SIZE;
         this.color = getRandomParticleColor();
-        this.activeColor = opts.PARTICLE_ACTIVE_COLOR;
         this.speedX = speedX * dirX;
         this.speedY = speedY * dirY;
     }
@@ -63,7 +62,7 @@ export default class ParticleJS {
     draw(ctx, scaleFPS) {
         this.updatePosition(scaleFPS);
         ctx.beginPath();
-        ctx.fillStyle = this.active ? this.activeColor : this.color;
+        ctx.fillStyle = this.active ? opts.PARTICLE_ACTIVE_COLOR : this.color;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
     }
