@@ -26,7 +26,9 @@ impl ParticlesManagerWASM {
     }
 
     // Initialize particles, following the opts from the JS side
-    pub fn init(&self) {
-
+    pub fn init(&mut self) {
+        for _ in 0..self.opts.number_of_particles {
+            self.particles.push(Particle::new(self.canvas.height, self.canvas.width, self.opts.particle_min_size, self.opts.particle_max_size));
+        }
     }
 }
