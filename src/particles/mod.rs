@@ -1,6 +1,19 @@
 use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};
-use gloo_console::log;
+
+// use gloo_console::log;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = window)]
+    fn getOpts() -> JsValue;
+}
+
+#[derive(Debug)]
+pub struct Canvas {
+    height: u32,
+    width: u32
+}
 
 // Opts structure replicating the options of the `Particles.js` module
 #[derive(Serialize, Deserialize, Debug)]
@@ -55,18 +68,12 @@ pub struct Opts {
     #[serde(rename = "BASE_DELTA")]
     pub base_delta: f32,
 }
+            
 // Get options from JS side
-#[wasm_bindgen]
-pub fn get_opts(val: JsValue) {
-    match serde_wasm_bindgen::from_value::<Opts>(val) {
-        Ok(opts) => {
-            let opts_string = format!("{:?}", opts);
-            log!("{}", opts_string);
-        },
-        Err(e) => {
-            log!("Deserialization error: {:?}", e);
-        },
-    }
+pub fn get_opts_from_js() -> Result<Opts, JsValue> {
+    let val: JsValue = getOpts();
+    serde_wasm_bindgen::from_value(val)
+        .map_err(|e| JsValue::from_str(&e.to_string()))
 }
 
 // Modules

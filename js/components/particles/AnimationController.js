@@ -1,3 +1,4 @@
+import { ParticlesManagerWASM } from "../../../pkg/louis_quentin_lecoq.js";
 import { opts } from "./Particles.js";
 import ImpulseManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
@@ -24,7 +25,7 @@ export default class AnimationController {
         this.mouseIsOverCanvas = false;
     }
 
-    init() {
+    init(canvasHeight, canvasWidth) {
         // Initialize particles and impulses
         let startTime = performance.now();
         this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
@@ -32,6 +33,10 @@ export default class AnimationController {
         let timeTaken = endTime - startTime;
         console.log(`Le temps pour instancier les particules est : ${timeTaken} millisecondes.`);
 
+        // Init particlesManager from WASM
+        this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
+        this.particlesManagerWASM.init();
+        
         this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
     }
 
