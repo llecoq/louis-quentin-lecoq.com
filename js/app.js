@@ -1,6 +1,14 @@
 import MyApp from './MyApp.js';
+import init from "../pkg/louis_quentin_lecoq.js";
+
+async function loadWasm() {
+    await init();
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    const app = new MyApp();
-    app.start();
+    loadWasm().then(() => {
+        const app = new MyApp();
+        app.start();
+    });
 });
