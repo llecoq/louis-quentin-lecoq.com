@@ -58,14 +58,13 @@ pub struct Opts {
 // Get options from JS side
 #[wasm_bindgen]
 pub fn get_opts(val: JsValue) {
-    log!("JsValue = {}", &val);
     match serde_wasm_bindgen::from_value::<Opts>(val) {
         Ok(opts) => {
             let opts_string = format!("{:?}", opts);
             log!("{}", opts_string);
         },
         Err(e) => {
-            log!("Erreur lors de la désérialisation : {:?}", e);
+            log!("Deserialization error: {:?}", e);
         },
     }
 }

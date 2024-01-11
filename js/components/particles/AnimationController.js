@@ -1,4 +1,3 @@
-import { get_opts } from "../../../pkg/louis_quentin_lecoq.js";
 import { opts } from "./Particles.js";
 import ImpulseManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
