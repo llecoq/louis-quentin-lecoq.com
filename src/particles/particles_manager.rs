@@ -15,6 +15,8 @@ pub struct ParticlesManagerWASM {
 impl ParticlesManagerWASM {
     // Create a new ParticlesManagerWASM and get the animation options from the JS side
     pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
+        std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+        console_log::init().unwrap();
         ParticlesManagerWASM {
             opts: get_opts_from_js().unwrap(),
             particles: Vec::new(),
@@ -29,6 +31,9 @@ impl ParticlesManagerWASM {
     pub fn init(&mut self) {
         for _ in 0..self.opts.number_of_particles {
             self.particles.push(Particle::new(self.canvas.height, self.canvas.width, self.opts.particle_min_size, self.opts.particle_max_size));
+        }
+        for elem in &self.particles {
+            log::info!("truc devant: {elem:?}");
         }
     }
 }
