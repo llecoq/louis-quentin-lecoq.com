@@ -17,3 +17,9 @@ pub struct Particle {
     active: bool,
     neighbors: Vec<usize>,
 }
+
+impl Particle {
+    pub fn new() {
+        
+    }
+}

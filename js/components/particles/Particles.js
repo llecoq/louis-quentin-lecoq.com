@@ -60,7 +60,7 @@ export class Particles {
     }
 
     init() {
-        this.animationController.init();
+        this.animationController.init(this.canvas.height, this.canvas.width);
         this.eventListener.init();
     }
     
@@ -80,3 +80,10 @@ export class Particles {
         }
     }
 }
+
+// Export opts to expose it to wasm_bindgen
+export function getOpts() {
+    return opts;
+}
+
+window.getOpts = getOpts;

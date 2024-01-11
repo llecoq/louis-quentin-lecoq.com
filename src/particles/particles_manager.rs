@@ -1,20 +1,32 @@
 use wasm_bindgen::prelude::*;
 use gloo_console::log;
 
-use crate::particles::get_opts;
-
-use super::particle::Particle;
+use crate::particles::{Opts, get_opts_from_js};
+use super::{particle::Particle, Canvas};
 
 #[wasm_bindgen]
 pub struct ParticlesManagerWASM {
+    opts: Opts,
     particles: Vec<Particle>,
+    canvas: Canvas
 }
 
 #[wasm_bindgen]
 impl ParticlesManagerWASM {
-    pub fn new() -> ParticlesManagerWASM {
+    // Create a new ParticlesManagerWASM and get the animation options from the JS side
+    pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
         ParticlesManagerWASM {
+            opts: get_opts_from_js().unwrap(),
             particles: Vec::new(),
+            canvas: Canvas{
+                height: canvas_height,
+                width: canvas_width
+            }
         }
+    }
+
+    // Initialize particles, following the opts from the JS side
+    pub fn init(&self) {
+
     }
 }
