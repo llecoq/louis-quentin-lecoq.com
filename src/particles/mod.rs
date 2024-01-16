@@ -1,8 +1,6 @@
 use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};
 
-// use gloo_console::log;
-
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = window)]
