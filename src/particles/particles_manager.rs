@@ -1,5 +1,4 @@
 use wasm_bindgen::prelude::*;
-use gloo_console::log;
 
 use crate::particles::{Opts, get_opts_from_js};
 use super::{particle::Particle, Canvas};
@@ -32,8 +31,13 @@ impl ParticlesManagerWASM {
         for _ in 0..self.opts.number_of_particles {
             self.particles.push(Particle::new(self.canvas.height, self.canvas.width, self.opts.particle_min_size, self.opts.particle_max_size));
         }
-        for elem in &self.particles {
-            log::info!("truc devant: {elem:?}");
-        }
+        // for elem in &self.particles {
+        //     log::info!("Particle: {elem:?}");
+        // }
+    }
+
+    // Returns a pointer on the particles
+    pub fn get_particles_ptr(&self) -> *const Particle {
+        self.particles.as_ptr()
     }
 }
