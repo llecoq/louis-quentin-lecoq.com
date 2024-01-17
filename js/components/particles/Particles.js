@@ -3,7 +3,7 @@ import EventListener from './EventListener.js'
 
 export const opts = {
     // Particles
-    NUMBER_OF_PARTICLES: 200,
+    NUMBER_OF_PARTICLES: 100,
     PARTICLE_MAX_SIZE: 2.5,
     PARTICLE_MIN_SIZE: 0.6,
     PARTICLE_ACTIVE_DELAY: 1000,

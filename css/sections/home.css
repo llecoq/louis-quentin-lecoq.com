@@ -95,9 +95,9 @@ h3 {
 
 #overlay-info {
   position: absolute;
-  top: 79%;  
+  top: 70%;  
   left: 73%;
-  width: 7vw;
+  width: 20vw;
   text-align: justify;
 	border: 1px solid var(--text-color-3);
   color: var(--text-color-3);
