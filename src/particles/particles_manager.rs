@@ -42,6 +42,10 @@ impl ParticlesManagerWASM {
                 )
             );
         }
+
+        // Sort particles from smallest to biggest
+        self.particles.sort_unstable_by(|a, b| a.size.partial_cmp(&b.size).unwrap());
+
         // for elem in &self.particles {
         //     log::info!("Particle: {elem:?}");
         // }
