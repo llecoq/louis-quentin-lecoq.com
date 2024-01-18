@@ -2,6 +2,7 @@ import { ParticlesManagerWASM } from "../../../pkg/louis_quentin_lecoq.js";
 import { opts } from "./Particles.js";
 import ImpulseManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
+import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
 
 export default class AnimationController {
 
@@ -13,6 +14,7 @@ export default class AnimationController {
     particlesManagerWASM
     impulsesManagerJS
     impulsesManagerWASM
+    wasmBufferInterpreter
     lastTimestamp
     mouseX
     mouseY
@@ -37,11 +39,10 @@ export default class AnimationController {
         this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
         this.particlesManagerWASM.init();
         
+        // Accessing memory of the wasm module and instanciating a WASM buffer interpreter
         const memory = this.particlesManagerWASM.memory();
-
         const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
-        const particles = new Float32Array(memory.buffer, particlesPtr, opts.NUMBER_OF_PARTICLES * 19);
-        console.log(particles);
+        this.wasmBufferInterpreter = new WasmBufferInterpreter(memory, particlesPtr);
         
         this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
     }
