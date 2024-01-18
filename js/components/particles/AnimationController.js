@@ -37,13 +37,11 @@ export default class AnimationController {
         this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
         this.particlesManagerWASM.init();
         
-        const memory = new WebAssembly.Memory({
-            initial: 10,
-            maximum: 100,
-        });
+        const memory = this.particlesManagerWASM.memory();
 
         const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
-        // const particles = new Float32Array(memory.buffer, particlesPtr, opts.NUMBER_OF_PARTICLES * 19);
+        const particles = new Float32Array(memory.buffer, particlesPtr, opts.NUMBER_OF_PARTICLES * 19);
+        console.log(particles);
         
         this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
     }

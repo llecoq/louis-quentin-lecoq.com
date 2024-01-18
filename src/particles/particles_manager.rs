@@ -12,6 +12,10 @@ pub struct ParticlesManagerWASM {
 
 #[wasm_bindgen]
 impl ParticlesManagerWASM {
+    pub fn memory(&self) -> JsValue {
+        wasm_bindgen::memory()
+    }
+
     // Create a new ParticlesManagerWASM and get the animation options from the JS side
     pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
         std::panic::set_hook(Box::new(console_error_panic_hook::hook));
