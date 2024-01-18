@@ -32,7 +32,7 @@ export default class ParticleJS {
         this.color = `rgb(${data.colorRed}, ${data.colorGreen}, ${data.colorBlue})`;
         this.speedX = data.speedX;
         this.speedY = data.speedY;
-        this.active = data.active;
+        this.active = data.active == 1 ? this.activateTimer() : false;
     }
 
     // Update Particle's position
