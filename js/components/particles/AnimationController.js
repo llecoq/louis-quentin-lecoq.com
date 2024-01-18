@@ -28,12 +28,12 @@ export default class AnimationController {
     }
 
     init(canvasHeight, canvasWidth) {
-        // Initialize particles and impulses
-        let startTime = performance.now();
-        this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
-        let endTime = performance.now();
-        let timeTaken = endTime - startTime;
-        console.log(`Le temps pour instancier les particules est : ${timeTaken} millisecondes.`);
+        // // Initialize particles and impulses
+        // let startTime = performance.now();
+        // this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
+        // let endTime = performance.now();
+        // let timeTaken = endTime - startTime;
+        // console.log(`Le temps pour instancier les particules est : ${timeTaken} millisecondes.`);
 
         // Init particlesManager from WASM
         this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
@@ -43,7 +43,9 @@ export default class AnimationController {
         const memory = this.particlesManagerWASM.memory();
         const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
         this.wasmBufferInterpreter = new WasmBufferInterpreter(memory, particlesPtr);
-        
+
+        this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
+        this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
         this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
     }
 
