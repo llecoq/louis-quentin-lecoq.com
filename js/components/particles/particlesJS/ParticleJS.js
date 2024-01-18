@@ -5,12 +5,10 @@ import ImpulseJS from "./ImpulseJS.js";
 export default class ParticleJS {
     
     canvas
-    ctx
     x
     y
     size
     color
-    activeColor
     speedX
     speedY
     neighbors = []
@@ -18,23 +16,23 @@ export default class ParticleJS {
 
     // Constructor
     constructor(canvas) {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radiusX = canvas.width * 0.3; 
-        const radiusY = canvas.height * 0.3;
-        const theta = Math.random() * 2 * Math.PI;
-        const speedX = Math.random();
-        const speedY = Math.random();
-        const dirX = Math.random() > 0.5 ? 1 : -1;
-        const dirY = Math.random() > 0.5 ? 1 : -1;
-        
         this.canvas = canvas;
-        this.x = centerX + radiusX * Math.cos(theta);
-        this.y = centerY + radiusY * Math.sin(theta);
-        this.size = Math.random() * (opts.PARTICLE_MAX_SIZE - opts.PARTICLE_MIN_SIZE) + opts.PARTICLE_MIN_SIZE;
-        this.color = getRandomParticleColor();
-        this.speedX = speedX * dirX;
-        this.speedY = speedY * dirY;
+        this.x = 0;
+        this.y = 0;
+        this.size = 0;
+        this.color = 'rgb(255, 255, 255)';
+        this.speedX = 0;
+        this.speedY = 0;
+    }
+
+    setParticleData(data) {
+        this.x = data.x;
+        this.y = data.y;
+        this.size = data.size;
+        this.color = `rgb(${data.colorRed}, ${data.colorGreen}, ${data.colorBlue})`;
+        this.speedX = data.speedX;
+        this.speedY = data.speedY;
+        this.active = data.active;
     }
 
     // Update Particle's position

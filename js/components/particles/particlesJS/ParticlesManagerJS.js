@@ -13,10 +13,15 @@ export default class ParticlesManagerJS {
         
         // Initialize particles
         for (let i = 0; i < numberOfParticles; i++) {
-            this.particles.push(new ParticleJS(canvas, ctx))
+            this.particles.push(new ParticleJS(canvas))
         }
-        // sort particles from smallest to biggest
-        this.particles.sort(function(a, b) {return a.size - b.size;});
+    }
+
+    // Set the data of each Particle from the wasm buffer
+    setParticlesDataFromWASM(wasmBufferInterpreter) {
+        this.particles.forEach((particle, index) => {
+            particle.setParticleData(wasmBufferInterpreter.getParticleData(index));
+        })
     }
 
     // Sort neighbors based on distance
