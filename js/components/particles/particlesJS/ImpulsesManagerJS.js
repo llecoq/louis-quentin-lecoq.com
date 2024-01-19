@@ -1,4 +1,4 @@
-export default class ImpulseManagerJS {
+export default class ImpulsesManagerJS {
 
     ctx
     impulses
@@ -23,17 +23,4 @@ export default class ImpulseManagerJS {
     get_impulses() {
         return this.impulses;
     }
-
-    // // Draw impulses
-    // render(scaleFPS, index) {
-    //     this.impulses.forEach((impulse, index) => {
-    //         if (impulse.isExpired() || impulse.move(this.impulses) === false) {
-    //             this.impulses.splice(index, 1);
-    //             return;
-    //         }
-    //         if (impulse.draw(this.ctx, scaleFPS) === false)
-    //             this.impulses.splice(index, 1);
-    //     });
-    // }
-
 }

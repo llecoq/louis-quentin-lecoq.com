@@ -5,8 +5,9 @@ export class AnimationRenderer {
     ctx
     wasmBufferInterpreter
 
-    constructor(ctx) {
+    constructor(ctx, wasmBufferInterpreter) {
         this.ctx = ctx;
+        this.wasmBufferInterpreter = wasmBufferInterpreter;
     }
 
     // Clear canvas rectangle
@@ -36,6 +37,7 @@ export class AnimationRenderer {
         switch (animationMode) {
             case "WASM":
 
+
             case "JS":
                 impulses.forEach((impulse, index) => {
                     if (impulse.isExpired() || impulse.move(impulses) === false) {
@@ -55,9 +57,11 @@ export class AnimationRenderer {
 
         switch (animationMode) {
             case "WASM":
-                
+                this.wasmBufferInterpreter.renderParticles(this.ctx);
+            break;
             case "JS":
                 particles.forEach(particle => particle.render(this.ctx));
         }
     }
+
 }

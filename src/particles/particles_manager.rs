@@ -55,4 +55,11 @@ impl ParticlesManagerWASM {
     pub fn get_particles_ptr(&self) -> *const Particle {
         self.particles.as_ptr()
     }
+
+    // Update positions of each particles
+    pub fn update(&mut self, scale_fps: f32) {
+        for elem in &mut self.particles {
+            elem.update_position(self.canvas.height, self.canvas.width, scale_fps);
+        }
+    }
 }

@@ -40,7 +40,7 @@ export default class ParticlesManagerJS {
     }
 
     // Get Particles
-    get_particles() {
+    getParticles() {
         return this.particles;
     }
 }
