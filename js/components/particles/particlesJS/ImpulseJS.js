@@ -36,8 +36,8 @@ export default class ImpulseJS {
         this.distAutonomy -= this.speed * steps * scaleFPS;
     }
 
-    // Draw impulse
-    draw(ctx, scaleFPS) {
+    // Render impulse
+    render(ctx, scaleFPS) {
         if (getDist(this.x, this.y, this.target.x, this.target.y) <= opts.CONNECTION_MAX_DIST) {
             this.updateImpulsePosition(scaleFPS, 1);
             ctx.beginPath();

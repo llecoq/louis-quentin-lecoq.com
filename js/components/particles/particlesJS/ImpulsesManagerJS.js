@@ -11,7 +11,7 @@ export default class ImpulseManagerJS {
     }
 
      // Create impulses
-    createImpulses(mouseX, mouseY) {
+    create_impulses(mouseX, mouseY) {
         this.particles.forEach(particle => {
             if (particle.canCreateImpulse(mouseX, mouseY, this.impulses.length)) {
                 const impulse = particle.createImpulse(mouseX, mouseY);
@@ -20,18 +20,20 @@ export default class ImpulseManagerJS {
         });
     }
 
-    // Draw impulses
-    drawImpulses(scaleFPS) {
-        this.ctx.globalAlpha = 1.0;
-
-        this.impulses.forEach((impulse, index) => {
-            if (impulse.isExpired() || impulse.move(this.impulses) === false) {
-                this.impulses.splice(index, 1);
-                return;
-            }
-            if (impulse.draw(this.ctx, scaleFPS) === false)
-                this.impulses.splice(index, 1);
-        });
+    get_impulses() {
+        return this.impulses;
     }
+
+    // // Draw impulses
+    // render(scaleFPS, index) {
+    //     this.impulses.forEach((impulse, index) => {
+    //         if (impulse.isExpired() || impulse.move(this.impulses) === false) {
+    //             this.impulses.splice(index, 1);
+    //             return;
+    //         }
+    //         if (impulse.draw(this.ctx, scaleFPS) === false)
+    //             this.impulses.splice(index, 1);
+    //     });
+    // }
 
 }

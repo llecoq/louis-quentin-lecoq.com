@@ -56,9 +56,8 @@ export default class ParticleJS {
         }
     }
 
-    // Update position and Draw the Particle on the canvas
-    draw(ctx, scaleFPS) {
-        this.updatePosition(scaleFPS);
+    // Render the Particle on the canvas
+    render(ctx) {
         ctx.beginPath();
         ctx.fillStyle = this.active ? opts.PARTICLE_ACTIVE_COLOR : this.color;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -80,12 +79,12 @@ export default class ParticleJS {
         this.neighbors = sortedSlice;
     }
 
-    // Draw connections between `Particle` on the canvas
-    drawConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
+    // Render connections between `Particle` on the canvas
+    renderConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
         this.neighbors.forEach(neighbor => {
             const dist = getDist(this.x, this.y, neighbor.x, neighbor.y);
             
-            // draw connections between particles
+            // render connections between particles
             if (dist < opts.CONNECTION_MAX_DIST) {
                 const globalAlpha = this.active && neighbor.active ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
 
@@ -96,7 +95,7 @@ export default class ParticleJS {
                 ctx.stroke();
             }
 
-            // draw connections with mouse
+            // render connections with mouse
             if (mouseIsOverCanvas) {
                 const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
                 if (distToMouse < opts.CONNECTION_MAX_DIST) {

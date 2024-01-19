@@ -17,6 +17,11 @@ export default class ParticlesManagerJS {
         }
     }
 
+    // Update position of each Particle
+    update(scaleFPS) {
+        this.particles.forEach(particle => particle.updatePosition(scaleFPS))
+    }
+
     // Set the data of each Particle from the wasm buffer
     setParticlesDataFromWASM(wasmBufferInterpreter) {
         this.particles.forEach((particle, index) => {
@@ -32,25 +37,10 @@ export default class ParticlesManagerJS {
                 particle.setNeighbors(sorted.slice(0, opts.PARTICLE_MAX_CONNECTIONS));
             });
         }, 250);
-    }   
-
-    // Draw connections between neighbors
-    drawConnections(mouseX, mouseY, mouseIsOverCanvas) {
-        this.ctx.strokeStyle = opts.CONNECTIONS_STROKE_STYLE;
-        this.ctx.lineWidth = opts.CONNECTIONS_LINE_WIDTH;
-
-        this.particles.forEach(particle => {
-            particle.drawConnections(this.ctx, mouseX, mouseY, mouseIsOverCanvas);
-        });
     }
 
     // Get Particles
-    getParticles() {
+    get_particles() {
         return this.particles;
-    }
-
-    // Draw particles
-    drawParticles(scaleFPS) {
-        this.particles.forEach(particle => particle.draw(this.ctx, scaleFPS));
     }
 }
