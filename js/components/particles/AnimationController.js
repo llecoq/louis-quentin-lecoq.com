@@ -7,6 +7,7 @@ import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js"
 export default class AnimationController {
 
     ctx
+    animationMode
     animationFrameId
     sortNeighborsId
     isAnimating
@@ -22,6 +23,7 @@ export default class AnimationController {
 
     constructor(ctx) {
         this.ctx = ctx;
+        this.animationMode = "WASM";
         this.isAnimating = false;
         this.lastTimestamp = 0;
         this.mouseIsOverCanvas = false;
@@ -103,5 +105,23 @@ export default class AnimationController {
     // Set mouseIsOverCanvas to a given value
     setMouseIsOverCanvas(value) {
         this.mouseIsOverCanvas = value;
+    }
+
+    // Change AnimationMode
+    changeAnimationMode() {
+        if (this.animationMode === "WASM") {
+            this.animationMode = "JS";
+            console.log(this.animationMode);
+            // this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
+            // stop WASM anim
+            // start JS anim
+        }
+        else {
+            this.animationMode = "WASM";
+            console.log(this.animationMode);
+            // setParticlesDataFromJS
+            // stop JS anim
+            // start WASM anim
+        }
     }
 }
