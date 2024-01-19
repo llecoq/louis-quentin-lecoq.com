@@ -41,8 +41,7 @@
 [x] Instanciate all the particles in a shared buffer from Rust and refacto JS side to read from it
 [] Simple particles anim from wasm without impulses or connections
 [] Adding connections
-[] Addig impulses
-[] update Particles position with Rust, access the data from the shared buffer with JS to print it on canvas
+[] Adding impulses
 
 if this is OK, next step will be to compute the neighbors, connections between them and handle the Impulses
 if NOT, then it might be interesting to consider using web-sys and sledgehammmer for the DOM calls on the canvas (implying that all the canvas calls will be made from Rust)

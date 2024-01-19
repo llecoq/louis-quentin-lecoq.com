@@ -38,7 +38,6 @@ export class Particles {
     ctx
     animationController
     eventListener
-    useWASM
 
     constructor() {
         // Canvas + Style
@@ -53,31 +52,11 @@ export class Particles {
 
         // EventListener
         this.eventListener = new EventListener(this.canvas, this.animationController);
-        this.useWASM = true;
-
-        // Anim
-        document.getElementById("animation-toggle-switch").addEventListener("change", this.toggleAnimation.bind(this));
     }
 
     init() {
         this.animationController.init(this.canvas.height, this.canvas.width);
         this.eventListener.init();
-    }
-    
-    // must create new methods `startAnimationJS` and `startAnimationWASM` for animationController
-    toggleAnimation() {
-        if (this.useWASM === true) {
-            this.useWASM = false;
-            // this.wasmAnimation.stop();
-            // this.animationController.startAnimationWASM();
-            this.animationController.start();
-            console.log('JS anim')
-        } else {
-            this.useWASM = true;
-            this.animationController.stop();
-            // this.wasmAnimation.start();
-            console.log('WASM anim')
-        }
     }
 }
 

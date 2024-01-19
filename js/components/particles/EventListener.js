@@ -7,7 +7,6 @@ export default class EventListener {
     constructor(canvas, animationController) {
         this.animationController = animationController;
         this.canvas = canvas;
-        this.useWASM = true;
     }
     
     init() {
@@ -22,6 +21,9 @@ export default class EventListener {
         // Canvas Intersection Observer
         const observer = new IntersectionObserver((entries) => this.handleIntersectionChange(entries), { threshold: 0.0 });
         observer.observe(this.canvas);
+
+        // Animation toggle switch
+        document.getElementById("animation-toggle-switch").addEventListener("change", this.toggleAnimation.bind(this));
     }
 
     handleMouseMove(e) {
@@ -54,7 +56,19 @@ export default class EventListener {
         });
     }
 
-    setUseWASM(value) {
-        this.useWASM = value;
+    toggleAnimation() {
+        this.animationController.changeAnimationMode();
+        // if (this.useWASM === true) {
+        //     this.useWASM = false;
+        //     // this.wasmAnimation.stop();
+        //     // this.animationController.startAnimationWASM();
+        //     this.animationController.start();
+        //     console.log('JS anim')
+        // } else {
+        //     this.useWASM = true;
+        //     this.animationController.stop();
+        //     // this.wasmAnimation.start();
+        //     console.log('WASM anim')
+        // }
     }
 }
