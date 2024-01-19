@@ -3,7 +3,7 @@ import EventListener from './EventListener.js'
 
 export const opts = {
     // Particles
-    NUMBER_OF_PARTICLES: 100,
+    NUMBER_OF_PARTICLES: 50,
     PARTICLE_MAX_SIZE: 2.5,
     PARTICLE_MIN_SIZE: 0.6,
     PARTICLE_ACTIVE_DELAY: 1000,
@@ -45,17 +45,17 @@ export class Particles {
         this.canvas = document.querySelector("canvas");
         this.canvas.height = document.body.clientHeight;
         this.canvas.width = document.body.clientWidth;
-        this.ctx = canvas.getContext("2d");
-
+        
         // AnimationController
-        this.animationController = new AnimationController(this.ctx);
+        this.ctx = canvas.getContext("2d");
+        this.animationController = new AnimationController();
 
         // EventListener
         this.eventListener = new EventListener(this.canvas, this.animationController);
     }
 
     init() {
-        this.animationController.init(this.canvas.height, this.canvas.width);
+        this.animationController.init(this.canvas.height, this.canvas.width, this.ctx);
         this.eventListener.init();
     }
 }

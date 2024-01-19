@@ -1,54 +1,29 @@
-import { ParticlesManagerWASM } from "../../../pkg/louis_quentin_lecoq.js";
 import { opts } from "./Particles.js";
-import ImpulseManagerJS from "./particlesJS/ImpulsesManagerJS.js";
-import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
-import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
+import { AnimationRenderer } from "./AnimationRenderer.js";
 
 export default class AnimationController {
 
-    ctx
     animationMode
+    animationRenderer
     animationFrameId
     sortNeighborsId
     isAnimating
-    particlesManagerJS
-    particlesManagerWASM
-    impulsesManagerJS
-    impulsesManagerWASM
     wasmBufferInterpreter
     lastTimestamp
     mouseX
     mouseY
     mouseIsOverCanvas
 
-    constructor(ctx) {
-        this.ctx = ctx;
+    constructor() {
         this.animationMode = "WASM";
         this.isAnimating = false;
         this.lastTimestamp = 0;
         this.mouseIsOverCanvas = false;
     }
 
-    init(canvasHeight, canvasWidth) {
-        // // Initialize particles and impulses
-        // let startTime = performance.now();
-        // this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
-        // let endTime = performance.now();
-        // let timeTaken = endTime - startTime;
-        // console.log(`Le temps pour instancier les particules est : ${timeTaken} millisecondes.`);
-
-        // Init particlesManager from WASM
-        this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
-        this.particlesManagerWASM.init();
-        
-        // Accessing memory of the wasm module and instanciating a WASM buffer interpreter
-        const memory = this.particlesManagerWASM.memory();
-        const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
-        this.wasmBufferInterpreter = new WasmBufferInterpreter(memory, particlesPtr);
-
-        this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
-        this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
-        this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
+    init(canvasHeight, canvasWidth, ctx) {
+        this.animationRenderer = new AnimationRenderer(ctx);
+        this.animationRenderer.init(canvasHeight, canvasWidth);
     }
 
     // Animate the particles and impulses
@@ -58,20 +33,15 @@ export default class AnimationController {
         const delta = timestamp - this.lastTimestamp;
         const scaleFPS = delta / opts.BASE_DELTA;
 
-        // clear canvas rectangle
-        this.ctx.globalCompositeOperation = 'source-over';
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // draw connections and lights
-        this.ctx.globalCompositeOperation = 'lighter';
-        this.particlesManagerJS.drawConnections(this.mouseX, this.mouseY, this.mouseIsOverCanvas);
-        if (this.mouseIsOverCanvas) this.impulsesManagerJS.createImpulses(this.mouseX, this.mouseY);
-        this.impulsesManagerJS.drawImpulses(scaleFPS);
-        
-        // draw particles
-        this.ctx.globalAlpha = 1.0;
-        this.ctx.globalCompositeOperation = 'source-over';
-        this.particlesManagerJS.drawParticles(scaleFPS);
+        if (this.mouseIsOverCanvas) {
+            this.animationRenderer.createImpulses(this.mouseX, this.mouseY);
+        }
+
+        // Rendering animation
+        this.animationRenderer.clearCanvasRectangle();
+        this.animationRenderer.renderConnections();
+        this.animationRenderer.renderImpulses(scaleFPS);
+        this.animationRenderer.renderParticles(scaleFPS);
 
         this.lastTimestamp = timestamp;
         this.animationFrameId = requestAnimationFrame(this.animate.bind(this));        
@@ -83,7 +53,7 @@ export default class AnimationController {
             this.isAnimating = true;
             this.lastTimestamp = 0;
             this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
-            this.sortNeighborsId = this.particlesManagerJS.sortNeighbors();
+            this.sortNeighborsId = this.animationRenderer.sortNeighbors();
         }
     }
 
