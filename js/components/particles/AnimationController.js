@@ -1,7 +1,7 @@
 import { opts } from "./Particles.js";
 import { AnimationRenderer } from "./AnimationRenderer.js";
 import { ParticlesManagerWASM } from "../../../pkg/louis_quentin_lecoq.js";
-import ImpulseManagerJS from "./particlesJS/ImpulsesManagerJS.js";
+import ImpulsesManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
 import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
 
@@ -25,32 +25,32 @@ export default class AnimationController {
     mouseIsOverCanvas
 
     constructor() {
-        this.animationMode = "JS";
+        this.animationMode = "WASM";
         this.isAnimating = false;
         this.lastTimestamp = 0;
         this.mouseIsOverCanvas = false;
     }
 
     init(canvasHeight, canvasWidth, ctx) {
-        // Init particlesManager from WASM
+        // Init animation from WASM side
         this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
         this.particlesManagerWASM.init();
         
-        // Accessing memory of the wasm module and instanciating a WASM buffer interpreter
+        // Accessing memory of the WASM module and instanciating a WASM buffer interpreter
         const memory = this.particlesManagerWASM.memory();
         const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
         this.wasmBufferInterpreter = new WasmBufferInterpreter(memory, particlesPtr);
-        
+
+        // Init animation from JS side (empty, waiting for a toggle change from the client side)
         this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.NUMBER_OF_PARTICLES);
-        this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
-        this.impulsesManagerJS = new ImpulseManagerJS(ctx, this.particlesManagerJS.get_particles());
+        this.impulsesManagerJS = new ImpulsesManagerJS(ctx, this.particlesManagerJS.getParticles());
 
         // Create a new AnimationRenderer
-        this.animationRenderer = new AnimationRenderer(ctx);
+        this.animationRenderer = new AnimationRenderer(ctx, this.wasmBufferInterpreter);
 
         // Setup the active ParticlesManager
-        this.activeParticlesManager = this.particlesManagerJS;
-        this.activeImpulsesManager = this.impulsesManagerJS;
+        this.activeParticlesManager = this.particlesManagerWASM;
+        this.activeImpulsesManager = this.impulsesManagerWASM;
     }
 
 
@@ -60,19 +60,20 @@ export default class AnimationController {
 
         const delta = timestamp - this.lastTimestamp;
         const scaleFPS = delta / opts.BASE_DELTA;
+        const particles = this.animationMode === "WASM" ? this.wasmBufferInterpreter.getParticles() : this.particlesManagerJS.getParticles();
 
-        if (this.mouseIsOverCanvas) {
-            this.activeImpulsesManager.create_impulses(this.mouseX, this.mouseY);
-        }
+        // if (this.mouseIsOverCanvas) {
+        //     this.activeImpulsesManager.create_impulses(this.mouseX, this.mouseY);
+        // }
 
         // Update positions
         this.activeParticlesManager.update(scaleFPS);
 
         // Render animation
         this.animationRenderer.clearCanvasRectangle();
-        this.animationRenderer.renderConnections(this.animationMode, this.activeParticlesManager.get_particles(), this.mouseX, this.mouseY, this.mouseIsOverCanvas);
-        this.animationRenderer.renderImpulses(scaleFPS, this.animationMode, this.activeImpulsesManager.get_impulses());
-        this.animationRenderer.renderParticles(this.animationMode, this.activeParticlesManager.get_particles());
+        // this.animationRenderer.renderConnections(this.animationMode, particles, this.mouseX, this.mouseY, this.mouseIsOverCanvas);
+        // this.animationRenderer.renderImpulses(scaleFPS, this.animationMode, this.activeImpulsesManager.get_impulses());
+        this.animationRenderer.renderParticles(this.animationMode, particles);
 
         this.lastTimestamp = timestamp;
         this.animationFrameId = requestAnimationFrame(this.animate.bind(this));        
@@ -111,19 +112,21 @@ export default class AnimationController {
     // Change AnimationMode
     changeAnimationMode() {
         switch (this.animationMode) {
-            case "WASM":
+            case "WASM": // Switch animation in JS
+                console.log("JS");
+
                 this.animationMode = "JS";
-                console.log(this.animationMode);
-                // this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
-                // stop WASM anim
-                // start JS anim
+                this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
+                this.activeImpulsesManager = this.impulsesManagerJS;
+                this.activeParticlesManager = this.particlesManagerJS;
+                clearInterval(this.sortNeighborsId);
+                this.sortNeighborsId = this.particlesManagerJS.sortNeighbors();
                 break;
-            case "JS":
+            case "JS": // Switch animation in WASM
+                console.log("WASM");
+
                 this.animationMode = "WASM";
-                console.log(this.animationMode);
-                // setParticlesDataFromJS
-                // stop JS anim
-                // start WASM anim
+                clearInterval(this.sortNeighborsId);
         }
     }
 }

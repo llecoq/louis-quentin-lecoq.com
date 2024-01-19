@@ -29,7 +29,7 @@ export default class ParticleJS {
         this.x = data.x;
         this.y = data.y;
         this.size = data.size;
-        this.color = `rgb(${data.colorRed}, ${data.colorGreen}, ${data.colorBlue})`;
+        this.color = data.color;
         this.speedX = data.speedX;
         this.speedY = data.speedY;
         this.active = data.active == 1 ? this.activateTimer() : false;

@@ -65,9 +65,26 @@ impl Particle {
             neighbor_10: 0.0,
         }
     }
+    
+    // Update the position of the particle
+    pub fn update_position(&mut self, canvas_height: u32, canvas_width: u32, scale_fps: f32) {
+        self.x += self.speed_x * scale_fps;
+        self.y += self.speed_y * scale_fps;
+
+        if self.x < 0.0 {
+            self.x = canvas_width as f32;
+        } else if self.x > canvas_width as f32{
+            self.x = 0.0;
+        } else if self.y < 0.0 {
+            self.y = canvas_height as f32;
+        } else if self.y > canvas_height as f32 {
+            self.y = 0.0;
+        }
+    }
 }
 
-// Returns RGB values for the color of each particle
+
+// Returns red values for the color of the particle
 fn get_random_red_value(chance: f32) -> f32 {
     if chance < 0.70 {
         255.0
@@ -78,6 +95,7 @@ fn get_random_red_value(chance: f32) -> f32 {
     }
 }
 
+// Returns green values for the color of the particle
 fn get_random_green_value(chance: f32) -> f32 {
     if chance < 0.70 {
         255.0
@@ -88,6 +106,7 @@ fn get_random_green_value(chance: f32) -> f32 {
     }
 }
 
+// Returns blue values for the color of the particle
 fn get_random_blue_value(chance: f32) -> f32 {
     if chance < 0.70 {
         255.0
