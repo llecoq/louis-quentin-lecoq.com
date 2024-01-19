@@ -30,7 +30,7 @@ export default class ParticlesManagerJS {
     }
 
     // Sort neighbors based on distance
-    sortNeighbors() {
+    sort_neighbors() {
         return setInterval(() => {
             this.particles.forEach(particle => {
                 const sorted = [...this.particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));

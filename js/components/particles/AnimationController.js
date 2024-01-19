@@ -85,7 +85,7 @@ export default class AnimationController {
             this.isAnimating = true;
             this.lastTimestamp = 0;
             this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
-            // this.sortNeighborsId = this.particlesManagerJS.sortNeighbors();
+            this.sortNeighborsId = this.sortNeighbors();
         }
     }
 
@@ -113,23 +113,27 @@ export default class AnimationController {
     changeAnimationMode() {
         switch (this.animationMode) {
             case "WASM": // Switch animation in JS
-                console.log("JS");
+                console.log("Siwtch anim to JS");
 
                 this.animationMode = "JS";
                 this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
                 this.activeImpulsesManager = this.impulsesManagerJS;
                 this.activeParticlesManager = this.particlesManagerJS;
-                clearInterval(this.sortNeighborsId);
-                // this.sortNeighborsId = this.particlesManagerJS.sortNeighbors();
                 break;
             case "JS": // Switch animation in WASM
-                console.log("WASM");
-
+                console.log("Siwtch anim to WASM");
+                
                 this.animationMode = "WASM";
                 this.wasmBufferInterpreter.setWasmParticlesBufferFromJS(this.particlesManagerJS.getParticles());
                 this.activeImpulsesManager = this.impulsesManagerWASM;
                 this.activeParticlesManager = this.particlesManagerWASM;
-                clearInterval(this.sortNeighborsId);
-        }
+            }
+
+        clearInterval(this.sortNeighborsId);
+        this.sortNeighborsId = this.sortNeighbors();
+    }
+
+    sortNeighbors() {
+        return setInterval(() => this.activeParticlesManager.sort_neighbors(), 250);
     }
 }
