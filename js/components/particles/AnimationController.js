@@ -126,7 +126,7 @@ export default class AnimationController {
                 console.log("WASM");
 
                 this.animationMode = "WASM";
-                // setParticlesDataFromJS
+                this.wasmBufferInterpreter.setWasmParticlesBufferFromJS(this.particlesManagerJS.getParticles());
                 this.activeImpulsesManager = this.impulsesManagerWASM;
                 this.activeParticlesManager = this.particlesManagerWASM;
                 clearInterval(this.sortNeighborsId);
