@@ -1,69 +1,63 @@
-import { ParticlesManagerWASM } from "../../../pkg/louis_quentin_lecoq.js";
-import ImpulseManagerJS from "./particlesJS/ImpulsesManagerJS.js";
-import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
-import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
 import { opts } from "./Particles.js";
 
 export class AnimationRenderer {
 
     ctx
-    particlesManagerJS
-    particlesManagerWASM
-    impulsesManagerJS
-    impulsesManagerWASM
     wasmBufferInterpreter
 
     constructor(ctx) {
         this.ctx = ctx;
     }
 
-    // init AnimationRenderer
-    init(canvasHeight, canvasWidth) {
-        // Init particlesManager from WASM
-        this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
-        this.particlesManagerWASM.init();
-        
-        // Accessing memory of the wasm module and instanciating a WASM buffer interpreter
-        const memory = this.particlesManagerWASM.memory();
-        const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
-        this.wasmBufferInterpreter = new WasmBufferInterpreter(memory, particlesPtr);
-
-        this.particlesManagerJS = new ParticlesManagerJS(this.ctx, opts.NUMBER_OF_PARTICLES);
-        this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
-        this.impulsesManagerJS = new ImpulseManagerJS(this.ctx, this.particlesManagerJS.getParticles());
-
-    }
-
-    // clear canvas rectangle
+    // Clear canvas rectangle
     clearCanvasRectangle() {
         this.ctx.globalCompositeOperation = 'source-over';
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    // render connections
-    renderConnections() {
+    // Render connections
+    renderConnections(animationMode, particles, mouseX, mouseY, mouseIsOverCanvas) {
         this.ctx.globalCompositeOperation = 'lighter';
-        this.particlesManagerJS.drawConnections(this.mouseX, this.mouseY, this.mouseIsOverCanvas);
+        this.ctx.strokeStyle = opts.CONNECTIONS_STROKE_STYLE;
+        this.ctx.lineWidth = opts.CONNECTIONS_LINE_WIDTH;
+
+        switch (animationMode) {
+            case "WASM":
+
+            case "JS":
+                particles.forEach(particle => particle.renderConnections(this.ctx, mouseX, mouseY, mouseIsOverCanvas))
+        }
     }
 
-    // render impulses
-    renderImpulses(scaleFPS) {
-        this.impulsesManagerJS.drawImpulses(scaleFPS);
+    // Render impulses
+    renderImpulses(scaleFPS, animationMode, impulses) {
+        this.ctx.globalAlpha = 1.0;
+
+        switch (animationMode) {
+            case "WASM":
+
+            case "JS":
+                impulses.forEach((impulse, index) => {
+                    if (impulse.isExpired() || impulse.move(impulses) === false) {
+                        impulses.splice(index, 1);
+                        return;
+                    }
+                    if (impulse.render(this.ctx, scaleFPS) === false)
+                        impulses.splice(index, 1);
+                });
+        }
     }
 
-    // create impulses
-    createImpulses(mouseX, mouseY) {
-        this.impulsesManagerJS.createImpulses(mouseX, mouseY);
-    }
-
-    // render particles
-    renderParticles(scaleFPS) {
+    // Render particles
+    renderParticles(animationMode, particles) {
         this.ctx.globalAlpha = 1.0;
         this.ctx.globalCompositeOperation = 'source-over';
-        this.particlesManagerJS.drawParticles(scaleFPS);
-    }
-    
-    sortNeighbors() {
-        return this.particlesManagerJS.sortNeighbors();
+
+        switch (animationMode) {
+            case "WASM":
+                
+            case "JS":
+                particles.forEach(particle => particle.render(this.ctx));
+        }
     }
 }
