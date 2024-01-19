@@ -28,7 +28,7 @@ pub struct Particle {
 }
 
 impl Particle {
-    // Create a new Particle with random attributes
+    // Create a new `Particle` with random attributes
     pub fn new(canvas_height: u32, canvas_width: u32, particle_min_size: f32, particle_max_size: f32) -> Particle {
         let mut rng = rand::thread_rng();
         let center_x = canvas_width / 2;
@@ -66,7 +66,7 @@ impl Particle {
         }
     }
     
-    // Update the position of the particle
+    // Update the position of the `Particle`
     pub fn update_position(&mut self, canvas_height: u32, canvas_width: u32, scale_fps: f32) {
         self.x += self.speed_x * scale_fps;
         self.y += self.speed_y * scale_fps;
@@ -81,10 +81,34 @@ impl Particle {
             self.y = 0.0;
         }
     }
+
+    // Returns the distance between two `Particle`
+    pub fn get_distance(&self, other: &Particle) -> f32 {
+        let dx = self.x - other.x;
+        let dy = self.y - other.y;
+        (dx.powi(2) + dy.powi(2)).sqrt()
+    }
+
+    // Set neighbor index as f32
+    pub fn set_neighbor(&mut self, neighbor_number: usize, neighbor_index: usize) {
+        match neighbor_number {
+            1 => self.neighbor_1 = neighbor_index as f32,
+            2 => self.neighbor_2 = neighbor_index as f32,
+            3 => self.neighbor_3 = neighbor_index as f32,
+            4 => self.neighbor_4 = neighbor_index as f32,
+            5 => self.neighbor_5 = neighbor_index as f32,
+            6 => self.neighbor_6 = neighbor_index as f32,
+            7 => self.neighbor_7 = neighbor_index as f32,
+            8 => self.neighbor_8 = neighbor_index as f32,
+            9 => self.neighbor_9 = neighbor_index as f32,
+            10 => self.neighbor_10 = neighbor_index as f32,
+            _ => {}
+        }
+    }
 }
 
 
-// Returns red values for the color of the particle
+// Returns red values for the color of the `Particle`
 fn get_random_red_value(chance: f32) -> f32 {
     if chance < 0.70 {
         255.0
@@ -95,7 +119,7 @@ fn get_random_red_value(chance: f32) -> f32 {
     }
 }
 
-// Returns green values for the color of the particle
+// Returns green values for the color of the `Particle`
 fn get_random_green_value(chance: f32) -> f32 {
     if chance < 0.70 {
         255.0
@@ -106,7 +130,7 @@ fn get_random_green_value(chance: f32) -> f32 {
     }
 }
 
-// Returns blue values for the color of the particle
+// Returns blue values for the color of the `Particle`
 fn get_random_blue_value(chance: f32) -> f32 {
     if chance < 0.70 {
         255.0

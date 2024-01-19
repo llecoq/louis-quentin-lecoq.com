@@ -62,4 +62,27 @@ impl ParticlesManagerWASM {
             elem.update_position(self.canvas.height, self.canvas.width, scale_fps);
         }
     }
+
+    pub fn sort_neighbors(&mut self) {
+        let particles_count = self.particles.len();
+        let mut distances: Vec<Vec<(usize, f32)>> = vec![vec![]; particles_count];
+
+        // Create a vector for each `Particle` with the relative distance to every `Particle`
+        for i in 0..particles_count {
+            for j in 0..particles_count {
+                if i != j {
+                    let distance = self.particles[i].get_distance(&self.particles[j]);
+                    distances[i].push((j, distance));
+                }
+            }
+        }
+
+        // Set neighbors for each particle
+        for (particle_distances, particle) in distances.iter_mut().zip(&mut self.particles) {
+            particle_distances.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap());
+            for i in 0..particle_distances.len().min(10) {
+                particle.set_neighbor(i as usize, particle_distances[i as usize].0);
+            }
+        }
+    }
 }
