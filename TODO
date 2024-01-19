@@ -33,13 +33,13 @@
 [x] Handling Window Resize Event (scaling canvas)
 [x] Refactoring for Better Structure (CanvasManager = nop / ParticleManager / AnimationController)
 [x] Make sure eventlisteners are cleared when not needed anymore
-[] Switch anim JS / Rust => faire en sorte de passer toutes les Particles + Impulses et attendre que l'anim soit prete de l'autre cote si besoin pour la lancer + smooth
+[x] Switch anim JS / Rust => faire en sorte de passer toutes les Particles + Impulses et attendre que l'anim soit prete de l'autre cote si besoin pour la lancer + smooth
 [] toggle to change number of particles ?
 
 */---------------------------------RUST WASM */
 *** FIRST STEP ***
 [x] Instanciate all the particles in a shared buffer from Rust and refacto JS side to read from it
-[] Simple particles anim from wasm without impulses or connections
+[x] Simple particles anim from wasm without impulses or connections
 [] Adding connections
 [] Adding impulses
 

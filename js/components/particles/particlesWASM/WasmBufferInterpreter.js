@@ -67,10 +67,12 @@ export class WasmBufferInterpreter {
         };
     }
 
+    // Returns the WASM shared buffer of particles
     getParticles() {
         return this.wasmParticlesBuffer;
     }
 
+    // Render the WASM shared buffer of particles
     renderParticles(ctx) {
         let xIndex = X;
         let yIndex = Y;
@@ -106,6 +108,27 @@ export class WasmBufferInterpreter {
             colorBlueIndex += RUST_PARTICLE_SIZE;
             sizeIndex += RUST_PARTICLE_SIZE;
         }     
+    }
+
+    setWasmParticlesBufferFromJS(particles) {
+        let xIndex = X;
+        let yIndex = Y;
+        let activeIndex = ACTIVE;
+        let sizeIndex = SIZE;
+        
+        for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
+            // Find particle's data in the wasmParticlesBuffer
+            this.wasmParticlesBuffer[xIndex] = particles[i].x;
+            this.wasmParticlesBuffer[yIndex] = particles[i].y;
+            this.wasmParticlesBuffer[activeIndex] = particles[i].active;
+            this.wasmParticlesBuffer[sizeIndex] = particles[i].size;
+        
+            // Increment indexes
+            xIndex += RUST_PARTICLE_SIZE;
+            yIndex += RUST_PARTICLE_SIZE;
+            activeIndex += RUST_PARTICLE_SIZE;
+            sizeIndex += RUST_PARTICLE_SIZE;
+        }        
     }
 
 }
