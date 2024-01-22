@@ -87,11 +87,11 @@ export default class ParticleJS {
             // render connections between particles
             if (dist < opts.CONNECTION_MAX_DIST) {
                 const globalAlpha = this.active && neighbor.active ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
+                ctx.globalAlpha = globalAlpha - dist / opts.CONNECTION_MAX_DIST;
 
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
                 ctx.lineTo(neighbor.x, neighbor.y);
-                ctx.globalAlpha = globalAlpha - dist / opts.CONNECTION_MAX_DIST;
                 ctx.stroke();
             }
 
