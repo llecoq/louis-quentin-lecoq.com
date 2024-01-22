@@ -1,12 +1,13 @@
 use wasm_bindgen::prelude::*;
 
 use crate::particles::{Opts, get_opts_from_js};
-use super::{particle::Particle, Canvas};
+use super::{particle::{Particle, self}, Canvas};
 
 #[wasm_bindgen]
 pub struct ParticlesManagerWASM {
     opts: Opts,
     particles: Vec<Particle>,
+    neighbors_matrix: Vec<Vec<(usize, f32)>>,
     canvas: Canvas
 }
 
@@ -18,11 +19,23 @@ impl ParticlesManagerWASM {
 
     // Create a new ParticlesManagerWASM and get the animation options from the JS side
     pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
+        // Init console.log and panic_hook
         std::panic::set_hook(Box::new(console_error_panic_hook::hook));
         console_log::init().unwrap();
+
+        let js_opts: Opts = get_opts_from_js().unwrap();
+        let number_of_particles = js_opts.number_of_particles;
+
         ParticlesManagerWASM {
-            opts: get_opts_from_js().unwrap(),
-            particles: Vec::new(),
+            opts: js_opts,
+            particles: vec![],
+            neighbors_matrix: vec![
+                vec![
+                    (0, 0.0); 
+                    number_of_particles as usize
+                ]; 
+                number_of_particles as usize
+            ],
             canvas: Canvas{
                 height: canvas_height,
                 width: canvas_width
@@ -32,7 +45,9 @@ impl ParticlesManagerWASM {
 
     // Initialize particles, following the opts from the JS side
     pub fn init(&mut self) {
-        for _ in 0..self.opts.number_of_particles {
+        let number_of_particles = self.opts.number_of_particles;
+
+        for _ in 0..number_of_particles {
             self.particles.push(
                 Particle::new(
                     self.canvas.height, 
@@ -64,24 +79,26 @@ impl ParticlesManagerWASM {
     }
 
     pub fn sort_neighbors(&mut self) {
-        let particles_count = self.particles.len();
-        let mut distances: Vec<Vec<(usize, f32)>> = vec![vec![]; particles_count];
+        // Update distances between each `Particle` in the `neighbors_matrix`
+        self.update_matrix_neighbors_distances();
 
-        // Create a vector for each `Particle` with the relative distance to every `Particle`
-        for i in 0..particles_count {
-            for j in 0..particles_count {
-                if i != j {
-                    let distance = self.particles[i].get_distance(&self.particles[j]);
-                    distances[i].push((j, distance));
-                }
-            }
+        // Sort distances for each `Particle` in the `neighbors_matrix`
+        for i in 0..self.opts.number_of_particles {
+            self.neighbors_matrix[i].sort_unstable_by(|a, b| a.1.partial_cmp(&b.1).unwrap());
+       
+            // Set 10 first neighbors for each `Particle`
+            for j in 1..10 {
+                self.particles[i].set_neighbor(j, self.neighbors_matrix[i][j].0);
+            } 
         }
+    }
 
-        // Set neighbors for each particle
-        for (particle_distances, particle) in distances.iter_mut().zip(&mut self.particles) {
-            particle_distances.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap());
-            for i in 0..particle_distances.len().min(10) {
-                particle.set_neighbor(i as usize, particle_distances[i as usize].0);
+    fn update_matrix_neighbors_distances(&mut self) {
+        for i in 0..self.opts.number_of_particles {
+            for j in 0..self.opts.number_of_particles {
+                    self.neighbors_matrix[i][j].0 = j;
+                    let distance =  self.particles[i].get_distance_from(&self.particles[j]);
+                    self.neighbors_matrix[i][j].1 = distance;
             }
         }
     }
