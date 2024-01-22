@@ -83,7 +83,7 @@ impl Particle {
     }
 
     // Returns the distance between two `Particle`
-    pub fn get_distance(&self, other: &Particle) -> f32 {
+    pub fn get_distance_from(&self, other: &Particle) -> f32 {
         let dx = self.x - other.x;
         let dy = self.y - other.y;
         (dx.powi(2) + dy.powi(2)).sqrt()

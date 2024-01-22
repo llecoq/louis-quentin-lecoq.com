@@ -31,12 +31,10 @@ export default class ParticlesManagerJS {
 
     // Sort neighbors based on distance
     sort_neighbors() {
-        return setInterval(() => {
-            this.particles.forEach(particle => {
-                const sorted = [...this.particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
-                particle.setNeighbors(sorted.slice(0, opts.PARTICLE_MAX_CONNECTIONS));
-            });
-        }, 250);
+        this.particles.forEach(particle => {
+            const sorted = [...this.particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
+            particle.setNeighbors(sorted.slice(0, opts.PARTICLE_MAX_CONNECTIONS));
+        });
     }
 
     // Get Particles
