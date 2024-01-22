@@ -60,6 +60,9 @@ impl ParticlesManagerWASM {
 
         // Sort particles from smallest to biggest
         self.particles.sort_unstable_by(|a, b| a.size.partial_cmp(&b.size).unwrap());
+
+        // Sort neighbors from closest to farthest
+        self.sort_neighbors();
     }
 
     // Returns a pointer on the particles
@@ -84,7 +87,7 @@ impl ParticlesManagerWASM {
        
             // Set 10 first neighbors for each `Particle`
             for j in 0..10 {
-                self.particles[i].set_neighbor(j, self.neighbors_matrix[i][j + 1].0);
+                self.particles[i].set_neighbor(j + 1, self.neighbors_matrix[i][j + 1].0);
             }
         }
     }
