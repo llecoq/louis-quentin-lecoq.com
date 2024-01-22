@@ -12,7 +12,6 @@ p {
     box-shadow: 0 0 0 0.2x var(--text-color-3);
     background-color: #120b0574;
     border-radius: 15px;
-    height: 1000px;
 }
 
 #about {

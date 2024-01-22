@@ -1,7 +1,7 @@
 use wasm_bindgen::prelude::*;
 
 use crate::particles::{Opts, get_opts_from_js};
-use super::{particle::{Particle, self}, Canvas};
+use super::{particle::Particle, Canvas};
 
 #[wasm_bindgen]
 pub struct ParticlesManagerWASM {
@@ -60,10 +60,6 @@ impl ParticlesManagerWASM {
 
         // Sort particles from smallest to biggest
         self.particles.sort_unstable_by(|a, b| a.size.partial_cmp(&b.size).unwrap());
-
-        // for elem in &self.particles {
-        //     log::info!("Particle: {elem:?}");
-        // }
     }
 
     // Returns a pointer on the particles
@@ -87,12 +83,13 @@ impl ParticlesManagerWASM {
             self.neighbors_matrix[i].sort_unstable_by(|a, b| a.1.partial_cmp(&b.1).unwrap());
        
             // Set 10 first neighbors for each `Particle`
-            for j in 1..10 {
-                self.particles[i].set_neighbor(j, self.neighbors_matrix[i][j].0);
-            } 
+            for j in 0..10 {
+                self.particles[i].set_neighbor(j, self.neighbors_matrix[i][j + 1].0);
+            }
         }
     }
 
+    // Update distance between each `Particle` in the `neighbors_matrix`
     fn update_matrix_neighbors_distances(&mut self) {
         for i in 0..self.opts.number_of_particles {
             for j in 0..self.opts.number_of_particles {
