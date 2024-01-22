@@ -24,7 +24,8 @@ export class AnimationRenderer {
 
         switch (animationMode) {
             case "WASM":
-
+                this.wasmBufferInterpreter.renderConnections(this.ctx);
+                break;
             case "JS":
                 particles.forEach(particle => particle.renderConnections(this.ctx, mouseX, mouseY, mouseIsOverCanvas))
         }
@@ -63,5 +64,4 @@ export class AnimationRenderer {
                 particles.forEach(particle => particle.render(this.ctx));
         }
     }
-
 }

@@ -71,7 +71,7 @@ export default class AnimationController {
 
         // Render animation
         this.animationRenderer.clearCanvasRectangle();
-        // this.animationRenderer.renderConnections(this.animationMode, particles, this.mouseX, this.mouseY, this.mouseIsOverCanvas);
+        this.animationRenderer.renderConnections(this.animationMode, particles, this.mouseX, this.mouseY, this.mouseIsOverCanvas);
         // this.animationRenderer.renderImpulses(scaleFPS, this.animationMode, this.activeImpulsesManager.get_impulses());
         this.animationRenderer.renderParticles(this.animationMode, particles);
 

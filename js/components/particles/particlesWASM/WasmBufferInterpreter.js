@@ -1,4 +1,5 @@
 import { opts } from "../Particles.js";
+import { getDist } from "../particlesJS/utilsJS.js";
 
 // Needs to be changed manually if an element is added  
 // or deleted from the Particle Struct on the Rust side
@@ -72,7 +73,7 @@ export class WasmBufferInterpreter {
         return this.wasmParticlesBuffer;
     }
 
-    // Render the WASM shared buffer of particles
+    // Render the each `Particle` of the `wasmParticlesBuffer`
     renderParticles(ctx) {
         let xIndex = X;
         let yIndex = Y;
@@ -108,6 +109,35 @@ export class WasmBufferInterpreter {
             colorBlueIndex += RUST_PARTICLE_SIZE;
             sizeIndex += RUST_PARTICLE_SIZE;
         }     
+    }
+
+    // Render the connections of the `wasmParticlesBuffer`
+    renderConnections(ctx) {
+        for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
+            let baseIndex = i * RUST_PARTICLE_SIZE;
+            let x = this.wasmParticlesBuffer[baseIndex + X];
+            let y = this.wasmParticlesBuffer[baseIndex + Y];
+            let active = this.wasmParticlesBuffer[baseIndex + ACTIVE];
+            
+            for (let j = 0; j < 10; j++) {
+                let neighborIndex = this.wasmParticlesBuffer[baseIndex + NEIGHBOR_1 + j] * RUST_PARTICLE_SIZE;
+                let neighborX = this.wasmParticlesBuffer[neighborIndex + X];
+                let neighborY = this.wasmParticlesBuffer[neighborIndex + Y];
+                let neighborActive = this.wasmParticlesBuffer[neighborIndex + ACTIVE];
+                let distance = getDist(x, y, neighborX, neighborY);
+    
+                if (distance < opts.CONNECTION_MAX_DIST) {
+                    const globalAlpha = active && neighborActive ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
+                    ctx.globalAlpha = globalAlpha - distance / opts.CONNECTION_MAX_DIST;
+    
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(neighborX, neighborY);
+                    ctx.stroke();
+                }
+            }
+        }
+        ctx.globalAlpha = 1.0; // Reset globalAlpha
     }
 
     setWasmParticlesBufferFromJS(particles) {
