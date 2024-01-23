@@ -45,14 +45,6 @@ impl ParticlesManagerWASM {
         self.sort_neighbors();
     }
 
-    // Accesses the WebAssembly instance's linear memory. This function returns a `WebAssembly.Memory` 
-    // object, enabling direct manipulation and interaction of Wasm memory from JavaScript. Used for 
-    // efficient data transfer and handling between Rust (Wasm) and JavaScript without the overhead of 
-    // serialization/deserialization.
-    pub fn memory(&self) -> JsValue {
-        wasm_bindgen::memory()
-    }
-
     // Returns a pointer on the particles
     pub fn get_particles_ptr(&self) -> *const Particle {
         self.particles.borrow().as_ptr()

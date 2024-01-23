@@ -36,11 +36,16 @@ export default class AnimationController {
         const particlesWASM = ParticlesWASM.new(canvasHeight, canvasWidth);
         this.particlesManagerWASM = particlesWASM.get_particles_manager();
         this.particlesManagerWASM.init();
+        this.impulsesManagerWASM = particlesWASM.get_impulses_manager();
         
         // Accessing memory of the WASM module and instanciating a WASM buffer interpreter
-        const memory = this.particlesManagerWASM.memory();
+        const memory = particlesWASM.memory();
         const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
-        this.wasmBufferInterpreter = new WasmBufferInterpreter(memory, particlesPtr);
+        this.wasmBufferInterpreter = new WasmBufferInterpreter(memory);
+        this.wasmBufferInterpreter.setWasmParticlesBuffer(particlesPtr);
+
+        const mousePositionPtr = particlesWASM.get_mouse_position_ptr();
+        this.wasmBufferInterpreter.setWasmMousePositionBuffer(mousePositionPtr);
 
         // Init animation from JS side (empty, waiting for a toggle change from the client side)
         this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.NUMBER_OF_PARTICLES);
@@ -125,7 +130,7 @@ export default class AnimationController {
                 console.log("Switch anim to WASM");
                 
                 this.animationMode = "WASM";
-                this.wasmBufferInterpreter.setWasmParticlesBufferFromJS(this.particlesManagerJS.getParticles());
+                this.wasmBufferInterpreter.setParticlesDataFromJS(this.particlesManagerJS.getParticles());
                 this.activeImpulsesManager = this.impulsesManagerWASM;
                 this.activeParticlesManager = this.particlesManagerWASM;
             }
