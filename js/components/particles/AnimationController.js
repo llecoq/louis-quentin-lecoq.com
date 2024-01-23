@@ -68,16 +68,16 @@ export default class AnimationController {
         const scaleFPS = delta / opts.BASE_DELTA;
         const particles = this.animationMode === "WASM" ? this.wasmBufferInterpreter.getParticles() : this.particlesManagerJS.getParticles();
 
-        // if (this.mouseIsOverCanvas) {
-        //     this.activeImpulsesManager.create_impulses(this.mouseX, this.mouseY);
-        // }
+        if (this.mouseIsOverCanvas) {
+            this.activeImpulsesManager.create_impulses();
+        }
 
         // Update positions
         this.activeParticlesManager.update(scaleFPS);
 
         // Render animation
         this.animationRenderer.clearCanvasRectangle();
-        this.animationRenderer.renderConnections(this.animationMode, particles, this.mouseX, this.mouseY, this.mouseIsOverCanvas);
+        this.animationRenderer.renderConnections(this.animationMode, particles, this.mouseIsOverCanvas);
         // this.animationRenderer.renderImpulses(scaleFPS, this.animationMode, this.activeImpulsesManager.get_impulses());
         this.animationRenderer.renderParticles(this.animationMode, particles);
 
@@ -109,10 +109,11 @@ export default class AnimationController {
         switch (this.animationMode) {
             case "WASM": 
                 this.wasmBufferInterpreter.setMousePosition(x, y);
+                break;
             case "JS":
-                this.mouseX = x;
-                this.mouseY = y;
+                this.impulsesManagerJS.setMousePosition(x, y);
         }
+        this.animationRenderer.setMousePosition(x, y);
     }
 
     // Set mouseIsOverCanvas to a given value

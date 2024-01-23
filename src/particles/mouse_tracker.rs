@@ -22,4 +22,12 @@ impl MouseTracker {
             mouse_position: Rc::new(RefCell::new(vec![]))
         }
     }
+
+    pub fn get_pos_x(&self) -> u32 {
+        self.mouse_position.borrow()[0].pos_x
+    }
+
+    pub fn get_pos_y(&self) -> u32 {
+        self.mouse_position.borrow()[0].pos_y
+    }
 }

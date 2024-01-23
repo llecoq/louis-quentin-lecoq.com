@@ -4,6 +4,8 @@ export class AnimationRenderer {
 
     ctx
     wasmBufferInterpreter
+    mouseX
+    mouseY
 
     constructor(ctx, wasmBufferInterpreter) {
         this.ctx = ctx;
@@ -17,17 +19,17 @@ export class AnimationRenderer {
     }
 
     // Render connections
-    renderConnections(animationMode, particles, mouseX, mouseY, mouseIsOverCanvas) {
+    renderConnections(animationMode, particles, mouseIsOverCanvas) {
         this.ctx.globalCompositeOperation = 'lighter';
         this.ctx.strokeStyle = opts.CONNECTIONS_STROKE_STYLE;
         this.ctx.lineWidth = opts.CONNECTIONS_LINE_WIDTH;
 
         switch (animationMode) {
             case "WASM":
-                this.wasmBufferInterpreter.renderConnections(this.ctx, mouseX, mouseY, mouseIsOverCanvas);
+                this.wasmBufferInterpreter.renderConnections(this.ctx, this.mouseX, this.mouseY, mouseIsOverCanvas);
                 break;
             case "JS":
-                particles.forEach(particle => particle.renderConnections(this.ctx, mouseX, mouseY, mouseIsOverCanvas))
+                particles.forEach(particle => particle.renderConnections(this.ctx, this.mouseX, this.mouseY, mouseIsOverCanvas))
         }
     }
 
@@ -63,5 +65,10 @@ export class AnimationRenderer {
             case "JS":
                 particles.forEach(particle => particle.render(this.ctx));
         }
+    }
+
+    setMousePosition(mouseX, mouseY) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
     }
 }

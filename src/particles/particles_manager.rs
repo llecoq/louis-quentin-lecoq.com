@@ -118,12 +118,12 @@ impl ParticlesManagerWASM {
 
     // Update distance between each `Particle` in the `neighbors_matrix`
     fn update_matrix_neighbors_distances(&mut self) {
-        let particles = self.particles.borrow();
+        let particles: std::cell::Ref<'_, Vec<Particle>> = self.particles.borrow();
 
         for i in 0..self.opts.number_of_particles {
             for j in 0..self.opts.number_of_particles {
                 self.neighbors_matrix[i][j].0 = j;
-                let distance =  particles[i].get_distance_from(&particles[j]);
+                let distance =  particles[i].get_distance_from(particles[j].x, particles[j].y);
                 self.neighbors_matrix[i][j].1 = distance;
             }
         }

@@ -2,6 +2,8 @@ use std::f32::consts::PI;
 
 use rand::Rng;
 
+use super::Opts;
+
 // Not ideal but the Structure needs to be "flatten": every element needs to be of the 
 // same type (here `f32`) to be able to read it as a `Float32Array` on the JS side
 #[derive(Debug)]
@@ -41,7 +43,6 @@ impl Particle {
         let dir_x = if rng.gen::<f32>() > 0.5 {1.0} else {-1.0};
         let dir_y = if rng.gen::<f32>() > 0.5 {1.0} else {-1.0};
         let chance: f32 = rand::thread_rng().gen();
-
 
         Particle {
             x : center_x as f32 + radius_x * f32::cos(theta),
@@ -83,9 +84,9 @@ impl Particle {
     }
 
     // Returns the distance between two `Particle`
-    pub fn get_distance_from(&self, other: &Particle) -> f32 {
-        let dx = self.x - other.x;
-        let dy = self.y - other.y;
+    pub fn get_distance_from(&self, other_x: f32, other_y: f32) -> f32 {
+        let dx = self.x - other_x;
+        let dy = self.y - other_y;
         (dx.powi(2) + dy.powi(2)).sqrt()
     }
 
@@ -104,6 +105,18 @@ impl Particle {
             10 => self.neighbor_10 = neighbor_index as f32,
             _ => {}
         }
+    }
+
+    // Check if possible to create a new `Impulse`
+    pub fn can_create_impulse(&self, opts: &Opts, mouse_x: u32, mouse_y: u32, number_of_active_impulses: usize) -> bool {
+        let dist_to_mouse = self.get_distance_from(mouse_x as f32, mouse_y as f32);
+
+        if dist_to_mouse < opts.connection_max_dist as f32
+                && self.active == 0.0
+                && number_of_active_impulses < opts.max_impulses as usize {
+            return true;
+        }
+        return false;
     }
 }
 
