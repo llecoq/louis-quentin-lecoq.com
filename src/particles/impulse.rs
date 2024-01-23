@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Impulse {
     pub x: f32,
     pub y: f32,

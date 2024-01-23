@@ -1,6 +1,6 @@
 import { opts } from "./Particles.js";
 import { AnimationRenderer } from "./AnimationRenderer.js";
-import { ParticlesManagerWASM } from "../../../pkg/louis_quentin_lecoq.js";
+import { ParticlesWASM } from "../../../pkg/louis_quentin_lecoq.js";
 import ImpulsesManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
 import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
@@ -33,7 +33,8 @@ export default class AnimationController {
 
     init(canvasHeight, canvasWidth, ctx) {
         // Init animation from WASM side
-        this.particlesManagerWASM = ParticlesManagerWASM.new(canvasHeight, canvasWidth);
+        const particlesWASM = ParticlesWASM.new(canvasHeight, canvasWidth);
+        this.particlesManagerWASM = particlesWASM.get_particles_manager();
         this.particlesManagerWASM.init();
         
         // Accessing memory of the WASM module and instanciating a WASM buffer interpreter
@@ -113,7 +114,7 @@ export default class AnimationController {
     changeAnimationMode() {
         switch (this.animationMode) {
             case "WASM": // Switch animation in JS
-                console.log("Siwtch anim to JS");
+                console.log("Switch anim to JS");
 
                 this.animationMode = "JS";
                 this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
@@ -121,7 +122,7 @@ export default class AnimationController {
                 this.activeParticlesManager = this.particlesManagerJS;
                 break;
             case "JS": // Switch animation in WASM
-                console.log("Siwtch anim to WASM");
+                console.log("Switch anim to WASM");
                 
                 this.animationMode = "WASM";
                 this.wasmBufferInterpreter.setWasmParticlesBufferFromJS(this.particlesManagerJS.getParticles());

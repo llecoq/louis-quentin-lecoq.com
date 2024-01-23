@@ -1,20 +1,21 @@
 use wasm_bindgen::prelude::*;
 use serde::{Serialize, Deserialize};
 
+// Import extern
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = window)]
     fn getOpts() -> JsValue;
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Canvas {
     height: u32,
     width: u32
 }
 
 // Opts structure replicating the options of the `Particles.js` module
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Opts {
     // Particles
     #[serde(rename = "NUMBER_OF_PARTICLES")]
@@ -75,6 +76,7 @@ pub fn get_opts_from_js() -> Result<Opts, JsValue> {
 }
 
 // Modules
+pub mod particles;
 pub mod particle;
 pub mod particles_manager;
 pub mod impulse;
