@@ -8,7 +8,6 @@ use super::{particles_manager::ParticlesManagerWASM, impulses_manager::ImpulsesM
 pub struct ParticlesWASM {
     particles_manager: ParticlesManagerWASM,
     impulses_manager: ImpulsesManagerWASM,
-    mouse_tracker: MouseTracker
 }
 
 #[wasm_bindgen]
@@ -20,7 +19,6 @@ impl ParticlesWASM {
         ParticlesWASM {
             particles_manager: new_particles_manager,
             impulses_manager: ImpulsesManagerWASM::new(particles_ref),
-            mouse_tracker: MouseTracker::new()
         }
     }
 
@@ -44,6 +42,8 @@ impl ParticlesWASM {
 
     // Returns a pointer on the `MouseTracker`'s `mouse_position` buffer to be used on the JS side
     pub fn get_mouse_position_ptr(&self) -> *const MouseData {
-        self.mouse_tracker.get_mouse_position_ptr()
+        let mouse_tracker = self.impulses_manager.get_mouse_tracker();
+
+        mouse_tracker.get_mouse_position_ptr()
     }
 }

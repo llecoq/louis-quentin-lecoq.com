@@ -3,6 +3,8 @@ export default class ImpulsesManagerJS {
     ctx
     impulses
     particles
+    mouseX
+    mouseY
 
     constructor(ctx, particles) {
         this.ctx = ctx;
@@ -11,10 +13,10 @@ export default class ImpulsesManagerJS {
     }
 
     // Create impulses
-    create_impulses(mouseX, mouseY) {
+    create_impulses() {
         this.particles.forEach(particle => {
-            if (particle.canCreateImpulse(mouseX, mouseY, this.impulses.length)) {
-                const impulse = particle.createImpulse(mouseX, mouseY);
+            if (particle.canCreateImpulse(this.mouseX, this.mouseY, this.impulses.length)) {
+                const impulse = particle.createImpulse(this.mouseX, this.mouseY);
                 if (impulse) this.impulses.push(impulse);
             }
         });
@@ -22,5 +24,10 @@ export default class ImpulsesManagerJS {
 
     get_impulses() {
         return this.impulses;
+    }
+
+    setMousePosition(mouseX, mouseY) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
     }
 }
