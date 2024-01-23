@@ -24,7 +24,7 @@ export class AnimationRenderer {
 
         switch (animationMode) {
             case "WASM":
-                this.wasmBufferInterpreter.renderConnections(this.ctx);
+                this.wasmBufferInterpreter.renderConnections(this.ctx, mouseX, mouseY, mouseIsOverCanvas);
                 break;
             case "JS":
                 particles.forEach(particle => particle.renderConnections(this.ctx, mouseX, mouseY, mouseIsOverCanvas))
@@ -38,7 +38,7 @@ export class AnimationRenderer {
         switch (animationMode) {
             case "WASM":
 
-
+                break;
             case "JS":
                 impulses.forEach((impulse, index) => {
                     if (impulse.isExpired() || impulse.move(impulses) === false) {
@@ -59,7 +59,7 @@ export class AnimationRenderer {
         switch (animationMode) {
             case "WASM":
                 this.wasmBufferInterpreter.renderParticles(this.ctx);
-            break;
+                break;
             case "JS":
                 particles.forEach(particle => particle.render(this.ctx));
         }
