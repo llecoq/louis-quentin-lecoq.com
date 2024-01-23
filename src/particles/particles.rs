@@ -1,11 +1,12 @@
-use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
-use super::{particles_manager::ParticlesManagerWASM, impulses_manager::ImpulsesManagerWASM};
+use super::{particles_manager::ParticlesManagerWASM, impulses_manager::ImpulsesManagerWASM, mouse_tracker::MouseTracker};
 
 #[wasm_bindgen]
 pub struct ParticlesWASM {
     particles_manager: ParticlesManagerWASM,
     impulses_manager: ImpulsesManagerWASM,
+    mouse_tracker: MouseTracker
 }
 
 #[wasm_bindgen]
@@ -17,7 +18,16 @@ impl ParticlesWASM {
         ParticlesWASM {
             particles_manager: new_particles_manager,
             impulses_manager: ImpulsesManagerWASM::new(particles_ref),
+            mouse_tracker: MouseTracker::new()
         }
+    }
+
+    // Accesses the WebAssembly instance's linear memory. This function returns a `WebAssembly.Memory` 
+    // object, enabling direct manipulation and interaction of Wasm memory from JavaScript. Used for 
+    // efficient data transfer and handling between Rust (Wasm) and JavaScript without the overhead of 
+    // serialization/deserialization.
+    pub fn memory(&self) -> JsValue {
+        wasm_bindgen::memory()
     }
 
     // Returns the `ParticlesManagerWASM` to be used on the JS side
@@ -28,5 +38,10 @@ impl ParticlesWASM {
     // Returns the `ImpulsesManagerWASM` to be used on the JS side
     pub fn get_impulses_manager(&self) -> ImpulsesManagerWASM {
         self.impulses_manager.clone()
+    }
+
+    // Returns a pointer on the `MouseTracker`'s `mouse_position` buffer to be used on the JS side
+    pub fn get_mouse_position_ptr(&self) -> *const f32 {
+        self.mouse_tracker.get_mouse_position_ptr()
     }
 }

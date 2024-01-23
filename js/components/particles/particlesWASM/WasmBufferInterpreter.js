@@ -29,14 +29,25 @@ export class WasmBufferInterpreter {
 
     wasmMemory
     wasmParticlesBuffer
+    wasmMousePositionBuffer
 
-    constructor(wasmMemory, particlesPtr) {
+    constructor(wasmMemory) {
         this.wasmMemory = wasmMemory;
-        this.particlesPtr = particlesPtr;
+    }
+
+    setWasmParticlesBuffer(particlesPtr) {
         this.wasmParticlesBuffer = new Float32Array(
             this.wasmMemory.buffer, 
             particlesPtr, 
             opts.NUMBER_OF_PARTICLES * RUST_PARTICLE_SIZE
+        );
+    }
+
+    setWasmMousePositionBuffer(mousePositionPtr) {
+        this.wasmMousePositionBuffer = new Float32Array(
+            this.wasmMemory.buffer,
+            mousePositionPtr,
+            2
         );
     }
 
@@ -143,7 +154,7 @@ export class WasmBufferInterpreter {
         ctx.globalAlpha = 1.0; // Reset globalAlpha
     }
 
-    setWasmParticlesBufferFromJS(particles) {
+    setParticlesDataFromJS(particles) {
         let xIndex = X;
         let yIndex = Y;
         let activeIndex = ACTIVE;
