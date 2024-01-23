@@ -13,16 +13,23 @@ pub struct ParticlesManagerWASM {
 
 #[wasm_bindgen]
 impl ParticlesManagerWASM {
+
+    // Accesses the WebAssembly instance's linear memory. This function returns a `WebAssembly.Memory` 
+    // object, enabling direct manipulation and interaction of Wasm memory from JavaScript. Used for 
+    // efficient data transfer and handling between Rust (Wasm) and JavaScript without the overhead of 
+    // serialization/deserialization.
     pub fn memory(&self) -> JsValue {
         wasm_bindgen::memory()
     }
 
     // Create a new ParticlesManagerWASM and get the animation options from the JS side
     pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
-        // Init console.log and panic_hook
+        // Sets a custom panic hook to output Rust panics to the JavaScript console.
         std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+        // Initializes console logging for WebAssembly, enabling Rust log output in the browser's console.
         console_log::init().unwrap();
 
+        // Get the animation options from the JS side
         let js_opts: Opts = get_opts_from_js().unwrap();
         let number_of_particles = js_opts.number_of_particles;
 
@@ -77,6 +84,7 @@ impl ParticlesManagerWASM {
         }
     }
 
+    // Sort Neighbors of each `Particles` from the closest to the farthest
     pub fn sort_neighbors(&mut self) {
         // Update distances between each `Particle` in the `neighbors_matrix`
         self.update_matrix_neighbors_distances();
