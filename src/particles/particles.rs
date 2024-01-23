@@ -1,5 +1,7 @@
 use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
+use crate::particles::mouse_tracker::MouseData;
+
 use super::{particles_manager::ParticlesManagerWASM, impulses_manager::ImpulsesManagerWASM, mouse_tracker::MouseTracker};
 
 #[wasm_bindgen]
@@ -41,7 +43,7 @@ impl ParticlesWASM {
     }
 
     // Returns a pointer on the `MouseTracker`'s `mouse_position` buffer to be used on the JS side
-    pub fn get_mouse_position_ptr(&self) -> *const u32 {
+    pub fn get_mouse_position_ptr(&self) -> *const MouseData {
         self.mouse_tracker.get_mouse_position_ptr()
     }
 }
