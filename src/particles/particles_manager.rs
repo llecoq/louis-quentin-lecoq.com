@@ -1,3 +1,4 @@
+use std::{rc::Rc, cell::RefCell};
 use wasm_bindgen::prelude::*;
 
 use crate::particles::{Opts, get_opts_from_js};
@@ -6,7 +7,7 @@ use super::{particle::Particle, Canvas};
 #[wasm_bindgen]
 pub struct ParticlesManagerWASM {
     opts: Opts,
-    particles: Vec<Particle>,
+    particles: Rc<RefCell<Vec<Particle>>>,
     neighbors_matrix: Vec<Vec<(usize, f32)>>,
     canvas: Canvas
 }
@@ -35,7 +36,7 @@ impl ParticlesManagerWASM {
 
         ParticlesManagerWASM {
             opts: js_opts,
-            particles: vec![],
+            particles: Rc::new(RefCell::new(vec![])),
             neighbors_matrix: vec![
                 vec![
                     (0, 0.0); 
@@ -55,7 +56,7 @@ impl ParticlesManagerWASM {
         let number_of_particles = self.opts.number_of_particles;
 
         for _ in 0..number_of_particles {
-            self.particles.push(
+            self.particles.borrow_mut().push(
                 Particle::new(
                     self.canvas.height, 
                     self.canvas.width, 
@@ -66,7 +67,7 @@ impl ParticlesManagerWASM {
         }
 
         // Sort particles from smallest to biggest
-        self.particles.sort_unstable_by(|a, b| a.size.partial_cmp(&b.size).unwrap());
+        self.particles.borrow_mut().sort_unstable_by(|a, b| a.size.partial_cmp(&b.size).unwrap());
 
         // Sort neighbors from closest to farthest
         self.sort_neighbors();
@@ -74,12 +75,12 @@ impl ParticlesManagerWASM {
 
     // Returns a pointer on the particles
     pub fn get_particles_ptr(&self) -> *const Particle {
-        self.particles.as_ptr()
+        self.particles.borrow().as_ptr()
     }
 
     // Update positions of each particles
     pub fn update(&mut self, scale_fps: f32) {
-        for elem in &mut self.particles {
+        for elem in self.particles.borrow_mut().iter_mut() {
             elem.update_position(self.canvas.height, self.canvas.width, scale_fps);
         }
     }
@@ -95,7 +96,7 @@ impl ParticlesManagerWASM {
        
             // Set 10 first neighbors for each `Particle`
             for j in 0..10 {
-                self.particles[i].set_neighbor(j + 1, self.neighbors_matrix[i][j + 1].0);
+                self.particles.borrow_mut()[i].set_neighbor(j + 1, self.neighbors_matrix[i][j + 1].0);
             }
         }
     }
@@ -105,7 +106,7 @@ impl ParticlesManagerWASM {
         for i in 0..self.opts.number_of_particles {
             for j in 0..self.opts.number_of_particles {
                     self.neighbors_matrix[i][j].0 = j;
-                    let distance =  self.particles[i].get_distance_from(&self.particles[j]);
+                    let distance =  self.particles.borrow()[i].get_distance_from(&self.particles.borrow()[j]);
                     self.neighbors_matrix[i][j].1 = distance;
             }
         }
