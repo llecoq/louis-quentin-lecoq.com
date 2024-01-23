@@ -5,6 +5,7 @@ use crate::particles::{Opts, get_opts_from_js};
 use super::{particle::Particle, Canvas};
 
 #[wasm_bindgen]
+#[derive(Clone)]
 pub struct ParticlesManagerWASM {
     opts: Opts,
     particles: Rc<RefCell<Vec<Particle>>>,
@@ -14,42 +15,6 @@ pub struct ParticlesManagerWASM {
 
 #[wasm_bindgen]
 impl ParticlesManagerWASM {
-
-    // Accesses the WebAssembly instance's linear memory. This function returns a `WebAssembly.Memory` 
-    // object, enabling direct manipulation and interaction of Wasm memory from JavaScript. Used for 
-    // efficient data transfer and handling between Rust (Wasm) and JavaScript without the overhead of 
-    // serialization/deserialization.
-    pub fn memory(&self) -> JsValue {
-        wasm_bindgen::memory()
-    }
-
-    // Create a new ParticlesManagerWASM and get the animation options from the JS side
-    pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
-        // Sets a custom panic hook to output Rust panics to the JavaScript console.
-        std::panic::set_hook(Box::new(console_error_panic_hook::hook));
-        // Initializes console logging for WebAssembly, enabling Rust log output in the browser's console.
-        console_log::init().unwrap();
-
-        // Get the animation options from the JS side
-        let js_opts: Opts = get_opts_from_js().unwrap();
-        let number_of_particles = js_opts.number_of_particles;
-
-        ParticlesManagerWASM {
-            opts: js_opts,
-            particles: Rc::new(RefCell::new(vec![])),
-            neighbors_matrix: vec![
-                vec![
-                    (0, 0.0); 
-                    number_of_particles as usize
-                ]; 
-                number_of_particles as usize
-            ],
-            canvas: Canvas{
-                height: canvas_height,
-                width: canvas_width
-            }
-        }
-    }
 
     // Initialize particles, following the opts from the JS side
     pub fn init(&mut self) {
@@ -78,6 +43,14 @@ impl ParticlesManagerWASM {
 
         // Sort neighbors from closest to farthest
         self.sort_neighbors();
+    }
+
+    // Accesses the WebAssembly instance's linear memory. This function returns a `WebAssembly.Memory` 
+    // object, enabling direct manipulation and interaction of Wasm memory from JavaScript. Used for 
+    // efficient data transfer and handling between Rust (Wasm) and JavaScript without the overhead of 
+    // serialization/deserialization.
+    pub fn memory(&self) -> JsValue {
+        wasm_bindgen::memory()
     }
 
     // Returns a pointer on the particles
@@ -114,6 +87,41 @@ impl ParticlesManagerWASM {
                 particles[i].set_neighbor(j + 1, self.neighbors_matrix[i][j + 1].0);
             }
         }
+    }
+}
+
+impl ParticlesManagerWASM {
+    // Create a new ParticlesManagerWASM and get the animation options from the JS side
+    pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
+        // Sets a custom panic hook to output Rust panics to the JavaScript console.
+        std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+        // Initializes console logging for WebAssembly, enabling Rust log output in the browser's console.
+        console_log::init().unwrap();
+
+        // Get the animation options from the JS side
+        let js_opts: Opts = get_opts_from_js().unwrap();
+        let number_of_particles = js_opts.number_of_particles;
+
+        ParticlesManagerWASM {
+            opts: js_opts,
+            particles: Rc::new(RefCell::new(vec![])),
+            neighbors_matrix: vec![
+                vec![
+                    (0, 0.0); 
+                    number_of_particles as usize
+                ]; 
+                number_of_particles as usize
+            ],
+            canvas: Canvas{
+                height: canvas_height,
+                width: canvas_width
+            }
+        }
+    }
+
+    // Returns the clone of a pointer on the particles vector
+    pub fn get_particles_ref(&self) -> Rc<RefCell<Vec<Particle>>> {
+        self.particles.clone()
     }
 
     // Update distance between each `Particle` in the `neighbors_matrix`
