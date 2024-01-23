@@ -106,8 +106,14 @@ export default class AnimationController {
 
     // Update mouse position
     updateMousePosition(x, y) {
-        this.mouseX = x;
-        this.mouseY = y;
+        switch (this.animationMode) {
+            case "WASM": 
+                this.wasmBufferInterpreter.setMousePosition(x, y);
+                break;
+            case "JS":
+                this.mouseX = x;
+                this.mouseY = y;
+        }
     }
 
     // Set mouseIsOverCanvas to a given value

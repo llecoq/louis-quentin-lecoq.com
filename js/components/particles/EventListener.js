@@ -58,17 +58,5 @@ export default class EventListener {
 
     toggleAnimation() {
         this.animationController.changeAnimationMode();
-        // if (this.useWASM === true) {
-        //     this.useWASM = false;
-        //     // this.wasmAnimation.stop();
-        //     // this.animationController.startAnimationWASM();
-        //     this.animationController.start();
-        //     console.log('JS anim')
-        // } else {
-        //     this.useWASM = true;
-        //     this.animationController.stop();
-        //     // this.wasmAnimation.start();
-        //     console.log('WASM anim')
-        // }
     }
 }
