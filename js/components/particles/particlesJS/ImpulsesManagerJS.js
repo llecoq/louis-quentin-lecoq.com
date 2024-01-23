@@ -10,7 +10,7 @@ export default class ImpulsesManagerJS {
         this.particles = particles;
     }
 
-     // Create impulses
+    // Create impulses
     create_impulses(mouseX, mouseY) {
         this.particles.forEach(particle => {
             if (particle.canCreateImpulse(mouseX, mouseY, this.impulses.length)) {

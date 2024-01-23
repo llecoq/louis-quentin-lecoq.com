@@ -77,5 +77,7 @@ pub fn get_opts_from_js() -> Result<Opts, JsValue> {
 // Modules
 pub mod particle;
 pub mod particles_manager;
+pub mod impulse;
+pub mod impulses_manager;
 
 

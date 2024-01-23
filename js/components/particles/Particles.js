@@ -27,6 +27,7 @@ export const opts = {
     IMPULSE_SPEED_OFFSET: 2,
     IMPULSE_SIZE: 1,
     MAX_IMPULSES: 20,
+    IMPULSE_STROKE_STYLE: 'rgb(72, 217, 247)',
 
     // FPS / DELTA
     BASE_DELTA: 100 / 6,

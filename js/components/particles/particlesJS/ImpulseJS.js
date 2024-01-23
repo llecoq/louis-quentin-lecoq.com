@@ -41,7 +41,7 @@ export default class ImpulseJS {
         if (getDist(this.x, this.y, this.target.x, this.target.y) <= opts.CONNECTION_MAX_DIST) {
             this.updateImpulsePosition(scaleFPS, 1);
             ctx.beginPath();
-            ctx.strokeStyle = 'rgb(72, 217, 247)';
+            ctx.strokeStyle = opts.IMPULSE_STROKE_STYLE;
             ctx.lineWidth = opts.IMPULSE_SIZE;
             ctx.moveTo( this.x, this.y );
             this.updateImpulsePosition(scaleFPS);
@@ -62,7 +62,6 @@ export default class ImpulseJS {
 
         return neighbors.length > 1 ? neighbors.slice(0, 2) : neighbors;
     }
-
 
     // Returns true if the `Impulse` is expired
     isExpired() {
