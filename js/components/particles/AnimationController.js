@@ -109,7 +109,6 @@ export default class AnimationController {
         switch (this.animationMode) {
             case "WASM": 
                 this.wasmBufferInterpreter.setMousePosition(x, y);
-                break;
             case "JS":
                 this.mouseX = x;
                 this.mouseY = y;
@@ -121,7 +120,6 @@ export default class AnimationController {
         switch (this.animationMode) {
             case "WASM":
                 this.wasmBufferInterpreter.setMouseIsOverCanvas(value)
-                break;
             case "JS":
                 this.mouseIsOverCanvas = value;
         }

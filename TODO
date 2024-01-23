@@ -40,7 +40,7 @@
 *** FIRST STEP ***
 [x] Instanciate all the particles in a shared buffer from Rust and refacto JS side to read from it
 [x] Simple particles anim from wasm without impulses or connections
-[] Adding connections
+[x] Adding connections
 [] Adding impulses
 
 if this is OK, next step will be to compute the neighbors, connections between them and handle the Impulses

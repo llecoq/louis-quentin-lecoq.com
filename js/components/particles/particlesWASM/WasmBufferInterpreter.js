@@ -133,7 +133,7 @@ export class WasmBufferInterpreter {
     }
 
     // Render the connections of the `wasmParticlesBuffer`
-    renderConnections(ctx) {
+    renderConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
         // For each `Particle`
         for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
             let baseIndex = i * particle.RUST_PARTICLE_SIZE;
@@ -149,7 +149,7 @@ export class WasmBufferInterpreter {
                 let neighborActive = this.wasmParticlesBuffer[neighborIndex + particle.ACTIVE];
                 let distance = getDist(x, y, neighborX, neighborY);
     
-                // Render connections
+                // Render connections between Particles
                 if (distance < opts.CONNECTION_MAX_DIST) {
                     const globalAlpha = active && neighborActive ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
                     ctx.globalAlpha = globalAlpha - distance / opts.CONNECTION_MAX_DIST;
@@ -158,6 +158,18 @@ export class WasmBufferInterpreter {
                     ctx.moveTo(x, y);
                     ctx.lineTo(neighborX, neighborY);
                     ctx.stroke();
+                }
+                
+                // render connections with mouse
+                if (mouseIsOverCanvas) {
+                    const distToMouse = getDist(x, y, mouseX, mouseY);
+                    if (distToMouse < opts.CONNECTION_MAX_DIST) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(mouseX, mouseY);
+                        ctx.globalAlpha = 0.1;
+                        ctx.stroke();
+                    }
                 }
             }
         }
