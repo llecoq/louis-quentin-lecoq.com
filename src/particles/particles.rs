@@ -41,7 +41,7 @@ impl ParticlesWASM {
     }
 
     // Returns a pointer on the `MouseTracker`'s `mouse_position` buffer to be used on the JS side
-    pub fn get_mouse_position_ptr(&self) -> *const f32 {
+    pub fn get_mouse_position_ptr(&self) -> *const u32 {
         self.mouse_tracker.get_mouse_position_ptr()
     }
 }

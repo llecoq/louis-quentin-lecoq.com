@@ -44,7 +44,7 @@ export class WasmBufferInterpreter {
     }
 
     setWasmMousePositionBuffer(mousePositionPtr) {
-        this.wasmMousePositionBuffer = new Float32Array(
+        this.wasmMousePositionBuffer = new Uint32Array(
             this.wasmMemory.buffer,
             mousePositionPtr,
             2
@@ -173,6 +173,11 @@ export class WasmBufferInterpreter {
             activeIndex += RUST_PARTICLE_SIZE;
             sizeIndex += RUST_PARTICLE_SIZE;
         }        
+    }
+
+    setMousePosition(mouseX, mouseY) {
+        this.wasmMousePositionBuffer[0] = mouseX;
+        this.wasmMousePositionBuffer[1] = mouseY;
     }
 
 }
