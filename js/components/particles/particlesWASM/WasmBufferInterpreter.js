@@ -1,6 +1,7 @@
 import { opts } from "../Particles.js";
 import { getDist } from "../particlesJS/utilsJS.js";
 
+// Indexes of the `Particle` struct from Rust
 // Needs to be changed manually if an element is added  
 // or deleted from the Particle Struct on the Rust side
 const particle = {
@@ -25,6 +26,13 @@ const particle = {
     NEIGHBOR_8: 16,
     NEIGHBOR_9: 17,
     NEIGHBOR_10: 18,
+}
+
+// Indexes of the `MousePosition` struct from Rust
+const mouseTracker = {
+    POS_X: 0,
+    POS_Y: 1,
+    MOUSE_IS_OVER_CANVAS: 2,
 }
 
 export class WasmBufferInterpreter {
@@ -178,7 +186,11 @@ export class WasmBufferInterpreter {
     }
 
     setMousePosition(mouseX, mouseY) {
-        this.wasmMousePositionBuffer[0] = mouseX;
-        this.wasmMousePositionBuffer[1] = mouseY;
+        this.wasmMousePositionBuffer[mouseTracker.POS_X] = mouseX;
+        this.wasmMousePositionBuffer[mouseTracker.POS_Y] = mouseY;
+    }
+
+    setMouseIsOverCanvas(value) {
+        this.wasmMousePositionBuffer[mouseTracker.MOUSE_IS_OVER_CANVAS] = value;
     }
 }

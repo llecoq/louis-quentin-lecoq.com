@@ -118,7 +118,13 @@ export default class AnimationController {
 
     // Set mouseIsOverCanvas to a given value
     setMouseIsOverCanvas(value) {
-        this.mouseIsOverCanvas = value;
+        switch (this.animationMode) {
+            case "WASM":
+                this.wasmBufferInterpreter.setMouseIsOverCanvas(value)
+                break;
+            case "JS":
+                this.mouseIsOverCanvas = value;
+        }
     }
 
     // Change AnimationMode
