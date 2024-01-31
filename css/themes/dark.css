@@ -25,10 +25,10 @@ body {
     --navbar-color: black;
     --footer-color: rgb(7, 22, 25);
 
-    --text-color-1: #48F7DB;
+    --text-color-1: rgb(72, 247, 219);
     --text-color-2: rgb(72, 163, 247);
-    --text-color-3: #48D9F7;
-    --text-color-4: #48F7A0;
+    --text-color-3: rgb(72, 217, 247);
+    --text-color-4: rgb(74, 247, 161);
     --text-color-5: rgb(72, 107, 247);
     --text-color-6: #60B4C4;
     --text-color-7: #648A91;

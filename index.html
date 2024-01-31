@@ -35,21 +35,34 @@
                     <h2 id="i-m-a"><span class="invisible">I'm a </span></h2>
                     <h2 id="software-engineer"><span class="invisible">Software Engineer.</span></h2>
                 </div>
+                <div class="top-row">
+                    <h4 id="working-at"><span>Former 42 student, I am currently working for <span class="avisto">Avisto</span> in Lyon.</span></h4>
+                </div>
                 <button id="about-button" class="button-to-blink" onclick="window.location.href='#about'">About me</button>
             </div>
-            <!-- <p class="overlay-text">Hello world ! My name is... Louis-Quentin LECOQ</p> -->
+            <div>
+                <div id="info-toggle-box">
+                    <button id="info-button">?</button>
+                    <div id="overlay-info">
+                        The particles animation is coded from scratch with <span id="actual-animation-language">Rust and WebAssembly</span>.</br></br>
+                        Activate this toggle to switch the animation to <span id="switch-to-animation-language">JavaScript</span> and see for yourself the performance difference.
+                    </br>
+                    </br>
+                        <div>
+                            <label class="switch">
+                                <input id="animation-toggle-switch" type="checkbox"/>
+                                <div></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <section id="about">
             <p>
                 "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
             </p>
         </section>
-        <!-- <script type="module">
-            import init, {update_about_content} from './pkg/louis_quentin_lecoq.js';
-            init().then(() => {
-                update_about_content();
-            });
-        </script> -->
         <section id="skills">
             <p>
                 "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."

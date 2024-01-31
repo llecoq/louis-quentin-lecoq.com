@@ -117,6 +117,9 @@ function animateHomeContent() {
         const button = document.getElementById('about-button');
         button.style.opacity = '1';
 
+        const workingAtElement = document.getElementById('working-at');
+        workingAtElement.classList.add('visible');
+
         // Après la fin des animations, exécutez le code suivant
         const navbarItems = document.querySelectorAll('.navbar-item');
         navbarItems.forEach((item, index) => {
@@ -128,3 +131,4 @@ function animateHomeContent() {
 }
 
 animateHomeContent();
+

@@ -1,16 +1,14 @@
-import { opts } from "../particles.js";
-import { getDist } from "../utils.js";
-import Impulse from "./Impulse.js";
+import { opts } from "../Particles.js";
+import { getDist } from "./utilsJS.js";
+import ImpulseJS from "./ImpulseJS.js";
 
-export default class Particle {
+export default class ParticleJS {
     
     canvas
-    ctx
     x
     y
     size
     color
-    activeColor
     speedX
     speedY
     neighbors = []
@@ -18,28 +16,27 @@ export default class Particle {
 
     // Constructor
     constructor(canvas) {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radiusX = canvas.width * 0.3; 
-        const radiusY = canvas.height * 0.3;
-        const theta = Math.random() * 2 * Math.PI;
-        const speedX = Math.random();
-        const speedY = Math.random();
-        const dirX = Math.random() > 0.5 ? 1 : -1;
-        const dirY = Math.random() > 0.5 ? 1 : -1;
-        
         this.canvas = canvas;
-        this.x = centerX + radiusX * Math.cos(theta);
-        this.y = centerY + radiusY * Math.sin(theta);
-        this.size = Math.random() * (opts.PARTICLE_MAX_SIZE - opts.PARTICLE_MIN_SIZE) + opts.PARTICLE_MIN_SIZE;
-        this.color = getRandomParticleColor();
-        this.activeColor = opts.PARTICLE_ACTIVE_COLOR;
-        this.speedX = speedX * dirX;
-        this.speedY = speedY * dirY;
+        this.x = 0;
+        this.y = 0;
+        this.size = 0;
+        this.color = 'rgb(255, 255, 255)';
+        this.speedX = 0;
+        this.speedY = 0;
     }
 
-    // Draw the Particle on the canvas
-    draw(ctx, scaleFPS) {
+    setParticleData(data) {
+        this.x = data.x;
+        this.y = data.y;
+        this.size = data.size;
+        this.color = data.color;
+        this.speedX = data.speedX;
+        this.speedY = data.speedY;
+        this.active = data.active == 1 ? this.activateTimer() : false;
+    }
+
+    // Update Particle's position
+    updatePosition(scaleFPS) {
         this.x += this.speedX * scaleFPS;
         this.y += this.speedY * scaleFPS;
 
@@ -57,9 +54,12 @@ export default class Particle {
                 this.y = 0;
                 break;
         }
+    }
 
+    // Render the Particle on the canvas
+    render(ctx) {
         ctx.beginPath();
-        ctx.fillStyle = this.active ? this.activeColor : this.color;
+        ctx.fillStyle = this.active ? opts.PARTICLE_ACTIVE_COLOR : this.color;
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
     }
@@ -79,25 +79,26 @@ export default class Particle {
         this.neighbors = sortedSlice;
     }
 
-    // Draw connections between `Particle` on the canvas
-    drawConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
+    // Render connections between `Particle` on the canvas
+    renderConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
         this.neighbors.forEach(neighbor => {
             const dist = getDist(this.x, this.y, neighbor.x, neighbor.y);
             
-            // draw connections between particles
+            // render connections between particles
             if (dist < opts.CONNECTION_MAX_DIST) {
                 const globalAlpha = this.active && neighbor.active ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
+                ctx.globalAlpha = globalAlpha - dist / opts.CONNECTION_MAX_DIST;
 
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
                 ctx.lineTo(neighbor.x, neighbor.y);
-                ctx.globalAlpha = globalAlpha - dist / opts.CONNECTION_MAX_DIST;
                 ctx.stroke();
             }
 
-            // draw connections with mouse
+            // render connections with mouse
             if (mouseIsOverCanvas) {
                 const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
+
                 if (distToMouse < opts.CONNECTION_MAX_DIST) {
                     ctx.beginPath();
                     ctx.moveTo(this.x, this.y);
@@ -109,7 +110,7 @@ export default class Particle {
         });
     }
 
-    // Check if possible to create a new `Impulse`
+    // Check if possible to create a new `ImpulseJS`
     canCreateImpulse(mouseX, mouseY, numberOfActiveImpules) {
         const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
 
@@ -121,12 +122,12 @@ export default class Particle {
         return false;
     }
 
-    // Create a new `Impulse` and returns it on success
+    // Create a new `ImpulseJS` and returns it on success
     createImpulse(mouseX, mouseY) {
-        const neighbor = this.neighbors.find(n => getDist(mouseX, mouseY, this.x, this.y) < opts.CONNECTION_MAX_DIST);
+        const neighbor = this.neighbors.find(neighbor => getDist(neighbor.x, neighbor.y, this.x, this.y) < opts.CONNECTION_MAX_DIST);
         if (neighbor) {
             this.activateTimer();
-            return new Impulse(mouseX, mouseY, this, neighbor);
+            return new ImpulseJS(mouseX, mouseY, this, neighbor);
         }
         return null;
     }
