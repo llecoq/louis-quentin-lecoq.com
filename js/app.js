@@ -1,8 +1,14 @@
-import { initNavbar } from "./components/header.js";
-import { initHome, adjustHomeSize } from "./sections/home.js";
-import { particles } from "./components/particles/particles.js";
+import MyApp from './MyApp.js';
+import init from "../pkg/louis_quentin_lecoq.js";
 
-initNavbar();
-initHome();
-adjustHomeSize();
-particles();
+async function loadWasm() {
+    await init();
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadWasm().then(() => {
+        const app = new MyApp();
+        app.start();
+    });
+});

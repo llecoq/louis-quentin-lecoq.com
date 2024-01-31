@@ -9,19 +9,17 @@
 [] Section Projects ?
 [] Section Contact (si assez de temps, peut etre faire une petite DB pour travailler le backend avec rust)
 [] Footer
-[] Switch anglais / francais si le temps
 [] Ajouter une section "autre"? Photos / cuisine / musique
 
 */--------------------------------DESIGN */
 [] Responsive (Breakpoints etc.)
-[] Font d'ecran sur mesure ?
-[] Logo
 
 */---------------------------------AUTRE */
 [] Travailler CI avec gitlab (a partir de janvier pour mise en prod)
 [] License ?!
 [] Meta? Inspi site web + inspection code pour mieux comprendre bonnes pratiques etc.
-[] clean HTML 
+[] clean HTML
+[x] refacto function => class
 
 */---------------------------------MEMORY LEAKS */
 [] Remove event listener
@@ -34,11 +32,16 @@
 [x] Sync anim with FPS
 [x] Handling Window Resize Event (scaling canvas)
 [x] Refactoring for Better Structure (CanvasManager = nop / ParticleManager / AnimationController)
-[] Make sure eventlisteners are cleared when not needed anymore
-[] Animation particles Rust WebAssembly
-[] Switch anim JS / Rust
+[x] Make sure eventlisteners are cleared when not needed anymore
+[x] Switch anim JS / Rust => faire en sorte de passer toutes les Particles + Impulses et attendre que l'anim soit prete de l'autre cote si besoin pour la lancer + smooth
 [] toggle to change number of particles ?
 
-
+*/---------------------------------RUST WASM */
+*** FIRST STEP ***
+[x] Instanciate all the particles in a shared buffer from Rust and refacto JS side to read from it
+[x] Simple particles anim from wasm without impulses or connections
+[x] Adding connections
+[] Refacto ImpulseManagerJS and ImpulseJS ?
+[x] Adding impulses
 
 

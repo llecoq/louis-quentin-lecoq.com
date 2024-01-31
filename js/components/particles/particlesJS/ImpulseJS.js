@@ -1,7 +1,7 @@
-import { opts } from "../particles.js";
-import { getDist } from "../utils.js";
+import { opts } from "../Particles.js";
+import { getDist } from "./utilsJS.js";
 
-export default class Impulse {
+export default class ImpulseJS {
     
     particle
     x
@@ -21,13 +21,14 @@ export default class Impulse {
     }
 
     // Update impulse position
-    updateImpulsePosition(scaleFPS, steps = 8) {
+    updateImpulsePosition(scaleFPS, steps = 5) {
         for (let i = 0; i < steps; i++) {
             let dx = this.target.x - this.x;
             let dy = this.target.y - this.y;
-            let length = Math.sqrt(dx * dx + dy * dy);
-            dx /= length;
-            dy /= length;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+       
+            dx /= distance;
+            dy /= distance;
 
             this.x += dx * this.speed * scaleFPS;
             this.y += dy * this.speed * scaleFPS;
@@ -36,20 +37,14 @@ export default class Impulse {
         this.distAutonomy -= this.speed * steps * scaleFPS;
     }
 
-    // Draw impulse
-    draw(ctx, scaleFPS) {
-        if (getDist(this.x, this.y, this.target.x, this.target.y) <= opts.CONNECTION_MAX_DIST) {
-            this.updateImpulsePosition(scaleFPS, 1);
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgb(72, 217, 247)';
-            ctx.lineWidth = opts.IMPULSE_SIZE;
-            ctx.moveTo( this.x, this.y );
-            this.updateImpulsePosition(scaleFPS);
-            ctx.lineTo( this.x, this.y );
-            ctx.stroke();
-            return true;
-        }
-        return false;
+    // Render impulse
+    render(ctx, scaleFPS) {
+        if (opts.SHOOTING_STARS === false 
+            && getDist(this.x, this.y, this.target.x, this.target.y) > opts.CONNECTION_MAX_DIST) 
+            return;
+        ctx.moveTo( this.x, this.y );
+        this.updateImpulsePosition(scaleFPS, opts.IMPULSE_UPDATE_STEPS);
+        ctx.lineTo( this.x, this.y );
     }
 
     // Get up to two neighbors
@@ -63,7 +58,6 @@ export default class Impulse {
         return neighbors.length > 1 ? neighbors.slice(0, 2) : neighbors;
     }
 
-
     // Returns true if the `Impulse` is expired
     isExpired() {
         return this.distAutonomy <= 0 || this.target === false
@@ -75,10 +69,10 @@ export default class Impulse {
             const neighbors = this.getNextNeighbors(this.particle, this.target);
 
             switch (true) {
-                // Dulplicate Impulse
+                // Duplicate Impulse
                 case neighbors.length === 2: {
                     const nextTarget = neighbors[1];
-                    const duplicateImpulse = new Impulse(this.target.x, this.target.y, this.target, nextTarget, this.distAutonomy);
+                    const duplicateImpulse = new ImpulseJS(this.target.x, this.target.y, this.target, nextTarget, this.distAutonomy);
 
                     nextTarget.activateTimer();
                     impulses.push(duplicateImpulse);

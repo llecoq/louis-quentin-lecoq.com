@@ -2,8 +2,9 @@ export default class EventListener {
 
     animationController
     canvas
+    useWASM
 
-    constructor(animationController, canvas) {
+    constructor(canvas, animationController) {
         this.animationController = animationController;
         this.canvas = canvas;
     }
@@ -20,6 +21,9 @@ export default class EventListener {
         // Canvas Intersection Observer
         const observer = new IntersectionObserver((entries) => this.handleIntersectionChange(entries), { threshold: 0.0 });
         observer.observe(this.canvas);
+
+        // Animation toggle switch
+        document.getElementById("animation-toggle-switch").addEventListener("change", this.toggleAnimation.bind(this));
     }
 
     handleMouseMove(e) {
@@ -50,5 +54,9 @@ export default class EventListener {
                 this.animationController.stop();
             }
         });
+    }
+
+    toggleAnimation() {
+        this.animationController.changeAnimationMode();
     }
 }
