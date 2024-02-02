@@ -7,7 +7,7 @@ export default class ParticlesManagerJS {
     ctx
     particles
     
-    constructor(ctx, numberOfParticles) {
+    constructor(ctx, numberOfParticles, canvas) {
         this.ctx = ctx;
         this.particles = [];
         

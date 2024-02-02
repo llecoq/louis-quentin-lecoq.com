@@ -1,12 +1,17 @@
 export default class EventListener {
 
-    animationController
+    worker
     canvas
     useWASM
 
-    constructor(canvas, animationController) {
-        this.animationController = animationController;
-        this.canvas = canvas;
+    constructor(worker) {
+        this.worker = worker;
+        
+        this.canvas = document.querySelector('canvas');
+        if (!this.canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
     }
     
     init() {
@@ -27,36 +32,60 @@ export default class EventListener {
     }
 
     handleMouseMove(e) {
-        this.animationController.updateMousePosition(e.clientX, e.clientY);
+        this.worker.postMessage({
+            type: 'updateMousePosition',
+            x: e.clientX,
+            y: e.clientY
+        });
     }
 
     handleMouseEnter() {
-        this.animationController.setMouseIsOverCanvas(true);
+        this.worker.postMessage({
+            type: 'setMouseIsOverCanvas',
+            value: true,
+        });
     }
 
     handleMouseLeave() {
-        this.animationController.setMouseIsOverCanvas(false);
+        this.worker.postMessage({
+            type: 'setMouseIsOverCanvas',
+            value: false,
+        });
     }
 
     handleVisibilityChange() {
         if (document.visibilityState === "visible") {
-            this.animationController.start();
+            this.startAnimation();
         } else {
-            this.animationController.stop();
+            this.stopAnimation();
         }
     }
 
     handleIntersectionChange(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                this.animationController.start();
+                this.startAnimation();
             } else {
-                this.animationController.stop();
+                this.stopAnimation();
             }
         });
     }
 
     toggleAnimation() {
-        this.animationController.changeAnimationMode();
+        this.worker.postMessage({
+            type: 'changeAnimationMode',
+        });   
+    }
+
+    startAnimation() {
+        this.worker.postMessage({
+            type: 'start',
+        });       
+    }
+
+    stopAnimation() {
+        this.worker.postMessage({
+            type: 'stop',
+        });       
     }
 }

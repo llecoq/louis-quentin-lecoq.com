@@ -3,14 +3,16 @@ import { opts } from "./Particles.js";
 export class AnimationRenderer {
 
     ctx
+    canvas
     wasmBufferInterpreter
     particlesJS
     impulsesJS
     mouseX
     mouseY
 
-    constructor(ctx, wasmBufferInterpreter, particlesJS, impulsesJS) {
+    constructor(ctx, wasmBufferInterpreter, particlesJS, impulsesJS, canvas) {
         this.ctx = ctx;
+        this.canvas = canvas;
         this.wasmBufferInterpreter = wasmBufferInterpreter;
         this.particlesJS = particlesJS;
         this.impulsesJS = impulsesJS;
@@ -19,7 +21,7 @@ export class AnimationRenderer {
     // Clear canvas rectangle
     clearCanvasRectangle() {
         this.ctx.globalCompositeOperation = 'source-over';
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     // Render connections
