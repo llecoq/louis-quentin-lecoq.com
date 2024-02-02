@@ -4,6 +4,48 @@ import { ParticlesWASM } from "../../../pkg/louis_quentin_lecoq.js";
 import ImpulsesManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
 import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
+import init from "../../../pkg/louis_quentin_lecoq.js";
+
+async function loadWasm() {
+    await init();
+}
+
+self.window = self;
+
+let animationController;
+
+// onmessage is triggered when the worker's parent is sending a message
+onmessage = function (e) {
+    if (e.data.type === 'initAnimation') {
+        const canvas = e.data.canvas;
+        const ctx = canvas.getContext("2d");
+    
+        loadWasm().then(() => {
+            animationController = new AnimationController();
+            animationController.init(canvas, ctx);
+        });
+    } else {
+        if (animationController) { 
+            switch (e.data.type) {
+                case 'updateMousePosition':
+                    animationController.updateMousePosition(e.data.x, e.data.y);
+                    break;
+                case 'setMouseIsOverCanvas':
+                    animationController.setMouseIsOverCanvas(e.data.value);
+                    break;
+                case 'start':
+                    animationController.start();
+                    break;
+                case 'stop':
+                    animationController.stop();
+                    break;
+                case 'changeAnimationMode':
+                    animationController.changeAnimationMode();
+                    break;
+            }
+        }
+    }
+}
 
 export default class AnimationController {
 
@@ -31,9 +73,10 @@ export default class AnimationController {
         this.mouseIsOverCanvas = false;
     }
 
-    init(canvasHeight, canvasWidth, ctx) {
+    init(canvas, ctx) {
+
         // Init animation from WASM side
-        const particlesWASM = ParticlesWASM.new(canvasHeight, canvasWidth);
+        const particlesWASM = ParticlesWASM.new(canvas.height, canvas.width);
         this.particlesManagerWASM = particlesWASM.get_particles_manager();
         this.particlesManagerWASM.init();
         this.impulsesManagerWASM = particlesWASM.get_impulses_manager();
@@ -55,17 +98,20 @@ export default class AnimationController {
         this.wasmBufferInterpreter.setWasmImpulsesBuffer(impulsesPtr);
 
         // Init animation from JS side (empty, waiting for a toggle change from the client side)
-        this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.NUMBER_OF_PARTICLES);
+        this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.NUMBER_OF_PARTICLES, canvas);
         this.impulsesManagerJS = new ImpulsesManagerJS(ctx, this.particlesManagerJS.getParticles());
 
         // Create a new AnimationRenderer
         const particlesJS = this.particlesManagerJS.getParticles();
         const impulsesJS = this.impulsesManagerJS.getImpulses();
-        this.animationRenderer = new AnimationRenderer(ctx, this.wasmBufferInterpreter, particlesJS, impulsesJS);
+        this.animationRenderer = new AnimationRenderer(ctx, this.wasmBufferInterpreter, particlesJS, impulsesJS, canvas);
 
         // Setup the active ParticlesManager
         this.activeParticlesManager = this.particlesManagerWASM;
         this.activeImpulsesManager = this.impulsesManagerWASM;
+
+        // Start animation
+        this.start();
     }
 
 
@@ -90,7 +136,7 @@ export default class AnimationController {
         this.animationRenderer.renderParticles(this.animationMode);
 
         this.lastTimestamp = timestamp;
-        this.animationFrameId = requestAnimationFrame(this.animate.bind(this));        
+        this.animationFrameId = requestAnimationFrame(this.animate.bind(this));       
     }
 
     // Start Animation

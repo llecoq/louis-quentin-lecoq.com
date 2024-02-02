@@ -1,4 +1,4 @@
-import AnimationController from './AnimationController.js'
+// import AnimationController from './AnimationController.js'
 import EventListener from './EventListener.js'
 
 export const opts = {
@@ -38,28 +38,26 @@ export const opts = {
 
 export class Particles {
 
-    canvas
-    ctx
-    animationController
     eventListener
-
-    constructor() {
-        // Canvas + Style
-        document.body.style.height = "100vh";
-        this.canvas = document.querySelector("canvas");
-        this.canvas.height = document.body.clientHeight;
-        this.canvas.width = document.body.clientWidth;
-        
-        // AnimationController
-        this.ctx = canvas.getContext("2d");
-        this.animationController = new AnimationController();
-
-        // EventListener
-        this.eventListener = new EventListener(this.canvas, this.animationController);
-    }
-
+    
     init() {
-        this.animationController.init(this.canvas.height, this.canvas.width, this.ctx);
+        document.body.style.height = "100vh";
+        // Creation of an OffscreenCanvas
+        const offscreen = document.querySelector('canvas').transferControlToOffscreen();
+        // Creation of a new module Worker
+        const worker = new Worker('js/components/particles/AnimationController.js', {
+            type: 'module'
+        });
+        offscreen.height = document.body.clientHeight;
+        offscreen.width = document.body.clientWidth;
+        // Sending the context to the worker
+        worker.postMessage({
+            type: 'initAnimation',
+            canvas: offscreen
+        }, [offscreen]);
+    
+        // // EventListener
+        this.eventListener = new EventListener(worker);
         this.eventListener.init();
     }
 }
@@ -69,4 +67,4 @@ export function getOpts() {
     return opts;
 }
 
-window.getOpts = getOpts;
+self.getOpts = getOpts;
