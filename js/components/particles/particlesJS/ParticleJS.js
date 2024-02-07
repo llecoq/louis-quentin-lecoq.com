@@ -79,6 +79,10 @@ export default class ParticleJS {
         this.neighbors = sortedSlice;
     }
 
+    setNeighborFromPosition(neighbor, neighborPosition) {
+        this.neighbors[neighborPosition] = neighbor;
+    }
+
     // Render connections between `Particle` on the canvas
     renderConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
         this.neighbors.forEach(neighbor => {

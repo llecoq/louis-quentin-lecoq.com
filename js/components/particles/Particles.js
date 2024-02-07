@@ -1,8 +1,8 @@
-// import AnimationController from './AnimationController.js'
 import EventListener from './EventListener.js'
 
 export const opts = {
     SHOOTING_STARS: false,
+    WEB_WORKERS: 4,
 
     // Particles
     NUMBER_OF_PARTICLES: 800,

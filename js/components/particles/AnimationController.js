@@ -47,7 +47,7 @@ onmessage = function (e) {
     }
 }
 
-export default class AnimationController {
+class AnimationController {
 
     animationMode
     animationRenderer
