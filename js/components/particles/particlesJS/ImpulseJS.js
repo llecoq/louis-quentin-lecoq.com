@@ -41,10 +41,11 @@ export default class ImpulseJS {
     render(ctx, scaleFPS) {
         if (opts.SHOOTING_STARS === false 
             && getDist(this.x, this.y, this.target.x, this.target.y) > opts.CONNECTION_MAX_DIST) 
-            return;
+            return false;
         ctx.moveTo( this.x, this.y );
         this.updateImpulsePosition(scaleFPS, opts.IMPULSE_UPDATE_STEPS);
         ctx.lineTo( this.x, this.y );
+        return true;
     }
 
     // Get up to two neighbors

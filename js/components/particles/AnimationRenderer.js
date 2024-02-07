@@ -59,7 +59,7 @@ export class AnimationRenderer {
                         return;
                     }
                     if (impulse.render(this.ctx, scaleFPS) === false)
-                    this.impulsesJS.splice(index, 1);
+                        this.impulsesJS.splice(index, 1);
                 });
         }
 
