@@ -5,7 +5,7 @@ export const opts = {
     WEB_WORKERS: 4,
 
     // Particles
-    NUMBER_OF_PARTICLES: 800,
+    NUMBER_OF_PARTICLES: 1200,
     PARTICLE_MAX_SIZE: 2.7,
     PARTICLE_MIN_SIZE: 0.6,
     PARTICLE_ACTIVE_DELAY: 1000,

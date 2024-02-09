@@ -60,9 +60,12 @@ export class WasmBufferInterpreter {
     wasmParticlesBuffer
     wasmMousePositionBuffer
     wasmImpulsesBuffer
+    workers
 
     constructor(wasmMemory) {
         this.wasmMemory = wasmMemory;
+        this.workers = [];
+        this.numberOfWorkers = opts.WEB_WORKERS;
     }
 
     setWasmParticlesBuffer(particlesPtr) {
@@ -87,6 +90,17 @@ export class WasmBufferInterpreter {
             impulsesPtr,
             opts.MAX_IMPULSES * impulse.RUST_IMPULSE_SIZE
         );
+    }
+
+    getWasmParticlesBuffer() {
+        return this.wasmParticlesBuffer;
+    }
+
+    setNeighborFromPosition(particleIndex, neighborIndex, position) {
+        const baseIndex = particleIndex * particle.RUST_PARTICLE_SIZE;
+        const neighborPosition = position + particle.NEIGHBOR_1;
+
+        this.wasmParticlesBuffer[baseIndex + neighborPosition] = neighborIndex;
     }
 
     // Returns the Particle data of a given index from the wasmParticlesBuffer
@@ -115,6 +129,15 @@ export class WasmBufferInterpreter {
             neighbor_9: this.wasmParticlesBuffer[baseIndex + particle.NEIGHBOR_9],
             neighbor_10: this.wasmParticlesBuffer[baseIndex + particle.NEIGHBOR_10],
         };
+    }
+
+    getParticleXandY(index) {
+        const baseIndex = index * particle.RUST_PARTICLE_SIZE;
+
+        return {
+            x: this.wasmParticlesBuffer[baseIndex + particle.X],
+            y: this.wasmParticlesBuffer[baseIndex + particle.Y],            
+        }
     }
 
     // Returns the Impulse data of a given index from the wasmImpulsesBuffer

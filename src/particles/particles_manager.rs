@@ -69,7 +69,7 @@ impl ParticlesManagerWASM {
             self.neighbors_matrix[i].sort_unstable_by(|a, b| {
                 a.1
                     .partial_cmp(&b.1)
-                    .expect("Sort ditance for each `Particle` in the neighbors_matrix failed.")
+                    .expect("Sort distance for each `Particle` in the neighbors_matrix failed.")
             });
        
             // Set 10 first neighbors for each `Particle`
