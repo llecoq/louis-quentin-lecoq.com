@@ -11,7 +11,7 @@ let worker;
 onmessage = function (e) {
     if (e.data.type == "initWorker") {
         const data = e.data;
-        worker = new setNeighborsWorker(data);
+        worker = new SortNeighborsWorkerJS(data);
     } else {
         if (worker) {
             switch (e.data.type) {
@@ -23,7 +23,7 @@ onmessage = function (e) {
     }
 }
 
-class setNeighborsWorker {
+class SortNeighborsWorkerJS {
 
     workerIndex
     numberOfParticles
@@ -40,7 +40,7 @@ class setNeighborsWorker {
     }
 
     sortNeighbors(buffer) {
-        const sortedNeighborsView = new Float32Array(buffer);
+        const sortedNeighborsView = new Uint16Array(buffer);
 
         // For each Particle
         for (let i = this.startIndex; i < this.endIndex; i++) {

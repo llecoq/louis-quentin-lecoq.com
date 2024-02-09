@@ -5,6 +5,7 @@ import ImpulsesManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
 import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
 import init from "../../../pkg/louis_quentin_lecoq.js";
+import WorkersManager from "./WorkersManager.js";
 
 async function loadWasm() {
     await init();
@@ -58,6 +59,7 @@ class AnimationController {
     particlesManagerWASM
     impulsesManagerJS
     impulsesManagerWASM
+    workersManager
     sortNeighborsId
     isAnimating
     wasmBufferInterpreter
@@ -109,6 +111,9 @@ class AnimationController {
         // Setup the active ParticlesManager
         this.activeParticlesManager = this.particlesManagerWASM;
         this.activeImpulsesManager = this.impulsesManagerWASM;
+
+        // Init WebWorkers
+        this.workersManager = new WorkersManager(this.particlesManagerJS, this.wasmBufferInterpreter);
 
         // Start animation
         this.start();
@@ -183,24 +188,28 @@ class AnimationController {
     // Change AnimationMode
     changeAnimationMode() {
         switch (this.animationMode) {
-            case "WASM": // Switch animation in JS
+            case "WASM": // Switch animation to JS
                 this.animationMode = "JS";
                 this.particlesManagerJS.setParticlesDataFromWASM(this.wasmBufferInterpreter);
                 this.activeImpulsesManager = this.impulsesManagerJS;
                 this.activeParticlesManager = this.particlesManagerJS;
                 break;
-            case "JS": // Switch animation in WASM
+            case "JS": // Switch animation to WASM
                 this.animationMode = "WASM";
                 this.wasmBufferInterpreter.setParticlesDataFromJS(this.particlesManagerJS.getParticles());
                 this.activeImpulsesManager = this.impulsesManagerWASM;
                 this.activeParticlesManager = this.particlesManagerWASM;
             }
 
+        this.workersManager.changeAnimationMode();
         clearInterval(this.sortNeighborsId);
         this.sortNeighborsId = this.sortNeighbors();
     }
 
     sortNeighbors() {
-        return setInterval(() => this.activeParticlesManager.sort_neighbors(), 250);
+        if (opts.WEB_WORKERS)
+            return setInterval(() => this.workersManager.sortNeighbors(), 250);
+        else
+            return setInterval(() => this.activeParticlesManager.sort_neighbors(), 250);
     }
 }

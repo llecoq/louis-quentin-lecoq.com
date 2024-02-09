@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "demo project.",
   "scripts": {
-    "start": "ws --port 5501 --cors.embedder-policy require-corp --cors.opener-policy same-origin"
+    "start": "ws --port 5501 --cors.embedder-policy require-corp --cors.opener-policy same-origin",
+    "build": "wasm-pack build --target web"
   },
   "author": "",
   "license": "ISC",

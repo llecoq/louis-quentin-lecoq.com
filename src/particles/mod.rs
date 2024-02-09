@@ -87,5 +87,6 @@ pub mod particles_manager;
 pub mod impulse;
 pub mod impulses_manager;
 pub mod mouse_tracker;
+pub mod sort_neighbors_from_worker;
 
 
