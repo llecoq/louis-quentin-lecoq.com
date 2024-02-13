@@ -48,6 +48,27 @@ onmessage = function (e) {
     }
 }
 
+class TimeData {    
+    timeStamp = 0
+    lastTimestamp = 0
+    frameCount = 0
+    fps = 0
+    lastFpsUpdate = 0
+
+    getFps() {
+        return this.fps;
+    }
+    
+    computeFps(timestamp) {
+        this.frameCount++;
+        if (timestamp - this.lastFpsUpdate > 1000) {
+            this.fps = (this.frameCount / ((timestamp - this.lastFpsUpdate) / 1000)).toFixed(2);
+            this.lastFpsUpdate = timestamp;
+            this.frameCount = 0;
+        }
+    }
+}
+
 class AnimationController {
 
     animationMode
@@ -63,15 +84,15 @@ class AnimationController {
     sortNeighborsId
     isAnimating
     wasmBufferInterpreter
-    lastTimestamp
     mouseX
     mouseY
     mouseIsOverCanvas
+    timeData
 
     constructor() {
         this.animationMode = "WASM";
         this.isAnimating = false;
-        this.lastTimestamp = 0;
+        this.timeData = new TimeData();
         this.mouseIsOverCanvas = false;
     }
 
@@ -122,9 +143,12 @@ class AnimationController {
 
     // Animate the particles and impulses
     animate(timestamp) {
-        if (!this.lastTimestamp) this.lastTimestamp = timestamp;
+        if (!this.timeData.lastTimestamp) this.timeData.lastTimestamp = timestamp;
 
-        const delta = timestamp - this.lastTimestamp;
+        const delta = timestamp - this.timeData.lastTimestamp;
+        
+        this.timeData.computeFps(timestamp);
+ 
         const scaleFPS = delta / opts.BASE_DELTA;
 
         if (this.mouseIsOverCanvas) {
@@ -139,8 +163,9 @@ class AnimationController {
         this.animationRenderer.renderConnections(this.animationMode, this.mouseIsOverCanvas);
         this.animationRenderer.renderImpulses(scaleFPS, this.animationMode, this.activeImpulsesManager);
         this.animationRenderer.renderParticles(this.animationMode);
+        this.animationRenderer.renderFPS(this.timeData.getFps());
 
-        this.lastTimestamp = timestamp;
+        this.timeData.lastTimestamp = timestamp;
         this.animationFrameId = requestAnimationFrame(this.animate.bind(this));       
     }
 
@@ -148,7 +173,7 @@ class AnimationController {
     start() {
         if (this.isAnimating === false) {
             this.isAnimating = true;
-            this.lastTimestamp = 0;
+            this.timeData.lastTimestamp = 0;
             this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
             this.sortNeighborsId = this.sortNeighbors();
         }

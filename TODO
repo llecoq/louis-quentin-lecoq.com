@@ -46,4 +46,5 @@
 
 
 [] compteur de fps ? accès à setNeighbors
+[] fix particles size when switching from JS to WASM
 
