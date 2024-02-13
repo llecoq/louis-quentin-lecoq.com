@@ -5,7 +5,7 @@ import { getDist } from "../particlesJS/utilsJS.js";
 // Needs to be changed manually if an element is added  
 // or deleted from the Particle Struct on the Rust side
 const particle = {
-    RUST_PARTICLE_SIZE: 19,
+    RUST_PARTICLE_SIZE: 20,
 
     // Index of each element in the Particle structure
     X: 0,
@@ -13,20 +13,21 @@ const particle = {
     SPEED_X: 2,
     SPEED_Y: 3,
     SIZE: 4,
-    COLOR_RED: 5,
-    COLOR_GREEN: 6,
-    COLOR_BLUE: 7,
-    ACTIVE: 8,
-    NEIGHBOR_1: 9,
-    NEIGHBOR_2: 10,
-    NEIGHBOR_3: 11,
-    NEIGHBOR_4: 12,
-    NEIGHBOR_5: 13,
-    NEIGHBOR_6: 14,
-    NEIGHBOR_7: 15,
-    NEIGHBOR_8: 16,
-    NEIGHBOR_9: 17,
-    NEIGHBOR_10: 18,
+    ACTIVE_SIZE: 5,
+    COLOR_RED: 6,
+    COLOR_GREEN: 7,
+    COLOR_BLUE: 8,
+    ACTIVE: 9,
+    NEIGHBOR_1: 10,
+    NEIGHBOR_2: 11,
+    NEIGHBOR_3: 12,
+    NEIGHBOR_4: 13,
+    NEIGHBOR_5: 14,
+    NEIGHBOR_6: 15,
+    NEIGHBOR_7: 16,
+    NEIGHBOR_8: 17,
+    NEIGHBOR_9: 18,
+    NEIGHBOR_10: 19,
 }
 
 // indices and size of the `MousePosition` struct from Rust
@@ -116,6 +117,7 @@ export class WasmBufferInterpreter {
             speedX: this.wasmParticlesBuffer[baseIndex + particle.SPEED_X],
             speedY: this.wasmParticlesBuffer[baseIndex + particle.SPEED_Y],
             size: this.wasmParticlesBuffer[baseIndex + particle.SIZE],
+            activeSize: this.wasmParticlesBuffer[baseIndex + particle.ACTIVE_SIZE],
             color: `rgb(${colorRed}, ${colorGreen}, ${colorBlue})`,
             active: this.wasmParticlesBuffer[baseIndex + particle.ACTIVE],
             neighbor_1: this.wasmParticlesBuffer[baseIndex + particle.NEIGHBOR_1],
@@ -163,6 +165,7 @@ export class WasmBufferInterpreter {
         let colorGreenIndex = particle.COLOR_GREEN;
         let colorBlueIndex = particle.COLOR_BLUE;
         let sizeIndex = particle.SIZE;
+        let activeSizeIndex = particle.ACTIVE_SIZE;
         
         for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
             // Find particle's data in the wasmParticlesBuffer
@@ -172,9 +175,9 @@ export class WasmBufferInterpreter {
             let colorRed = this.wasmParticlesBuffer[colorRedIndex];
             let colorGreen = this.wasmParticlesBuffer[colorGreenIndex];
             let colorBlue = this.wasmParticlesBuffer[colorBlueIndex];
-            let size = this.wasmParticlesBuffer[sizeIndex];
+            let size = active ? this.wasmParticlesBuffer[activeSizeIndex] : this.wasmParticlesBuffer[sizeIndex];
             let color = `rgb(${colorRed}, ${colorGreen}, ${colorBlue})`;
-        
+
             // Render particle
             ctx.beginPath();
             ctx.fillStyle = active ? opts.PARTICLE_ACTIVE_COLOR : color;
@@ -199,6 +202,7 @@ export class WasmBufferInterpreter {
             colorGreenIndex += particle.RUST_PARTICLE_SIZE;
             colorBlueIndex += particle.RUST_PARTICLE_SIZE;
             sizeIndex += particle.RUST_PARTICLE_SIZE;
+            activeSizeIndex += particle.RUST_PARTICLE_SIZE;
         }     
     }
 
@@ -275,7 +279,6 @@ export class WasmBufferInterpreter {
         let xIndex = particle.X;
         let yIndex = particle.Y;
         let activeIndex = particle.ACTIVE;
-        let sizeIndex = particle.SIZE;
         
         for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
             let active = particles[i].active;
@@ -283,20 +286,17 @@ export class WasmBufferInterpreter {
 
             if (active) {
                 active = 0.0;
-                size /= opts.PARTICLE_ACTIVE_SIZE_SCALE;
             }
 
             // Find particle's data in the wasmParticlesBuffer
             this.wasmParticlesBuffer[xIndex] = particles[i].x;
             this.wasmParticlesBuffer[yIndex] = particles[i].y;
             this.wasmParticlesBuffer[activeIndex] = active;
-            this.wasmParticlesBuffer[sizeIndex] = size;
         
             // Increment indices
             xIndex += particle.RUST_PARTICLE_SIZE;
             yIndex += particle.RUST_PARTICLE_SIZE;
             activeIndex += particle.RUST_PARTICLE_SIZE;
-            sizeIndex += particle.RUST_PARTICLE_SIZE;
         }        
     }
 

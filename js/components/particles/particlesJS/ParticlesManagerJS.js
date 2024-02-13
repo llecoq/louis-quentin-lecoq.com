@@ -29,7 +29,6 @@ export default class ParticlesManagerJS {
             
             if (data.active === 1.0 || data.active === 2.0) {
                 data.active = 0;
-                data.size /= opts.PARTICLE_ACTIVE_SIZE_SCALE;
             }
 
             particle.setParticleData(data);

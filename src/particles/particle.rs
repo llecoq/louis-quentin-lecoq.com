@@ -12,6 +12,7 @@ pub struct Particle {
     pub speed_x: f32,
     pub speed_y: f32,
     pub size: f32,
+    pub active_size: f32,
     pub color_red: f32,
     pub color_green: f32,
     pub color_blue: f32,
@@ -30,7 +31,14 @@ pub struct Particle {
 
 impl Particle {
     // Create a new `Particle` with random attributes
-    pub fn new(canvas_height: u32, canvas_width: u32, particle_min_size: f32, particle_max_size: f32) -> Particle {
+    pub fn new(
+        canvas_height: u32, 
+        canvas_width: u32, 
+        particle_min_size: f32, 
+        particle_max_size: f32,
+        particle_active_size_scale: f32
+    ) -> Particle 
+    {
         let mut rng = rand::thread_rng();
         let center_x = canvas_width / 2;
         let center_y = canvas_height / 2;
@@ -42,11 +50,13 @@ impl Particle {
         let dir_x = if rng.gen::<f32>() > 0.5 {1.0} else {-1.0};
         let dir_y = if rng.gen::<f32>() > 0.5 {1.0} else {-1.0};
         let chance: f32 = rand::thread_rng().gen();
+        let size: f32 = rng.gen::<f32>() * (particle_max_size - particle_min_size) + particle_min_size;
 
         Particle {
             x : center_x as f32 + radius_x * f32::cos(theta),
             y : center_y as f32 + radius_y * f32::sin(theta),
-            size : rng.gen::<f32>() * (particle_max_size - particle_min_size) + particle_min_size,
+            size,
+            active_size: size * particle_active_size_scale,
             color_red : get_random_red_value(chance),
             color_green : get_random_green_value(chance),
             color_blue : get_random_blue_value(chance),
