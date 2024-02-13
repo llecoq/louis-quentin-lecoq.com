@@ -8,6 +8,7 @@ export default class ParticleJS {
     x
     y
     size
+    activeSize
     color
     speedX
     speedY
@@ -20,6 +21,7 @@ export default class ParticleJS {
         this.x = 0;
         this.y = 0;
         this.size = 0;
+        this.activeSize = 0;
         this.color = 'rgb(255, 255, 255)';
         this.speedX = 0;
         this.speedY = 0;
@@ -29,6 +31,7 @@ export default class ParticleJS {
         this.x = data.x;
         this.y = data.y;
         this.size = data.size;
+        this.activeSize = data.activeSize;
         this.color = data.color;
         this.speedX = data.speedX;
         this.speedY = data.speedY;
@@ -60,17 +63,15 @@ export default class ParticleJS {
     render(ctx) {
         ctx.beginPath();
         ctx.fillStyle = this.active ? opts.PARTICLE_ACTIVE_COLOR : this.color;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.active ? this.activeSize : this.size, 0, Math.PI * 2);
         ctx.fill();
     }
 
     // Set the Particle to `active` and set a timer to desactive it aftera given delay
     activateTimer() {
         this.active = true;
-        this.size *= opts.PARTICLE_ACTIVE_SIZE_SCALE;
         setTimeout(() => {
             this.active = false;
-            this.size /= opts.PARTICLE_ACTIVE_SIZE_SCALE;
         }, opts.PARTICLE_ACTIVE_DELAY);
     }
 

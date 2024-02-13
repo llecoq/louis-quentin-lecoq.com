@@ -28,7 +28,8 @@ impl ParticlesManagerWASM {
                         self.canvas.height, 
                         self.canvas.width, 
                         self.opts.particle_min_size, 
-                        self.opts.particle_max_size
+                        self.opts.particle_max_size,
+                        self.opts.particle_active_size_scale
                     )
                 );
             }
