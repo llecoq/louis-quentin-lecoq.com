@@ -1,4 +1,4 @@
-// Functions to adjust and initialize the home section
+// Adjust and initialize the home section
 export function adjustHomeSize() {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -11,10 +11,11 @@ export function initHome() {
     window.addEventListener('resize', adjustHomeSize);
 }
 
-const ANIMATION_SPEED = 25;
-const SCRAMBLING_CHANCES = 0.6;
+// TextScramble class for text scrambling animation
+const SCRAMBLING_CHANCES = 0.6; // Probability of each character scrambling per frame
+const BASE_DURATION = 200; // Base duration of the animation for a short text
+const TIME_PER_CHAR = 25; // Added time per char
 
-// TextScramble class for creating scrambling text animation
 class TextScramble {
     constructor(el) {
         this.el = el;
@@ -23,35 +24,39 @@ class TextScramble {
     }
 
     setText(newText) {
-        const oldText = this.el.querySelector('span').innerText;
+        const oldText = this.el.innerText;
         const length = Math.max(oldText.length, newText.length);
+        const animationDuration = BASE_DURATION + (length * TIME_PER_CHAR);
         const promise = new Promise((resolve) => this.resolve = resolve);
         this.queue = [];
 
         for (let i = 0; i < length; i++) {
             const from = oldText[i] || '';
             const to = newText[i] || '';
-            const start = Math.floor(Math.random() * ANIMATION_SPEED);
-            const end = start + Math.floor(Math.random() * ANIMATION_SPEED);
-            this.queue.push({ from, to, start, end });
+            const start = Math.floor(Math.random() * animationDuration);
+            const end = start + Math.floor(Math.random() * animationDuration);
+            this.queue.push({ from, to, start, end, char: '' });
         }
 
         cancelAnimationFrame(this.frameRequest);
-        this.frame = 0;
-        this.update();
+        this.frameRequest = requestAnimationFrame(this.update);
         return promise;
     }
 
-    update() {
+    update(time) {
+        if (!this.startTime) this.startTime = time;
+
         let output = '';
         let complete = 0;
+        let progress = time - this.startTime;
 
         for (let i = 0; i < this.queue.length; i++) {
             let { from, to, start, end, char } = this.queue[i];
-            if (this.frame >= end) {
+
+            if (progress > end) {
                 complete++;
                 output += to;
-            } else if (this.frame >= start) {
+            } else if (progress > start) {
                 if (!char || Math.random() < SCRAMBLING_CHANCES) {
                     char = this.randomChar();
                     this.queue[i].char = char;
@@ -60,16 +65,12 @@ class TextScramble {
             } else {
                 output += from;
             }
-        }        
+        }
 
         this.el.innerHTML = output;
 
-        if (complete === this.queue.length) {
-            this.resolve();
-        } else {
-            this.frameRequest = requestAnimationFrame(this.update);
-            this.frame++;
-        }
+        if (complete === this.queue.length) this.resolve();
+        else this.frameRequest = requestAnimationFrame(this.update);
     }
 
     randomChar() {
@@ -77,7 +78,7 @@ class TextScramble {
     }
 }
 
-// Function to chain animations on elements
+// Chain animations on multiple elements
 function chainAnimations(elements, texts) {
     let promise = Promise.resolve();
 
@@ -87,6 +88,7 @@ function chainAnimations(elements, texts) {
             return scrambler.setText(texts[index]);
         });
 
+        // Adding a delay after specific animations
         if (index === 0 || index === 2) {
             promise = promise.then(() => new Promise(resolve => setTimeout(resolve, 300)));
         }
@@ -95,7 +97,7 @@ function chainAnimations(elements, texts) {
     return promise;
 }
 
-// Elements and texts for the animation
+// Animation elements and texts
 const elements = [
     document.getElementById('hello-world'),
     document.getElementById('my-name-is'),
@@ -111,7 +113,7 @@ const texts = [
     "Software Engineer."
 ];
 
-// Execute the animations
+// Animate the home content
 function animateHomeContent() {
     chainAnimations(elements, texts).then(() => {
         const button = document.getElementById('about-button');
@@ -120,7 +122,7 @@ function animateHomeContent() {
         const workingAtElement = document.getElementById('working-at');
         workingAtElement.classList.add('visible');
 
-        // Après la fin des animations, exécutez le code suivant
+        // Execute the following code after the end of the animations
         const navbarItems = document.querySelectorAll('.navbar-item');
         navbarItems.forEach((item, index) => {
             setTimeout(() => {
@@ -131,4 +133,3 @@ function animateHomeContent() {
 }
 
 animateHomeContent();
-
