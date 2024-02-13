@@ -16,6 +16,7 @@ export class AnimationRenderer {
         this.wasmBufferInterpreter = wasmBufferInterpreter;
         this.particlesJS = particlesJS;
         this.impulsesJS = impulsesJS;
+        this.ctx.font = "20px Arial";
     }
 
     // Clear canvas rectangle
@@ -78,6 +79,12 @@ export class AnimationRenderer {
             case "JS":
                 this.particlesJS.forEach(particle => particle.render(this.ctx));
         }
+    }
+
+    // Render FPS count
+    renderFPS(fps) {
+        this.ctx.fillStyle = opts.PARTICLE_ACTIVE_COLOR;
+        this.ctx.fillText(Math.round(fps), this.canvas.width * 0.015, this.canvas.height * 0.95);
     }
 
     setMousePosition(mouseX, mouseY) {
