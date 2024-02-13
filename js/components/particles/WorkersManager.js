@@ -67,6 +67,8 @@ export default class WorkersManager {
                     
                     // Set worker as "busy"
                     workerData.setBusy(true);
+                } else {
+                    console.log(this.animationMode,"Worker busy; skip sortNeighbors.");
                 }
             })
         }

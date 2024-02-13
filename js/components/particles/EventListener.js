@@ -29,7 +29,17 @@ export default class EventListener {
 
         // Animation toggle switch
         document.getElementById("animation-toggle-switch").addEventListener("change", this.toggleAnimation.bind(this));
+   
+        window.addEventListener('resize', this.resizeCanvas.bind(this));
     }
+
+    resizeCanvas() {
+        this.worker.postMessage({ 
+          type: 'resizeCanvas', 
+          width: window.innerWidth, 
+          height: window.innerHeight, 
+        });
+      }
 
     handleMouseMove(e) {
         this.worker.postMessage({

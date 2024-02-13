@@ -43,6 +43,9 @@ onmessage = function (e) {
                 case 'changeAnimationMode':
                     animationController.changeAnimationMode();
                     break;
+                case 'resizeCanvas':
+                    animationController.resizeCanvas(e.data.width, e.data.height);
+                    break;
             }
         }
     }
@@ -71,6 +74,7 @@ class TimeData {
 
 class AnimationController {
 
+    offscreenCanvas
     animationMode
     animationRenderer
     animationFrameId
@@ -97,6 +101,7 @@ class AnimationController {
     }
 
     init(canvas, ctx) {
+        this.offscreenCanvas = canvas;
 
         // Init animation from WASM side
         const particlesWASM = ParticlesWASM.new(canvas.height, canvas.width);
@@ -144,7 +149,6 @@ class AnimationController {
     // Animate the particles and impulses
     animate(timestamp) {
         if (!this.timeData.lastTimestamp) this.timeData.lastTimestamp = timestamp;
-
         const delta = timestamp - this.timeData.lastTimestamp;
         
         this.timeData.computeFps(timestamp);
@@ -236,5 +240,11 @@ class AnimationController {
             return setInterval(() => this.workersManager.sortNeighbors(), 250);
         else
             return setInterval(() => this.activeParticlesManager.sort_neighbors(), 250);
+    }
+
+    resizeCanvas(width, height) {
+        this.offscreenCanvas.width = width;
+        this.offscreenCanvas.height = height;
+        this.particlesManagerWASM.resize_canvas(width, height);
     }
 }

@@ -60,6 +60,11 @@ impl ParticlesManagerWASM {
         }
     }
 
+    pub fn resize_canvas(&mut self, width: u32, height: u32) {
+        self.canvas.width = width;
+        self.canvas.height = height;
+    }
+
     // Sort Neighbors of each `Particles` from the closest to the farthest
     pub fn sort_neighbors(&mut self) {
         // Update distances between each `Particle` in the `neighbors_matrix`
