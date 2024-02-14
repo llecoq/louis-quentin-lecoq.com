@@ -1,25 +1,31 @@
 import ParticleJS from "./ParticleJS.js";
-import { opts } from "../Particles.js";
 import { getDist } from "./utilsJS.js";
+import { opts } from "../Particles.js";
 
 export default class ParticlesManagerJS {
     
     ctx
     particles
+    numberOfParticles
     
-    constructor(ctx, numberOfParticles, canvas) {
+    constructor(ctx, maxNumberOfParticles, canvas) {
         this.ctx = ctx;
         this.particles = [];
-        
+        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+
         // Initialize particles
-        for (let i = 0; i < numberOfParticles; i++) {
+        for (let i = 0; i < maxNumberOfParticles; i++) {
             this.particles.push(new ParticleJS(canvas))
         }
     }
 
     // Update position of each Particle
     update(scaleFPS) {
-        this.particles.forEach(particle => particle.updatePosition(scaleFPS))
+        this.particles.forEach((particle, index) => {
+            if (index < this.numberOfParticles) {
+                particle.updatePosition(scaleFPS);
+            }
+        });
     }
 
     // Set the data of each Particle from the wasm buffer
@@ -37,14 +43,19 @@ export default class ParticlesManagerJS {
 
     // Sort neighbors based on distance
     sort_neighbors() {
-        this.particles.forEach(particle => {
-            const sorted = [...this.particles].sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
-            particle.setNeighbors(sorted.slice(0, opts.PARTICLE_MAX_CONNECTIONS));
+        this.particles.slice(0, this.numberOfParticles).forEach(particle => {
+            const sorted = [...this.particles.slice(0, this.numberOfParticles)]
+                .sort((a, b) => getDist(particle.x, particle.y, a.x, a.y) - getDist(particle.x, particle.y, b.x, b.y));
+            particle.setNeighbors(sorted.slice(0, 10));
         });
     }
 
     // Get Particles
     getParticles() {
         return this.particles;
+    }
+
+    changeNumberOfParticles(value) {
+        this.numberOfParticles = value;
     }
 }

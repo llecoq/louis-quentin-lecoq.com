@@ -62,18 +62,20 @@ export class WasmBufferInterpreter {
     wasmMousePositionBuffer
     wasmImpulsesBuffer
     workers
+    numberOfParticles
 
     constructor(wasmMemory) {
         this.wasmMemory = wasmMemory;
         this.workers = [];
         this.numberOfWorkers = opts.WEB_WORKERS;
+        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
     }
 
     setWasmParticlesBuffer(particlesPtr) {
         this.wasmParticlesBuffer = new Float32Array(
             this.wasmMemory.buffer, 
             particlesPtr, 
-            opts.NUMBER_OF_PARTICLES * particle.RUST_PARTICLE_SIZE
+            opts.MAX_NUMBER_OF_PARTICLES * particle.RUST_PARTICLE_SIZE
         );
     }
 
@@ -167,7 +169,7 @@ export class WasmBufferInterpreter {
         let sizeIndex = particle.SIZE;
         let activeSizeIndex = particle.ACTIVE_SIZE;
         
-        for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
+        for (let i = 0; i < this.numberOfParticles; i++) {
             // Find particle's data in the wasmParticlesBuffer
             let x = this.wasmParticlesBuffer[xIndex];
             let y = this.wasmParticlesBuffer[yIndex];
@@ -209,7 +211,7 @@ export class WasmBufferInterpreter {
     // Render the connections of the `wasmParticlesBuffer`
     renderConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
         // For each `Particle`
-        for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
+        for (let i = 0; i < this.numberOfParticles; i++) {
             let baseIndex = i * particle.RUST_PARTICLE_SIZE;
             let x = this.wasmParticlesBuffer[baseIndex + particle.X];
             let y = this.wasmParticlesBuffer[baseIndex + particle.Y];
@@ -222,7 +224,7 @@ export class WasmBufferInterpreter {
                 let neighborY = this.wasmParticlesBuffer[neighborIndex + particle.Y];
                 let neighborActive = this.wasmParticlesBuffer[neighborIndex + particle.ACTIVE];
                 let distance = getDist(x, y, neighborX, neighborY);
-    
+                
                 // Render connections between Particles
                 if (distance < opts.CONNECTION_MAX_DIST) {
                     const globalAlpha = active && neighborActive ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
@@ -280,7 +282,7 @@ export class WasmBufferInterpreter {
         let yIndex = particle.Y;
         let activeIndex = particle.ACTIVE;
         
-        for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
+        for (let i = 0; i < this.numberOfParticles; i++) {
             let active = particles[i].active;
             let size = particles[i].size;
 
@@ -307,5 +309,9 @@ export class WasmBufferInterpreter {
 
     setMouseIsOverCanvas(value) {
         this.wasmMousePositionBuffer[mouseTracker.MOUSE_IS_OVER_CANVAS] = value;
+    }
+
+    changeNumberOfParticles(newNumberOfParticles) {
+        this.numberOfParticles = newNumberOfParticles;
     }
 }

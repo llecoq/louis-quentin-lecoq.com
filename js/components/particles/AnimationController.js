@@ -46,6 +46,8 @@ onmessage = function (e) {
                 case 'resizeCanvas':
                     animationController.resizeCanvas(e.data.width, e.data.height);
                     break;
+                case 'numberOfParticlesChange':
+                    animationController.changeNumberOfParticles(e.data.numberOfParticles);
             }
         }
     }
@@ -126,7 +128,7 @@ class AnimationController {
         this.wasmBufferInterpreter.setWasmImpulsesBuffer(impulsesPtr);
 
         // Init animation from JS side (empty, waiting for a toggle change from the client side)
-        this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.NUMBER_OF_PARTICLES, canvas);
+        this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.MAX_NUMBER_OF_PARTICLES, canvas);
         this.impulsesManagerJS = new ImpulsesManagerJS(ctx, this.particlesManagerJS.getParticles());
 
         // Create a new AnimationRenderer
@@ -246,5 +248,15 @@ class AnimationController {
         this.offscreenCanvas.width = width;
         this.offscreenCanvas.height = height;
         this.particlesManagerWASM.resize_canvas(width, height);
+    }
+
+    changeNumberOfParticles(value) {
+        this.particlesManagerWASM.change_number_of_particles(value);
+        this.particlesManagerJS.changeNumberOfParticles(value);
+        this.wasmBufferInterpreter.changeNumberOfParticles(value);
+        this.animationRenderer.changeNumberOfParticles(value);
+        this.workersManager.changeNumberOfParticles(value);
+        this.impulsesManagerWASM.change_number_of_particles(value);
+        this.impulsesManagerJS.changeNumberOfParticles(value);
     }
 }

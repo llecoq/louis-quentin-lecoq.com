@@ -11,7 +11,8 @@ pub struct ImpulsesManagerWASM {
     opts: Opts,
     mouse_tracker: MouseTracker,
     active_impulses_number: usize,
-    next_neighbors_data: Vec<(usize, (Option<ParticleData>, Option<ParticleData>))>
+    next_neighbors_data: Vec<(usize, (Option<ParticleData>, Option<ParticleData>))>,
+    number_of_particles: usize,
 }
 
 #[derive(Clone, Debug)]
@@ -34,7 +35,8 @@ impl ImpulsesManagerWASM {
     /// Returns:
     ///     ImpulsesManagerWASM - A new instance of the impulses manager ready for use with WebAssembly.
     pub fn new(particles_ref: Rc<RefCell<Vec<Particle>>>) -> ImpulsesManagerWASM {
-        let js_opts: Opts = get_opts_from_js().expect("Error while fetching Opts from JS"); 
+        let js_opts: Opts = get_opts_from_js().expect("Error while fetching Opts from JS");
+        let number_of_particles = js_opts.number_of_particles;
 
         ImpulsesManagerWASM {
             impulses: vec![
@@ -54,7 +56,8 @@ impl ImpulsesManagerWASM {
             opts: js_opts,
             mouse_tracker: MouseTracker::new(),
             active_impulses_number: 0,
-            next_neighbors_data: vec![]
+            next_neighbors_data: vec![],
+            number_of_particles
         }
     }
 
@@ -146,6 +149,10 @@ impl ImpulsesManagerWASM {
 
     /// Find a maximum of 2 neighbors for each Particle needing to jump
     fn find_next_neighbors_data(&mut self, jumping_impulses_indices: &Vec<usize>) {
+        if self.number_of_particles < 2 {
+            return;
+        }
+        
         for impulse_index in jumping_impulses_indices {
             let impulse = &self.impulses[*impulse_index];
             let origin_index = impulse.particle_index;
@@ -260,7 +267,10 @@ impl ImpulsesManagerWASM {
 
         for (particle_index, particle) in &mut particles
             .iter_mut()
-            .enumerate() {
+            .enumerate() 
+            .filter(|(index, _)| {
+                index < &self.number_of_particles
+            }){
                 if particle.can_create_impulse(&self.opts, mouse_x, mouse_y, self.active_impulses_number) {
                     let new_impulse: Impulse = self.create_impulse(
                         mouse_x as f32, 
@@ -282,9 +292,6 @@ impl ImpulsesManagerWASM {
     /// Parameters:
     ///     scale_fps: f32 - A scaling factor derived from the frame rate (FPS) to ensure smooth animation.
     pub fn update_impulses_position(&mut self, scale_fps: f32) {
-        // for impulse in &mut self.impulses.iter_mut() {
-        //     impulse.update_position(scale_fps, self.opts.impulse_update_steps);
-        // }
         for index in 0..self.active_impulses_number {
             self.impulses[index].update_position(scale_fps, self.opts.impulse_update_steps);
         }
@@ -332,5 +339,9 @@ impl ImpulsesManagerWASM {
     ///     usize - The count of active impulses in the system.
     pub fn get_impulses_len(&self) -> usize {
         self.active_impulses_number
+    }
+
+    pub fn change_number_of_particles(&mut self, value: usize) {
+        self.number_of_particles = value;
     }
 }

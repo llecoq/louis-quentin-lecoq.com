@@ -5,8 +5,9 @@ export const opts = {
     WEB_WORKERS: 4,
 
     // Particles
-    NUMBER_OF_PARTICLES: 800,
-    PARTICLE_MAX_SIZE: 2.7,
+    NUMBER_OF_PARTICLES: 500, // Do not exceed MAX_NUMBER_OF_PARTICLES
+    MAX_NUMBER_OF_PARTICLES: 1500, // Change this number only to match max range of id='particles-number-range'
+    PARTICLE_MAX_SIZE: 2.5,
     PARTICLE_MIN_SIZE: 0.6,
     PARTICLE_ACTIVE_DELAY: 1000,
     PARTICLE_ACTIVE_COLOR: 'rgb(0, 150, 255)',
@@ -39,26 +40,46 @@ export const opts = {
 export class Particles {
 
     eventListener
+    worker
+    particlesRangeSlider
+    particlesNumberOutput
     
     init() {
         document.body.style.height = "100vh";
         // Creation of an OffscreenCanvas
         const offscreen = document.querySelector('canvas').transferControlToOffscreen();
         // Creation of a new module Worker
-        const worker = new Worker('js/components/particles/AnimationController.js', {
+        this.worker = new Worker('js/components/particles/AnimationController.js', {
             type: 'module'
         });
         offscreen.height = document.body.clientHeight;
         offscreen.width = document.body.clientWidth;
         // Sending the context to the worker
-        worker.postMessage({
+        this.worker.postMessage({
             type: 'initAnimation',
-            canvas: offscreen
+            canvas: offscreen,
         }, [offscreen]);
     
         // // EventListener
-        this.eventListener = new EventListener(worker);
+        this.eventListener = new EventListener(this.worker);
         this.eventListener.init();
+
+        this.handleParticlesNumberRange();
+    }
+
+    handleParticlesNumberRange() {
+        
+        this.particlesRangeSlider = document.getElementById("particles-number-range");
+        this.particlesNumberOutput = document.getElementById("particles-number");
+        this.particlesRangeSlider.value = opts.NUMBER_OF_PARTICLES;
+        this.particlesNumberOutput.innerHTML = this.particlesRangeSlider.value;
+        this.particlesRangeSlider.oninput = () => {
+            this.particlesNumberOutput.innerHTML = this.particlesRangeSlider.value;
+            this.worker.postMessage({
+                type: 'numberOfParticlesChange',
+                numberOfParticles: this.particlesRangeSlider.value
+            });
+        };
     }
 }
 
@@ -68,3 +89,5 @@ export function getOpts() {
 }
 
 self.getOpts = getOpts;
+
+

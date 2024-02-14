@@ -13,6 +13,7 @@ class WorkerData {
     endIndex
     buffer
     busy = false
+    initialized = false
 
     constructor(worker, startIndex, endIndex) {
         this.worker = worker;
@@ -43,6 +44,7 @@ export default class WorkersManager {
         this.particlesManagerJS = particlesManagerJS;
         this.wasmBufferInterpreter = wasmBufferInterpreter;
         this.numberOfWorkers = opts.WEB_WORKERS;
+        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
 
         if (opts.WEB_WORKERS) {
             this.initSharedParticlesData();
@@ -94,13 +96,14 @@ export default class WorkersManager {
 
     // Init workers 
     initWorkers() {
-        const workerBatchSize = Math.floor(opts.NUMBER_OF_PARTICLES / this.numberOfWorkers);
+        const workerBatchSize = Math.floor(opts.MAX_NUMBER_OF_PARTICLES / this.numberOfWorkers);
         const workerPath = this.getWorkerPath();
 
+        // Init workers with MAX_NUMBER_OF_PARTICLES for buffer size
         for (let i = 0; i < this.numberOfWorkers; i++) {
             const startIndex = i * workerBatchSize;
             const endIndex = i === this.numberOfWorkers - 1 
-                ? opts.NUMBER_OF_PARTICLES 
+                ? opts.MAX_NUMBER_OF_PARTICLES
                 : startIndex + workerBatchSize;
 
             const worker = new Worker(workerPath, {
@@ -110,13 +113,13 @@ export default class WorkersManager {
             worker.postMessage({
                 type: 'initWorker',
                 workerIndex: i,
-                numberOfParticles: opts.NUMBER_OF_PARTICLES,
+                numberOfParticles: opts.MAX_NUMBER_OF_PARTICLES,
                 startIndex: startIndex,
                 endIndex: endIndex,
                 buffer: this.sharedParticlesData
             });
 
-            worker.onmessage = this.setNeighborsFromWorker.bind(this);
+            worker.onmessage = this.handleMessageFromWorker.bind(this);
 
             this.workers.push(new WorkerData(worker, startIndex, endIndex));
         }
@@ -143,17 +146,16 @@ export default class WorkersManager {
     initSharedParticlesData() {
         const particleDataLength = 3; // x, y, and particleIndex
         const float32Size = 4; // 4 bytes
-        const bufferSize = opts.NUMBER_OF_PARTICLES * particleDataLength * float32Size;
+        const bufferSize = opts.MAX_NUMBER_OF_PARTICLES * particleDataLength * float32Size;
         const sharedBuffer = new SharedArrayBuffer(bufferSize);
         this.sharedParticlesData = new Float32Array(sharedBuffer);
     }
 
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     updateSharedParticlesData() {
         const particleDataLength = 3;
         const particles = this.particlesManagerJS.getParticles();
 
-        for (let i = 0; i < opts.NUMBER_OF_PARTICLES; i++) {
+        for (let i = 0; i < this.numberOfParticles; i++) {
             const particle = this.animationMode === "JS"
                 ? particles[i]
                 : this.wasmBufferInterpreter.getParticleXandY(i);
@@ -164,7 +166,20 @@ export default class WorkersManager {
         }
     }
 
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    handleMessageFromWorker(event) {
+        switch (event.data.type) {
+            case "wasmModuleInitialized":
+                this.workers[event.data.workerIndex].initialized = true;
+                if (this.wasmModulesInitilialized()) {
+                    // update workers with the real number of particles as soon as all the wasm modules are initialized
+                    this.changeNumberOfParticles(this.numberOfParticles);
+                }
+                break;
+            case "setNeighbors":
+                this.setNeighborsFromWorker(event);
+        }
+    }
+
     setNeighborsFromWorker(event) {
         const workerIndex = event.data.workerIndex;
         const worker = this.workers[workerIndex];
@@ -208,5 +223,40 @@ export default class WorkersManager {
 
     setAnimationMode(value) {
         this.animationMode = value;
+    }
+
+    changeNumberOfParticles(value) {
+        this.numberOfParticles = value;
+
+        const workerBatchSize = Math.floor(this.numberOfParticles / this.numberOfWorkers);
+
+        for (let i = 0; i < this.numberOfWorkers; i++) {
+            const startIndex = i * workerBatchSize;
+            const endIndex = i === this.numberOfWorkers - 1 
+                ? this.numberOfParticles 
+                : startIndex + workerBatchSize;
+            
+            this.workers[i].startIndex = startIndex;
+            this.workers[i].endIndex = endIndex;
+
+            this.workers[i].worker.postMessage({
+                type: "changeNumberOfParticles",
+                value: value,
+                startIndex: startIndex,
+                endIndex: endIndex
+            });
+        }
+    }
+
+    wasmModulesInitilialized() {
+        let numberOfModulesInit = 0;
+
+        this.workers.forEach(workerData => {
+            if (workerData.initialized === true) {
+                numberOfModulesInit++;
+            }
+        })
+
+        return numberOfModulesInit === this.numberOfWorkers;
     }
 }
