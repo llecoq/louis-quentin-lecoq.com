@@ -23,6 +23,8 @@ pub struct Opts {
     // Particles
     #[serde(rename = "NUMBER_OF_PARTICLES")]
     pub number_of_particles: usize,
+    #[serde(rename = "MAX_NUMBER_OF_PARTICLES")]
+    pub max_number_of_particles: usize,
     #[serde(rename = "PARTICLE_MAX_SIZE")]
     pub particle_max_size: f32,
     #[serde(rename = "PARTICLE_MIN_SIZE")]

@@ -35,6 +35,10 @@ impl SortNeighborsFromWorker {
     }
 
     pub fn sort_neighbors(&self, shared_particles_view: &[f32], sorted_neighbors: &mut [u16]) {
+        if self.number_of_particles < 2 {
+            return;
+        }
+
         // For each Particle
         for particle_index in self.start_index..self.end_index {
             let base_index = particle_index * ParticleViewData::Size as usize;
@@ -61,9 +65,18 @@ impl SortNeighborsFromWorker {
             });
 
             for i in 0..10 {
+                if i > self.number_of_particles - 2 {
+                    break;
+                }
                 sorted_neighbors[(particle_index - self.start_index) * 10 + i] = distances[i].0 as u16;
             }
         }
+    }
+
+    pub fn change_number_of_particles(&mut self, new_number_of_particles: usize, start_index: usize, end_index: usize) {
+        self.number_of_particles = new_number_of_particles;
+        self.start_index = start_index;
+        self.end_index = end_index;
     }
 }
 

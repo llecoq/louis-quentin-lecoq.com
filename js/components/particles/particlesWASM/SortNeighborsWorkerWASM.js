@@ -14,7 +14,10 @@ onmessage = function (e) {
         if (worker) {
             switch (e.data.type) {
                 case "sortNeighbors":
-                    worker.sortNeighbors(e.data.buffer);
+                    worker.sortNeighbors(e.data.buffer, e.data.numberOfParticles);
+                    break;
+                case "changeNumberOfParticles":
+                    worker.changeNumberOfParticles(e.data);
                     break;
             }
         }
@@ -43,7 +46,11 @@ class SetNeighborsWorkerWASM {
                 this.numberOfParticles,
                 this.startIndex,
                 this.endIndex
-            );
+            )
+            postMessage({
+                type: 'wasmModuleInitialized',
+                workerIndex: this.workerIndex
+            });
 
             this.wasmModule = wasmModule;
         });
@@ -58,8 +65,13 @@ class SetNeighborsWorkerWASM {
 
         // send buffer back
         postMessage({
+            type: 'setNeighbors',
             workerIndex: this.workerIndex,
             buffer: buffer
         }, [buffer])    
+    }
+
+    changeNumberOfParticles(data) {
+        this.wasmModule.change_number_of_particles(data.value, data.startIndex, data.endIndex);
     }
 }

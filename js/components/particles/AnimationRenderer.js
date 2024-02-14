@@ -9,6 +9,7 @@ export class AnimationRenderer {
     impulsesJS
     mouseX
     mouseY
+    numberOfParticles
 
     constructor(ctx, wasmBufferInterpreter, particlesJS, impulsesJS, canvas) {
         this.ctx = ctx;
@@ -17,6 +18,7 @@ export class AnimationRenderer {
         this.particlesJS = particlesJS;
         this.impulsesJS = impulsesJS;
         this.ctx.font = "20px Arial";
+        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
     }
 
     // Clear canvas rectangle
@@ -36,7 +38,10 @@ export class AnimationRenderer {
                 this.wasmBufferInterpreter.renderConnections(this.ctx, this.mouseX, this.mouseY, mouseIsOverCanvas);
                 break;
             case "JS":
-                this.particlesJS.forEach(particle => particle.renderConnections(this.ctx, this.mouseX, this.mouseY, mouseIsOverCanvas))
+                this.particlesJS.forEach((particle, index) => {
+                    if (index < this.numberOfParticles)
+                        particle.renderConnections(this.ctx, this.mouseX, this.mouseY, mouseIsOverCanvas)
+                })
         }
     }
 
@@ -77,7 +82,10 @@ export class AnimationRenderer {
                 this.wasmBufferInterpreter.renderParticles(this.ctx);
                 break;
             case "JS":
-                this.particlesJS.forEach(particle => particle.render(this.ctx));
+                this.particlesJS.forEach((particle, index) => {
+                    if (index < this.numberOfParticles)
+                        particle.render(this.ctx)
+                });
         }
     }
 
@@ -90,5 +98,9 @@ export class AnimationRenderer {
     setMousePosition(mouseX, mouseY) {
         this.mouseX = mouseX;
         this.mouseY = mouseY;
+    }
+
+    changeNumberOfParticles(value) {
+        this.numberOfParticles = value;
     }
 }

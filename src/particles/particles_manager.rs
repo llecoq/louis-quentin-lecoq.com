@@ -10,7 +10,8 @@ pub struct ParticlesManagerWASM {
     opts: Opts,
     particles: Rc<RefCell<Vec<Particle>>>,
     neighbors_matrix: Vec<Vec<(usize, f32)>>,
-    canvas: Canvas
+    canvas: Canvas,
+    number_of_particles: usize
 }
 
 #[wasm_bindgen]
@@ -19,10 +20,10 @@ impl ParticlesManagerWASM {
     // Initialize particles, following the opts from the JS side
     pub fn init(&mut self) {
         {
-            let number_of_particles = self.opts.number_of_particles;
+            let max_number_of_particles = self.opts.max_number_of_particles;
             let mut particles: std::cell::RefMut<'_, Vec<Particle>> = self.particles.borrow_mut();
             
-            for _ in 0..number_of_particles {
+            for _ in 0..max_number_of_particles {
                 particles.push(
                     Particle::new(
                         self.canvas.height, 
@@ -33,13 +34,6 @@ impl ParticlesManagerWASM {
                     )
                 );
             }
-            
-            // Sort particles from smallest to biggest
-            particles.sort_unstable_by(|a, b| {
-                a.size
-                .partial_cmp(&b.size)
-                .expect("Sort particles failed")
-            });
         }
 
         // Sort neighbors from closest to farthest
@@ -55,9 +49,14 @@ impl ParticlesManagerWASM {
     pub fn update(&mut self, scale_fps: f32) {
         let mut particles = self.particles.borrow_mut();
 
-        for elem in particles.iter_mut() {
-            elem.update_position(self.canvas.height, self.canvas.width, scale_fps);
-        }
+        for (_, particle) in particles
+            .iter_mut()
+            .enumerate()
+            .filter(|(particle_index, _)| {
+                particle_index < &self.number_of_particles
+            }) {
+                particle.update_position(self.canvas.height, self.canvas.width, scale_fps);
+            }
     }
 
     pub fn resize_canvas(&mut self, width: u32, height: u32) {
@@ -67,11 +66,14 @@ impl ParticlesManagerWASM {
 
     // Sort Neighbors of each `Particles` from the closest to the farthest
     pub fn sort_neighbors(&mut self) {
+        if self.number_of_particles < 2 {
+            return;
+        }
         // Update distances between each `Particle` in the `neighbors_matrix`
         self.update_matrix_neighbors_distances();
 
         // Sort distances for each `Particle` in the `neighbors_matrix`
-        for i in 0..self.opts.number_of_particles {
+        for i in 0..self.number_of_particles {
             self.neighbors_matrix[i].sort_unstable_by(|a, b| {
                 a.1
                     .partial_cmp(&b.1)
@@ -82,9 +84,16 @@ impl ParticlesManagerWASM {
             let mut particles = self.particles.borrow_mut();
 
             for j in 0..10 {
+                if j > self.number_of_particles - 2 {
+                    break;
+                }
                 particles[i].set_neighbor(j + 1, self.neighbors_matrix[i][j + 1].0);
             }
         }
+    }
+
+    pub fn change_number_of_particles(&mut self, new_number_of_particles: usize) {
+        self.number_of_particles = new_number_of_particles;
     }
 }
 
@@ -99,6 +108,7 @@ impl ParticlesManagerWASM {
         // Get the animation options from the JS side
         let js_opts: Opts = get_opts_from_js().unwrap();
         let number_of_particles = js_opts.number_of_particles;
+        let max_number_of_particles: usize = js_opts.max_number_of_particles;
 
         ParticlesManagerWASM {
             opts: js_opts,
@@ -106,14 +116,15 @@ impl ParticlesManagerWASM {
             neighbors_matrix: vec![
                 vec![
                     (0, 0.0); 
-                    number_of_particles as usize
+                    max_number_of_particles
                 ]; 
-                number_of_particles as usize
+                max_number_of_particles
             ],
             canvas: Canvas{
                 height: canvas_height,
                 width: canvas_width
-            }
+            },
+            number_of_particles
         }
     }
 
@@ -126,8 +137,8 @@ impl ParticlesManagerWASM {
     fn update_matrix_neighbors_distances(&mut self) {
         let particles: std::cell::Ref<'_, Vec<Particle>> = self.particles.borrow();
 
-        for i in 0..self.opts.number_of_particles {
-            for j in 0..self.opts.number_of_particles {
+        for i in 0..self.number_of_particles {
+            for j in 0..self.number_of_particles {
                 self.neighbors_matrix[i][j].0 = j;
                 let distance =  particles[i].get_distance_from(particles[j].x, particles[j].y);
                 self.neighbors_matrix[i][j].1 = distance;
