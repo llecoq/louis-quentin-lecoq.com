@@ -178,73 +178,45 @@ export class WasmBufferInterpreter {
 
     // Render the each `Particle` of the `wasmParticlesBuffer`
     renderParticles(ctx) {
-        let xIndex = particle.X;
-        let yIndex = particle.Y;
-        let activeIndex = particle.ACTIVE;
-        let colorRedIndex = particle.COLOR_RED;
-        let colorGreenIndex = particle.COLOR_GREEN;
-        let colorBlueIndex = particle.COLOR_BLUE;
-        let sizeIndex = particle.SIZE;
-        let activeSizeIndex = particle.ACTIVE_SIZE;
+        let baseIndex = 0;
         
         for (let i = 0; i < this.numberOfParticles; i++) {
-            // Find particle's data in the wasmParticlesBuffer
-            let x = this.wasmParticlesBuffer[xIndex];
-            let y = this.wasmParticlesBuffer[yIndex];
-            let active = this.wasmParticlesBuffer[activeIndex];
-            let colorRed = this.wasmParticlesBuffer[colorRedIndex];
-            let colorGreen = this.wasmParticlesBuffer[colorGreenIndex];
-            let colorBlue = this.wasmParticlesBuffer[colorBlueIndex];
-            let size = active ? this.wasmParticlesBuffer[activeSizeIndex] : this.wasmParticlesBuffer[sizeIndex];
-            let color = `rgb(${colorRed}, ${colorGreen}, ${colorBlue})`;
-
-            // Render particle
+            let x = this.wasmParticlesBuffer[baseIndex + particle.X];
+            let y = this.wasmParticlesBuffer[baseIndex + particle.Y];
+            let active = this.wasmParticlesBuffer[baseIndex + particle.ACTIVE];
+            let color = `rgb(${this.wasmParticlesBuffer[baseIndex + particle.COLOR_RED]}, ${this.wasmParticlesBuffer[baseIndex + particle.COLOR_GREEN]}, ${this.wasmParticlesBuffer[baseIndex + particle.COLOR_BLUE]})`;
+            let size = active ? this.wasmParticlesBuffer[baseIndex + particle.ACTIVE_SIZE] : this.wasmParticlesBuffer[baseIndex + particle.SIZE];
+    
             ctx.beginPath();
             ctx.fillStyle = active ? opts.PARTICLE_ACTIVE_COLOR : color;
-            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.arc(x, y, size, 0, opts.ARC_RAD);
             ctx.fill();
-
-            // Immediately Invoked Function Expression
+    
             if (active === 2.0) {
-                ((activeIndex) => {
-                    this.wasmParticlesBuffer[activeIndex] = 1.0;
-                    setTimeout(() => {
-                        this.wasmParticlesBuffer[activeIndex] = 0.0;
-                    }, opts.PARTICLE_ACTIVE_DELAY);
-                })(activeIndex);
+                this.updateActiveStateDelayed(baseIndex + particle.ACTIVE);
             }
-        
-            // Increment indices
-            xIndex += particle.RUST_PARTICLE_SIZE;
-            yIndex += particle.RUST_PARTICLE_SIZE;
-            activeIndex += particle.RUST_PARTICLE_SIZE;
-            colorRedIndex += particle.RUST_PARTICLE_SIZE;
-            colorGreenIndex += particle.RUST_PARTICLE_SIZE;
-            colorBlueIndex += particle.RUST_PARTICLE_SIZE;
-            sizeIndex += particle.RUST_PARTICLE_SIZE;
-            activeSizeIndex += particle.RUST_PARTICLE_SIZE;
-        }     
+    
+            baseIndex += particle.RUST_PARTICLE_SIZE;
+        }
+    }
+    
+    updateActiveStateDelayed(activeIndex) {
+        this.wasmParticlesBuffer[activeIndex] = 1.0;
+        setTimeout(() => {
+            this.wasmParticlesBuffer[activeIndex] = 0.0;
+        }, opts.PARTICLE_ACTIVE_DELAY);
     }
 
     renderConnections(ctx, connections_len) {
-        let x = connection.X;
-        let y = connection.Y;
-        let neighborX = connection.NEIGHBOR_X;
-        let neighborY = connection.NEIGHBOR_Y;
-        let globalAlpha = connection.GLOBAL_ALPHA;
-
+        let baseIndex = 0;
         for (let i = 0; i < connections_len; i++) {
             ctx.beginPath();
-            ctx.globalAlpha = this.wasmConnectionsBuffer[globalAlpha];
-            ctx.moveTo(this.wasmConnectionsBuffer[x], this.wasmConnectionsBuffer[y]);
-            ctx.lineTo(this.wasmConnectionsBuffer[neighborX], this.wasmConnectionsBuffer[neighborY]);
+            ctx.globalAlpha = this.wasmConnectionsBuffer[baseIndex + connection.GLOBAL_ALPHA];
+            ctx.moveTo(this.wasmConnectionsBuffer[baseIndex + connection.X], this.wasmConnectionsBuffer[baseIndex + connection.Y]);
+            ctx.lineTo(this.wasmConnectionsBuffer[baseIndex + connection.NEIGHBOR_X], this.wasmConnectionsBuffer[baseIndex + connection.NEIGHBOR_Y]);
             ctx.stroke();
-
-            x += connection.RUST_CONNECTION_SIZE;
-            y += connection.RUST_CONNECTION_SIZE;
-            neighborX += connection.RUST_CONNECTION_SIZE;
-            neighborY += connection.RUST_CONNECTION_SIZE;
-            globalAlpha += connection.RUST_CONNECTION_SIZE;
+    
+            baseIndex += connection.RUST_CONNECTION_SIZE;
         }
 
         ctx.globalAlpha = 1.0; // Reset globalAlpha
@@ -269,7 +241,6 @@ export class WasmBufferInterpreter {
     
         // Draw lines using the updated positions
         for (let i = 0; i < numberOfActiveImpulses; i++) {
-
             ctx.moveTo(updatedPositions[i].x, updatedPositions[i].y);
             ctx.lineTo(this.wasmImpulsesBuffer[i * impulse.RUST_IMPULSE_SIZE + impulse.X], this.wasmImpulsesBuffer[i * impulse.RUST_IMPULSE_SIZE + impulse.Y]);
         }
