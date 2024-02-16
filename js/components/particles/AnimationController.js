@@ -127,6 +127,10 @@ class AnimationController {
         const impulsesPtr = this.impulsesManagerWASM.get_impulses_ptr();
         this.wasmBufferInterpreter.setWasmImpulsesBuffer(impulsesPtr);
 
+         // Setup Connections buffer
+         const connectionsPtr = this.particlesManagerWASM.get_connections_ptr();
+         this.wasmBufferInterpreter.setWasmConnectionsBuffer(connectionsPtr);
+
         // Init animation from JS side (empty, waiting for a toggle change from the client side)
         this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.MAX_NUMBER_OF_PARTICLES, canvas);
         this.impulsesManagerJS = new ImpulsesManagerJS(ctx, this.particlesManagerJS.getParticles());
@@ -142,6 +146,8 @@ class AnimationController {
 
         // Init WebWorkers
         this.workersManager = new WorkersManager(this.particlesManagerJS, this.wasmBufferInterpreter);
+
+        this.animationRenderer.setParticlesManagerJS(this.particlesManagerJS);
 
         // Start animation
         this.start();
@@ -163,10 +169,12 @@ class AnimationController {
 
         // Update positions
         this.activeParticlesManager.update(scaleFPS);
+        // Create connections
+        this.activeParticlesManager.create_connections(this.mouseIsOverCanvas, this.mouseX, this.mouseY);
 
         // Render animation
         this.animationRenderer.clearCanvasRectangle();
-        this.animationRenderer.renderConnections(this.animationMode, this.mouseIsOverCanvas);
+        this.animationRenderer.renderConnections(this.animationMode, this.particlesManagerWASM.get_connections_len());
         this.animationRenderer.renderImpulses(scaleFPS, this.animationMode, this.activeImpulsesManager);
         this.animationRenderer.renderParticles(this.animationMode);
         this.animationRenderer.renderFPS(this.timeData.getFps());
@@ -203,7 +211,8 @@ class AnimationController {
             case "JS":
                 this.impulsesManagerJS.setMousePosition(x, y);
         }
-        this.animationRenderer.setMousePosition(x, y);
+        this.mouseX = x;
+        this.mouseY = y;
     }
 
     // Set mouseIsOverCanvas to a given value
@@ -239,9 +248,9 @@ class AnimationController {
 
     sortNeighbors() {
         if (opts.WEB_WORKERS)
-            return setInterval(() => this.workersManager.sortNeighbors(), 250);
+            return setInterval(() => this.workersManager.sortNeighbors(), opts.SORT_NEIGHBORS_REFRESH_RATE);
         else
-            return setInterval(() => this.activeParticlesManager.sort_neighbors(), 250);
+            return setInterval(() => this.activeParticlesManager.sort_neighbors(), opts.SORT_NEIGHBORS_REFRESH_RATE);
     }
 
     resizeCanvas(width, height) {

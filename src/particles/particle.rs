@@ -75,6 +75,31 @@ impl Particle {
             neighbor_10: 0.0,
         }
     }
+
+    pub fn new_mouse(mouse_x: f32, mouse_y: f32) -> Self {
+        Particle { 
+            x: mouse_x, 
+            y: mouse_y, 
+            speed_x: 0.0, 
+            speed_y: 0.0, 
+            size: 0.0, 
+            active_size: 0.0, 
+            color_red: 0.0, 
+            color_green: 0.0, 
+            color_blue: 0.0, 
+            active: 0.0, 
+            neighbor_1: 0.0, 
+            neighbor_2: 0.0, 
+            neighbor_3: 0.0, 
+            neighbor_4: 0.0, 
+            neighbor_5: 0.0, 
+            neighbor_6: 0.0, 
+            neighbor_7: 0.0, 
+            neighbor_8: 0.0, 
+            neighbor_9: 0.0, 
+            neighbor_10: 0.0 
+        }
+    }
     
     // Update the position of the `Particle`
     pub fn update_position(&mut self, canvas_height: u32, canvas_width: u32, scale_fps: f32) {
@@ -135,6 +160,10 @@ impl Particle {
 
     pub fn set_active(&mut self, value: f32) {
         self.active = value;
+    }
+
+    pub fn is_active(&self) -> bool {
+        self.active == 2.0 || self.active == 1.0
     }
 }
 

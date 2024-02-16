@@ -90,5 +90,7 @@ pub mod impulse;
 pub mod impulses_manager;
 pub mod mouse_tracker;
 pub mod sort_neighbors_from_worker;
+pub mod connections_manager;
+pub mod connection;
 
 

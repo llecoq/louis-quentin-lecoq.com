@@ -55,19 +55,29 @@ const impulse = {
     DIST_AUTONOMY: 7
 }
 
+const connection = {
+    RUST_CONNECTION_SIZE: 7,
+
+    PARTICLE_INDEX: 0,
+    NEIGHBOR_INDEX: 1,
+    GLOBAL_ALPHA: 2,
+    X: 3,
+    Y: 4,
+    NEIGHBOR_X: 5,
+    NEIGHBOR_Y: 6
+}
+
 export class WasmBufferInterpreter {
 
     wasmMemory
     wasmParticlesBuffer
     wasmMousePositionBuffer
     wasmImpulsesBuffer
-    workers
+    wasmConnectionsBuffer
     numberOfParticles
 
     constructor(wasmMemory) {
         this.wasmMemory = wasmMemory;
-        this.workers = [];
-        this.numberOfWorkers = opts.WEB_WORKERS;
         this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
     }
 
@@ -85,6 +95,14 @@ export class WasmBufferInterpreter {
             mousePositionPtr,
             mouseTracker.RUST_MOUSE_TRACKER_SIZE
         );
+    }
+
+    setWasmConnectionsBuffer(connectionsPtr) {
+        this.wasmConnectionsBuffer = new Float32Array(
+            this.wasmMemory.buffer,
+            connectionsPtr,
+            connection.RUST_CONNECTION_SIZE * 10000
+        )
     }
 
     setWasmImpulsesBuffer(impulsesPtr) {
@@ -208,47 +226,27 @@ export class WasmBufferInterpreter {
         }     
     }
 
-    // Render the connections of the `wasmParticlesBuffer`
-    renderConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
-        // For each `Particle`
-        for (let i = 0; i < this.numberOfParticles; i++) {
-            let baseIndex = i * particle.RUST_PARTICLE_SIZE;
-            let x = this.wasmParticlesBuffer[baseIndex + particle.X];
-            let y = this.wasmParticlesBuffer[baseIndex + particle.Y];
-            let active = this.wasmParticlesBuffer[baseIndex + particle.ACTIVE];
+    renderConnections(ctx, connections_len) {
+        let x = connection.X;
+        let y = connection.Y;
+        let neighborX = connection.NEIGHBOR_X;
+        let neighborY = connection.NEIGHBOR_Y;
+        let globalAlpha = connection.GLOBAL_ALPHA;
 
-            // For each neighbor
-            for (let j = 0; j < 10; j++) {
-                let neighborIndex = this.wasmParticlesBuffer[baseIndex + particle.NEIGHBOR_1 + j] * particle.RUST_PARTICLE_SIZE;
-                let neighborX = this.wasmParticlesBuffer[neighborIndex + particle.X];
-                let neighborY = this.wasmParticlesBuffer[neighborIndex + particle.Y];
-                let neighborActive = this.wasmParticlesBuffer[neighborIndex + particle.ACTIVE];
-                let distance = getDist(x, y, neighborX, neighborY);
-                
-                // Render connections between Particles
-                if (distance < opts.CONNECTION_MAX_DIST) {
-                    const globalAlpha = active && neighborActive ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
-                    ctx.globalAlpha = globalAlpha - distance / opts.CONNECTION_MAX_DIST;
-    
-                    ctx.beginPath();
-                    ctx.moveTo(x, y);
-                    ctx.lineTo(neighborX, neighborY);
-                    ctx.stroke();
-                }
-                
-                // render connections with mouse
-                if (mouseIsOverCanvas) {
-                    const distToMouse = getDist(x, y, mouseX, mouseY);
-                    if (distToMouse < opts.CONNECTION_MAX_DIST * 0.7) {
-                        ctx.beginPath();
-                        ctx.moveTo(x, y);
-                        ctx.lineTo(mouseX, mouseY);
-                        ctx.globalAlpha = 0.1;
-                        ctx.stroke();
-                    }
-                }
-            }
+        for (let i = 0; i < connections_len; i++) {
+            ctx.beginPath();
+            ctx.globalAlpha = this.wasmConnectionsBuffer[globalAlpha];
+            ctx.moveTo(this.wasmConnectionsBuffer[x], this.wasmConnectionsBuffer[y]);
+            ctx.lineTo(this.wasmConnectionsBuffer[neighborX], this.wasmConnectionsBuffer[neighborY]);
+            ctx.stroke();
+
+            x += connection.RUST_CONNECTION_SIZE;
+            y += connection.RUST_CONNECTION_SIZE;
+            neighborX += connection.RUST_CONNECTION_SIZE;
+            neighborY += connection.RUST_CONNECTION_SIZE;
+            globalAlpha += connection.RUST_CONNECTION_SIZE;
         }
+
         ctx.globalAlpha = 1.0; // Reset globalAlpha
     }
 

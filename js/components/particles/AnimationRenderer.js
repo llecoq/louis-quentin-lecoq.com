@@ -5,10 +5,9 @@ export class AnimationRenderer {
     ctx
     canvas
     wasmBufferInterpreter
+    particlesManagerJS
     particlesJS
     impulsesJS
-    mouseX
-    mouseY
     numberOfParticles
 
     constructor(ctx, wasmBufferInterpreter, particlesJS, impulsesJS, canvas) {
@@ -28,20 +27,29 @@ export class AnimationRenderer {
     }
 
     // Render connections
-    renderConnections(animationMode, mouseIsOverCanvas) {
+    renderConnections(animationMode, connections_len) {
         this.ctx.globalCompositeOperation = 'lighter';
         this.ctx.strokeStyle = opts.CONNECTIONS_STROKE_STYLE;
         this.ctx.lineWidth = opts.CONNECTIONS_LINE_WIDTH;
 
         switch (animationMode) {
             case "WASM":
-                this.wasmBufferInterpreter.renderConnections(this.ctx, this.mouseX, this.mouseY, mouseIsOverCanvas);
+                this.wasmBufferInterpreter.renderConnections(this.ctx, connections_len);
                 break;
             case "JS":
-                this.particlesJS.forEach((particle, index) => {
-                    if (index < this.numberOfParticles)
-                        particle.renderConnections(this.ctx, this.mouseX, this.mouseY, mouseIsOverCanvas)
-                })
+                const connections = this.particlesManagerJS.getConnections();
+
+                if (connections) {
+                    connections.forEach(connection => {
+                        this.ctx.beginPath();
+                        this.ctx.globalAlpha = connection.globalAlpha;
+                        this.ctx.moveTo(connection.particle.x, connection.particle.y);
+                        this.ctx.lineTo(connection.neighbor.x, connection.neighbor.y);
+                        this.ctx.stroke();
+                    });
+                    
+                    this.particlesManagerJS.clearConnections();
+                }
         }
     }
 
@@ -95,12 +103,11 @@ export class AnimationRenderer {
         this.ctx.fillText(Math.round(fps), this.canvas.width * 0.015, this.canvas.height * 0.95);
     }
 
-    setMousePosition(mouseX, mouseY) {
-        this.mouseX = mouseX;
-        this.mouseY = mouseY;
-    }
-
     changeNumberOfParticles(value) {
         this.numberOfParticles = value;
+    }
+
+    setParticlesManagerJS(particlesManagerJS) {
+        this.particlesManagerJS = particlesManagerJS;
     }
 }

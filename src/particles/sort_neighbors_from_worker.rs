@@ -61,7 +61,7 @@ impl SortNeighborsFromWorker {
             distances.sort_unstable_by(|a, b| {
                 a.1
                     .partial_cmp(&b.1)
-                    .expect("Sort distance for each `Particle` in the neighbors_matrix failed.")
+                    .expect("Sort distance for each `Particle` failed.")
             });
 
             for i in 0..10 {
