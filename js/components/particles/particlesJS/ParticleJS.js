@@ -150,15 +150,3 @@ export default class ParticleJS {
     }
 
 }
-
-// Returns RGB values for the color of each particle
-function getRandomParticleColor() {
-    var chance = Math.random();
-    if (chance < 0.70) {
-        return opts.PARTICLE_COLOR_1;
-    } else if (chance < 0.90) {
-        return opts.PARTICLE_COLOR_2;
-    } else {
-        return opts.PARTICLE_COLOR_3;
-    }
-}

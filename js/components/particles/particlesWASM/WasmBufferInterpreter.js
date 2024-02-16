@@ -1,5 +1,4 @@
 import { opts } from "../Particles.js";
-import { getDist } from "../particlesJS/utilsJS.js";
 
 // indices and size of the `Particle` struct from Rust
 // Needs to be changed manually if an element is added  
@@ -179,7 +178,7 @@ export class WasmBufferInterpreter {
     // Render the each `Particle` of the `wasmParticlesBuffer`
     renderParticles(ctx) {
         let baseIndex = 0;
-        
+
         for (let i = 0; i < this.numberOfParticles; i++) {
             let x = this.wasmParticlesBuffer[baseIndex + particle.X];
             let y = this.wasmParticlesBuffer[baseIndex + particle.Y];
@@ -253,7 +252,6 @@ export class WasmBufferInterpreter {
         
         for (let i = 0; i < this.numberOfParticles; i++) {
             let active = particles[i].active;
-            let size = particles[i].size;
 
             if (active) {
                 active = 0.0;
