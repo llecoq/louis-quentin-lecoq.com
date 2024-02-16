@@ -12,7 +12,8 @@ pub struct ParticlesManagerWASM {
     neighbors_matrix: Vec<Vec<(usize, f32)>>,
     canvas: Canvas,
     number_of_particles: usize,
-    connections_manager: ConnectionsManagerWASM
+    connections_manager: ConnectionsManagerWASM,
+    connection_max_dist: f32,
 }
 
 #[wasm_bindgen]
@@ -86,7 +87,7 @@ impl ParticlesManagerWASM {
                 if mouse_is_over_canvas {
                     let dist_to_mouse = particle.get_distance_from(mouse_x, mouse_y);
 
-                    if dist_to_mouse < self.opts.connection_max_dist as f32 {
+                    if dist_to_mouse < self.connection_max_dist {
                         let mouse: Particle = Particle::new_mouse(mouse_x, mouse_y);
 
                         self.connections_manager.add_connection(
@@ -147,6 +148,11 @@ impl ParticlesManagerWASM {
     pub fn change_number_of_particles(&mut self, new_number_of_particles: usize) {
         self.number_of_particles = new_number_of_particles;
     }
+
+    pub fn set_connection_max_dist(&mut self, value: f32) {
+        self.connection_max_dist = value;
+        self.connections_manager.set_connection_max_dist(value);
+    }
 }
 
 impl ParticlesManagerWASM {
@@ -161,6 +167,7 @@ impl ParticlesManagerWASM {
         let js_opts: Opts = get_opts_from_js().unwrap();
         let number_of_particles = js_opts.number_of_particles;
         let max_number_of_particles: usize = js_opts.max_number_of_particles;
+        let connection_max_dist = js_opts.connection_max_dist;
 
         ParticlesManagerWASM {
             opts: js_opts,
@@ -189,8 +196,10 @@ impl ParticlesManagerWASM {
                         neighbor_y: 0.0
                     };
                     10000
-                ]
-            }
+                ],
+                connection_max_dist
+            },
+            connection_max_dist
         }
     }
 

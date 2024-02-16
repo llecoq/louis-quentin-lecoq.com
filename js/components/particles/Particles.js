@@ -49,6 +49,8 @@ export class Particles {
     particlesNumberOutput
     workersRangeSlider
     workersNumberOutput    
+    connectionDistanceRangeSlider
+    connectionDistanceOutput    
 
     init() {
         document.body.style.height = "100vh";
@@ -72,6 +74,7 @@ export class Particles {
 
         this.handleParticlesNumberRange();
         this.handleWorkersNumberRange();
+        this.handleConnectionMaxDistanceRange();
     }
 
     handleParticlesNumberRange() {
@@ -98,6 +101,20 @@ export class Particles {
             this.worker.postMessage({
                 type: 'numberOfWorkersChange',
                 numberOfWorkers: this.workersRangeSlider.value
+            });
+        };
+    }
+
+    handleConnectionMaxDistanceRange() {
+        this.connectionDistanceRangeSlider = document.getElementById("connection-max-distance-range");
+        this.connectionDistanceOutput = document.getElementById("connection-max-distance");
+        this.connectionDistanceRangeSlider.value = opts.CONNECTION_MAX_DIST;
+        this.connectionDistanceOutput.innerHTML = this.connectionDistanceRangeSlider.value;
+        this.connectionDistanceRangeSlider.oninput = () => {
+            this.connectionDistanceOutput.innerHTML = this.connectionDistanceRangeSlider.value;
+            this.worker.postMessage({
+                type: 'connectionMaxDistChange',
+                connectionMaxDist: this.connectionDistanceRangeSlider.value
             });
         };
     }

@@ -9,15 +9,17 @@ export default class ImpulseJS {
     target
     speed
     distAutonomy
+    connectionMaxDist
 
     // Constructor
-    constructor(x, y, particle, neighbor, distAutonomy = opts.IMPULSE_DIST_AUTONOMY) {
+    constructor(x, y, particle, neighbor, connectionMaxDist, distAutonomy = opts.IMPULSE_DIST_AUTONOMY) {
         this.x = x;
         this.y = y;
         this.particle = particle;
         this.target = neighbor;
         this.speed = Math.random() * opts.IMPULSE_SPEED + opts.IMPULSE_SPEED_OFFSET;
         this.distAutonomy = distAutonomy;
+        this.connectionMaxDist = connectionMaxDist;
     }
 
     // Update impulse position
@@ -40,7 +42,7 @@ export default class ImpulseJS {
     // Render impulse
     render(ctx, scaleFPS) {
         if (opts.SHOOTING_STARS === false 
-            && getDist(this.x, this.y, this.target.x, this.target.y) > opts.CONNECTION_MAX_DIST) 
+            && getDist(this.x, this.y, this.target.x, this.target.y) > this.connectionMaxDist) 
             return false;
         ctx.moveTo( this.x, this.y );
         this.updateImpulsePosition(scaleFPS, opts.IMPULSE_UPDATE_STEPS);
@@ -51,7 +53,7 @@ export default class ImpulseJS {
     // Get up to two neighbors
     getNextNeighbors(origin, particle) {
         const neighbors = particle.neighbors.filter(neighbor => 
-            getDist(particle.x, particle.y, neighbor.x, neighbor.y) < opts.CONNECTION_MAX_DIST &&
+            getDist(particle.x, particle.y, neighbor.x, neighbor.y) < this.connectionMaxDist &&
             neighbor !== origin && 
             !neighbor.active
         );
@@ -90,5 +92,9 @@ export default class ImpulseJS {
             }
             return false;
         }
+    }
+
+    setConnectionMaxDist(value) {
+        this.connectionMaxDist = value;
     }
 }

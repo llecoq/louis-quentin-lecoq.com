@@ -9,12 +9,14 @@ export default class ParticlesManagerJS {
     particles
     numberOfParticles
     connectionManager
+    connectionMaxDist
     
     constructor(ctx, maxNumberOfParticles, canvas) {
         this.ctx = ctx;
         this.particles = [];
         this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
         this.connectionManager = new ConnectionsManager();
+        this.connectionMaxDist = opts.CONNECTION_MAX_DIST;
 
         // Initialize particles
         for (let i = 0; i < maxNumberOfParticles; i++) {
@@ -44,6 +46,14 @@ export default class ParticlesManagerJS {
         })
     }
 
+    setConnectionMaxDist(value) {
+        this.connectionMaxDist = value;
+        this.connectionManager.setConnectionMaxDist(value);
+        this.particles.forEach(particle => {
+            particle.setConnectionMaxDist(value);
+        })
+    }
+
     // Sort neighbors based on distance
     sort_neighbors() {
         this.particles.slice(0, this.numberOfParticles).forEach(particle => {
@@ -61,7 +71,7 @@ export default class ParticlesManagerJS {
             neighbors.forEach(neighbor => {
                 const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
 
-                if (dist < opts.CONNECTION_MAX_DIST)
+                if (dist < this.connectionMaxDist)
                     this.connectionManager.addConnection(particle, neighbor, dist);
             })
 
@@ -69,7 +79,7 @@ export default class ParticlesManagerJS {
             if (mouseIsOverCanvas) {
                 const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY)
 
-                if (distToMouse < opts.CONNECTION_MAX_DIST) {
+                if (distToMouse < this.connectionMaxDist) {
                     const mouse = new ParticleJS();
                     mouse.setForMouse(mouseX, mouseY);
                     
