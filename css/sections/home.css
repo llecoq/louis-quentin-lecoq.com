@@ -11,7 +11,7 @@
 /* Canvas styling with initial animation */
 #canvas {
   opacity: 0;
-  animation: apparitionCanvas 3s ease-in forwards; 
+  animation: apparitionCanvas 4s ease-in forwards; 
 }
 
 /* Define keyframes for canvas appearance animation */

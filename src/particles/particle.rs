@@ -170,9 +170,9 @@ impl Particle {
 
 // Returns red values for the color of the `Particle`
 fn get_random_red_value(chance: f32) -> f32 {
-    if chance < 0.60 {
+    if chance < 0.55 {
         255.0
-    } else if chance < 0.85 {
+    } else if chance < 0.80 {
         72.0
     } else {
         74.0
@@ -181,9 +181,9 @@ fn get_random_red_value(chance: f32) -> f32 {
 
 // Returns green values for the color of the `Particle`
 fn get_random_green_value(chance: f32) -> f32 {
-    if chance < 0.60 {
+    if chance < 0.55 {
         255.0
-    } else if chance < 0.85 {
+    } else if chance < 0.80 {
         107.0
     } else {
         247.0
@@ -192,7 +192,7 @@ fn get_random_green_value(chance: f32) -> f32 {
 
 // Returns blue values for the color of the `Particle`
 fn get_random_blue_value(chance: f32) -> f32 {
-    if chance < 0.60 {
+    if chance < 0.55 {
         255.0
     } else if chance < 0.85 {
         247.0

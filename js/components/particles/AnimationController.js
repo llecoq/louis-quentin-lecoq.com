@@ -48,6 +48,9 @@ onmessage = function (e) {
                     break;
                 case 'numberOfParticlesChange':
                     animationController.changeNumberOfParticles(e.data.numberOfParticles);
+                    break;
+                case 'numberOfWorkersChange':
+                    animationController.changeNumberOfWorkers(e.data.numberOfWorkers);
             }
         }
     }
@@ -94,12 +97,14 @@ class AnimationController {
     mouseY
     mouseIsOverCanvas
     timeData
+    numberOfWorkers
 
     constructor() {
         this.animationMode = "WASM";
         this.isAnimating = false;
         this.timeData = new TimeData();
         this.mouseIsOverCanvas = false;
+        this.numberOfWorkers = opts.NUMBER_OF_WEB_WORKERS;
     }
 
     init(canvas, ctx) {
@@ -245,9 +250,9 @@ class AnimationController {
     }
 
     sortNeighbors() {
-        if (opts.WEB_WORKERS)
+        if (this.numberOfWorkers > 0)
             return setInterval(() => this.workersManager.sortNeighbors(), opts.SORT_NEIGHBORS_REFRESH_RATE);
-        else
+        else 
             return setInterval(() => this.activeParticlesManager.sort_neighbors(), opts.SORT_NEIGHBORS_REFRESH_RATE);
     }
 
@@ -265,5 +270,12 @@ class AnimationController {
         this.workersManager.changeNumberOfParticles(value);
         this.impulsesManagerWASM.change_number_of_particles(value);
         this.impulsesManagerJS.changeNumberOfParticles(value);
+    }
+
+    changeNumberOfWorkers(value) {
+        this.numberOfWorkers = value;
+        clearInterval(this.sortNeighborsId);
+        this.workersManager.changeNumberOfWorkers(value);
+        this.sortNeighborsId = this.sortNeighbors();
     }
 }
