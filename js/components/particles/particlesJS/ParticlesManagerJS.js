@@ -1,17 +1,20 @@
 import ParticleJS from "./ParticleJS.js";
 import { getDist } from "./utilsJS.js";
 import { opts } from "../Particles.js";
+import ConnectionsManager from "./ConnectionsManager.js";
 
 export default class ParticlesManagerJS {
     
     ctx
     particles
     numberOfParticles
+    connectionManager
     
     constructor(ctx, maxNumberOfParticles, canvas) {
         this.ctx = ctx;
         this.particles = [];
         this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.connectionManager = new ConnectionsManager();
 
         // Initialize particles
         for (let i = 0; i < maxNumberOfParticles; i++) {
@@ -37,7 +40,7 @@ export default class ParticlesManagerJS {
                 data.active = 0;
             }
 
-            particle.setParticleData(data);
+            particle.setParticleData(data, index);
         })
     }
 
@@ -50,6 +53,32 @@ export default class ParticlesManagerJS {
         });
     }
 
+    create_connections(mouseIsOverCanvas, mouseX, mouseY) {
+        this.particles.slice(0, this.numberOfParticles).forEach(particle => {
+            // Create connections between Particles
+            const neighbors = particle.getNeighbors();
+
+            neighbors.forEach(neighbor => {
+                const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
+
+                if (dist < opts.CONNECTION_MAX_DIST)
+                    this.connectionManager.addConnection(particle, neighbor, dist);
+            })
+
+            // Create connections between Particles and Mouse
+            if (mouseIsOverCanvas) {
+                const distToMouse = getDist(particle.x, particle.y, mouseX, mouseY)
+
+                if (distToMouse < opts.CONNECTION_MAX_DIST) {
+                    const mouse = new ParticleJS();
+                    mouse.setForMouse(mouseX, mouseY);
+                    
+                    this.connectionManager.addConnection(particle, mouse, distToMouse);
+                }
+            }
+        })
+    }
+
     // Get Particles
     getParticles() {
         return this.particles;
@@ -57,5 +86,13 @@ export default class ParticlesManagerJS {
 
     changeNumberOfParticles(value) {
         this.numberOfParticles = value;
+    }
+
+    getConnections() {
+        return this.connectionManager.getConnections();
+    }
+
+    clearConnections() {
+        this.connectionManager.clearConnections();
     }
 }

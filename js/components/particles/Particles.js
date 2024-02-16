@@ -5,7 +5,7 @@ export const opts = {
     WEB_WORKERS: 4,
 
     // Particles
-    NUMBER_OF_PARTICLES: 500, // Do not exceed MAX_NUMBER_OF_PARTICLES
+    NUMBER_OF_PARTICLES: 800, // Do not exceed MAX_NUMBER_OF_PARTICLES
     MAX_NUMBER_OF_PARTICLES: 1500, // Change this number only to match max range of id='particles-number-range'
     PARTICLE_MAX_SIZE: 2.5,
     PARTICLE_MIN_SIZE: 0.6,
@@ -19,9 +19,9 @@ export const opts = {
     // Connections
     CONNECTION_MAX_DIST: 60,
     CONNECTIONS_STROKE_STYLE: 'rgba(72, 217, 247, 0.5)',
-    CONNECTIONS_LINE_WIDTH: 0.4,
-    CONNECTIONS_GLOBAL_ALPHA: 1.1,
-    ACTIVE_CONNECTIONS_GLOBAL_ALPHA: 1.4, 
+    CONNECTIONS_LINE_WIDTH: 0.9,
+    CONNECTIONS_GLOBAL_ALPHA: 1.2,
+    ACTIVE_CONNECTIONS_GLOBAL_ALPHA: 1.6, 
     PARTICLE_MAX_CONNECTIONS: 10,
 
     // Impulses
@@ -35,6 +35,8 @@ export const opts = {
 
     // FPS / DELTA
     BASE_DELTA: 100 / 6,
+
+    SORT_NEIGHBORS_REFRESH_RATE: 250 // in ms
 }
 
 export class Particles {

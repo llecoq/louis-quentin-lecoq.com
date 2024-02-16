@@ -4,6 +4,7 @@ import ImpulseJS from "./ImpulseJS.js";
 
 export default class ParticleJS {
     
+    index
     canvas
     x
     y
@@ -27,7 +28,8 @@ export default class ParticleJS {
         this.speedY = 0;
     }
 
-    setParticleData(data) {
+    setParticleData(data, index) {
+        this.index = index;
         this.x = data.x;
         this.y = data.y;
         this.size = data.size;
@@ -135,6 +137,16 @@ export default class ParticleJS {
             return new ImpulseJS(mouseX, mouseY, this, neighbor);
         }
         return null;
+    }
+
+    getNeighbors() {
+        return this.neighbors;
+    }
+
+    setForMouse(mouseX, mouseY) {
+        this.index = -1;
+        this.x = mouseX;
+        this.y = mouseY;
     }
 
 }

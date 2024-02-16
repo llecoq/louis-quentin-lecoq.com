@@ -1,8 +1,8 @@
-use std::{rc::Rc, cell::RefCell};
+use std::{cell::RefCell, collections::HashSet, rc::Rc};
 use wasm_bindgen::prelude::*;
 
-use crate::particles::{Opts, get_opts_from_js};
-use super::{particle::Particle, Canvas};
+use crate::particles::{connection::Connection, get_opts_from_js, Opts};
+use super::{connections_manager::ConnectionsManagerWASM, particle::Particle, Canvas};
 
 #[wasm_bindgen]
 #[derive(Clone)]
@@ -11,7 +11,8 @@ pub struct ParticlesManagerWASM {
     particles: Rc<RefCell<Vec<Particle>>>,
     neighbors_matrix: Vec<Vec<(usize, f32)>>,
     canvas: Canvas,
-    number_of_particles: usize
+    number_of_particles: usize,
+    connections_manager: ConnectionsManagerWASM
 }
 
 #[wasm_bindgen]
@@ -49,14 +50,65 @@ impl ParticlesManagerWASM {
     pub fn update(&mut self, scale_fps: f32) {
         let mut particles = self.particles.borrow_mut();
 
-        for (_, particle) in particles
+        for (particle_index, particle) in particles
             .iter_mut()
-            .enumerate()
-            .filter(|(particle_index, _)| {
-                particle_index < &self.number_of_particles
-            }) {
+            .enumerate() {
+            if particle_index < self.number_of_particles {
                 particle.update_position(self.canvas.height, self.canvas.width, scale_fps);
             }
+        }
+    }
+
+    pub fn create_connections(&mut self, mouse_is_over_canvas: bool, mouse_x: f32, mouse_y:f32) {
+        self.connections_manager.clear_connections();
+
+        let particles: &Vec<Particle> = &self.particles.borrow();
+
+        for (particle_index, particle) in particles
+            .iter()
+            .enumerate() {
+            if particle_index < self.number_of_particles {
+                // Create connections between Particles
+                for neighbor_number in 0..10 {
+                    let neighbor_index: usize = self.get_neighbor_index(particle, neighbor_number);
+                    let neighbor: &Particle = &particles[neighbor_index];
+        
+                    if !self.connections_manager.add_connection(
+                        (particle, particle_index as f32),
+                        (neighbor, neighbor_index as f32), 
+                        &self.opts
+                    ) {
+                        break;
+                    }
+                }
+
+                // Create connections between Particles and Mouse
+                if mouse_is_over_canvas {
+                    let dist_to_mouse = particle.get_distance_from(mouse_x, mouse_y);
+
+                    if dist_to_mouse < self.opts.connection_max_dist as f32 {
+                        let mouse: Particle = Particle::new_mouse(mouse_x, mouse_y);
+
+                        self.connections_manager.add_connection(
+                            (particle, particle_index as f32), 
+                            (&mouse.clone(), -1.0), 
+                            &self.opts
+                        );
+                    }  
+                }
+
+            }
+        }
+
+        self.connections_manager.convert_hashset_to_vec();
+    }
+
+    pub fn get_connections_ptr(&mut self) -> *const Connection {
+        self.connections_manager.get_connections_vec_ptr()
+    }
+
+    pub fn get_connections_len(&mut self) -> usize {
+        self.connections_manager.get_vec_len()
     }
 
     pub fn resize_canvas(&mut self, width: u32, height: u32) {
@@ -124,7 +176,21 @@ impl ParticlesManagerWASM {
                 height: canvas_height,
                 width: canvas_width
             },
-            number_of_particles
+            number_of_particles,
+            connections_manager: ConnectionsManagerWASM {
+                connections_set: HashSet::with_capacity(10000),
+                connections_vec: vec![
+                    Connection {
+                        particles: (0.0, 0.0),
+                        global_alpha: 0.0,
+                        x: 0.0,
+                        y: 0.0,
+                        neighbor_x: 0.0,
+                        neighbor_y: 0.0
+                    };
+                    10000
+                ]
+            }
         }
     }
 
@@ -145,4 +211,20 @@ impl ParticlesManagerWASM {
             }
         }
     }
+
+    fn get_neighbor_index(&self, particle: &Particle, neighbor_number: usize) -> usize {
+        match neighbor_number {
+            0 => particle.neighbor_1 as usize,
+            1 => particle.neighbor_2 as usize,
+            2 => particle.neighbor_3 as usize,
+            3 => particle.neighbor_4 as usize,
+            4 => particle.neighbor_5 as usize,
+            5 => particle.neighbor_6 as usize,
+            6 => particle.neighbor_7 as usize,
+            7 => particle.neighbor_8 as usize,
+            8 => particle.neighbor_9 as usize,
+            9 => particle.neighbor_10 as usize,
+            _ => 0
+        }
+    } 
 }
