@@ -135,10 +135,12 @@ class AnimationController {
         this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.MAX_NUMBER_OF_PARTICLES, canvas);
         this.impulsesManagerJS = new ImpulsesManagerJS(ctx, this.particlesManagerJS.getParticles());
 
+
         // Create a new AnimationRenderer
         const particlesJS = this.particlesManagerJS.getParticles();
         const impulsesJS = this.impulsesManagerJS.getImpulses();
         this.animationRenderer = new AnimationRenderer(ctx, this.wasmBufferInterpreter, particlesJS, impulsesJS, canvas);
+        this.animationRenderer.setParticlesManagerJS(this.particlesManagerJS);
 
         // Setup the active ParticlesManager
         this.activeParticlesManager = this.particlesManagerWASM;
@@ -146,8 +148,6 @@ class AnimationController {
 
         // Init WebWorkers
         this.workersManager = new WorkersManager(this.particlesManagerJS, this.wasmBufferInterpreter);
-
-        this.animationRenderer.setParticlesManagerJS(this.particlesManagerJS);
 
         // Start animation
         this.start();
@@ -217,12 +217,10 @@ class AnimationController {
 
     // Set mouseIsOverCanvas to a given value
     setMouseIsOverCanvas(value) {
-        switch (this.animationMode) {
-            case "WASM":
-                this.wasmBufferInterpreter.setMouseIsOverCanvas(value)
-            case "JS":
-                this.mouseIsOverCanvas = value;
-        }
+        if (this.animationMode === "WASM")
+            this.wasmBufferInterpreter.setMouseIsOverCanvas(value)
+
+        this.mouseIsOverCanvas = value;
     }
 
     // Change AnimationMode

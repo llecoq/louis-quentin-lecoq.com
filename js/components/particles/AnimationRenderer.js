@@ -36,9 +36,9 @@ export class AnimationRenderer {
             case "WASM":
                 this.wasmBufferInterpreter.renderConnections(this.ctx, connections_len);
                 break;
-            case "JS":
+            case "JS": {
                 const connections = this.particlesManagerJS.getConnections();
-
+                
                 if (connections) {
                     connections.forEach(connection => {
                         this.ctx.beginPath();
@@ -50,6 +50,7 @@ export class AnimationRenderer {
                     
                     this.particlesManagerJS.clearConnections();
                 }
+            }
         }
     }
 
