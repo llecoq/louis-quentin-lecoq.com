@@ -43,17 +43,17 @@ export default class WorkersManager {
         this.animationMode = "WASM";
         this.particlesManagerJS = particlesManagerJS;
         this.wasmBufferInterpreter = wasmBufferInterpreter;
-        this.numberOfWorkers = opts.WEB_WORKERS;
+        this.numberOfWorkers = opts.NUMBER_OF_WEB_WORKERS;
         this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
 
-        if (opts.WEB_WORKERS) {
+        if (opts.NUMBER_OF_WEB_WORKERS) {
             this.initSharedParticlesData();
             this.setupWorkersManager();
         }
     }
         
     sortNeighbors() {
-        if (opts.WEB_WORKERS) {
+        if (this.numberOfWorkers) {
             this.updateSharedParticlesData();
             
             // Send transferable buffer to each worker
@@ -88,7 +88,7 @@ export default class WorkersManager {
     }
 
     setupWorkersManager() {
-        if (opts.WEB_WORKERS) {
+        if (this.numberOfWorkers) {
             this.initWorkers();
             this.updateSharedParticlesData();
         }
@@ -135,7 +135,7 @@ export default class WorkersManager {
     }
 
     terminateWorkers() {
-        if (opts.WEB_WORKERS) {
+        if (this.numberOfWorkers) {
             this.workers.forEach(workerData => {
                 workerData.worker.terminate();
             })
@@ -245,6 +245,16 @@ export default class WorkersManager {
                 startIndex: startIndex,
                 endIndex: endIndex
             });
+        }
+    }
+
+    changeNumberOfWorkers(value) {
+        this.numberOfWorkers = value;
+        this.terminateWorkers();
+
+        if (this.numberOfWorkers) {
+            this.initSharedParticlesData();
+            this.setupWorkersManager();
         }
     }
 

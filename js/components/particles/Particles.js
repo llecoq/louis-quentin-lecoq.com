@@ -2,10 +2,10 @@ import EventListener from './EventListener.js'
 
 export const opts = {
     SHOOTING_STARS: false,
-    WEB_WORKERS: 4,
+    NUMBER_OF_WEB_WORKERS: 4,
 
     // Particles
-    NUMBER_OF_PARTICLES: 800, // Do not exceed MAX_NUMBER_OF_PARTICLES
+    NUMBER_OF_PARTICLES: 750, // Do not exceed MAX_NUMBER_OF_PARTICLES
     MAX_NUMBER_OF_PARTICLES: 1500, // Change this number only to match max range of id='particles-number-range'
     PARTICLE_MAX_SIZE: 2.1,
     PARTICLE_MIN_SIZE: 0.6,
@@ -44,9 +44,12 @@ export class Particles {
 
     eventListener
     worker
+
     particlesRangeSlider
     particlesNumberOutput
-    
+    workersRangeSlider
+    workersNumberOutput    
+
     init() {
         document.body.style.height = "100vh";
         // Creation of an OffscreenCanvas
@@ -68,10 +71,10 @@ export class Particles {
         this.eventListener.init();
 
         this.handleParticlesNumberRange();
+        this.handleWorkersNumberRange();
     }
 
     handleParticlesNumberRange() {
-        
         this.particlesRangeSlider = document.getElementById("particles-number-range");
         this.particlesNumberOutput = document.getElementById("particles-number");
         this.particlesRangeSlider.value = opts.NUMBER_OF_PARTICLES;
@@ -81,6 +84,20 @@ export class Particles {
             this.worker.postMessage({
                 type: 'numberOfParticlesChange',
                 numberOfParticles: this.particlesRangeSlider.value
+            });
+        };
+    }
+
+    handleWorkersNumberRange() {
+        this.workersRangeSlider = document.getElementById("workers-number-range");
+        this.workersNumberOutput = document.getElementById("workers-number");
+        this.workersRangeSlider.value = opts.NUMBER_OF_WEB_WORKERS;
+        this.workersNumberOutput.innerHTML = this.workersRangeSlider.value;
+        this.workersRangeSlider.oninput = () => {
+            this.workersNumberOutput.innerHTML = this.workersRangeSlider.value;
+            this.worker.postMessage({
+                type: 'numberOfWorkersChange',
+                numberOfWorkers: this.workersRangeSlider.value
             });
         };
     }
