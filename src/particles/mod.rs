@@ -44,7 +44,7 @@ pub struct Opts {
 
     // Connections
     #[serde(rename = "CONNECTION_MAX_DIST")]
-    pub connection_max_dist: u16,
+    pub connection_max_dist: f32,
     #[serde(rename = "CONNECTIONS_STROKE_STYLE")]
     pub connection_stroke_style: String,
     #[serde(rename = "CONNECTIONS_LINE_WIDTH")]

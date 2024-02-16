@@ -8,12 +8,14 @@ export default class ImpulsesManagerJS {
     mouseX
     mouseY
     numberOfParticles
+    connectionMaxDist
 
     constructor(ctx, particles) {
         this.ctx = ctx;
         this.impulses = [];
         this.particles = particles;
         this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.connectionMaxDist = opts.CONNECTION_MAX_DIST;
     }
 
     // Create impulses
@@ -39,9 +41,11 @@ export default class ImpulsesManagerJS {
         this.numberOfParticles = value;
     }
 
-    // setImpulsesDataFromWASM(wasmBufferInterpreter) {
-    //     this.impulses.forEach((impulse, index) => {
-    //         impulse.setParticleData(wasmBufferInterpreter.getImpulseData(index));
-    //     })
-    // }
+    setConnectionMaxDist(value) {
+        this.connectionMaxDist = this.connectionMaxDist;
+
+        this.impulses.forEach(impulse => {
+            impulse.setConnectionMaxDist(value);
+        })
+    }
 }

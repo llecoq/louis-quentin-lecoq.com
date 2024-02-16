@@ -13,6 +13,7 @@ pub struct ImpulsesManagerWASM {
     active_impulses_number: usize,
     next_neighbors_data: Vec<(usize, (Option<ParticleData>, Option<ParticleData>))>,
     number_of_particles: usize,
+    connection_max_dist: f32,
 }
 
 #[derive(Clone, Debug)]
@@ -37,6 +38,7 @@ impl ImpulsesManagerWASM {
     pub fn new(particles_ref: Rc<RefCell<Vec<Particle>>>) -> ImpulsesManagerWASM {
         let js_opts: Opts = get_opts_from_js().expect("Error while fetching Opts from JS");
         let number_of_particles = js_opts.number_of_particles;
+        let connection_max_dist: f32 = js_opts.connection_max_dist;
 
         ImpulsesManagerWASM {
             impulses: vec![
@@ -57,7 +59,8 @@ impl ImpulsesManagerWASM {
             mouse_tracker: MouseTracker::new(),
             active_impulses_number: 0,
             next_neighbors_data: vec![],
-            number_of_particles
+            number_of_particles,
+            connection_max_dist
         }
     }
 
@@ -187,7 +190,7 @@ impl ImpulsesManagerWASM {
             .iter()
             .filter(|neighbor| {
                 neighbor.active == 0.0
-                && target_particle.get_distance_from(neighbor.x, neighbor.y) < self.opts.connection_max_dist as f32
+                && target_particle.get_distance_from(neighbor.x, neighbor.y) < self.connection_max_dist
                 && neighbor.index != origin_index            
             })
             .take(2)
@@ -235,7 +238,7 @@ impl ImpulsesManagerWASM {
         for impulse in impulses_to_add {
             // If the "Shooting Stars" mode is false, it will not add the Impulse if it's too far away from it's target
             if self.opts.shooting_stars == false 
-                && self.get_distance_between(impulse.x, impulse.y, impulse.target_x, impulse.target_y) > self.opts.connection_max_dist.into() 
+                && self.get_distance_between(impulse.x, impulse.y, impulse.target_x, impulse.target_y) > self.connection_max_dist 
             {
                 continue;
             }
@@ -343,5 +346,9 @@ impl ImpulsesManagerWASM {
 
     pub fn change_number_of_particles(&mut self, value: usize) {
         self.number_of_particles = value;
+    }
+
+    pub fn set_connection_max_dist(&mut self, value: f32) {
+        self.connection_max_dist = value;
     }
 }

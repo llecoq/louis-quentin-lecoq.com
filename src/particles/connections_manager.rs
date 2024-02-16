@@ -6,6 +6,7 @@ use super::{connection::Connection, particle::Particle, Opts};
 pub struct ConnectionsManagerWASM {
     pub connections_set: HashSet<Connection>,
     pub connections_vec: Vec<Connection>,
+    pub connection_max_dist: f32,
 }
 
 impl ConnectionsManagerWASM {
@@ -22,7 +23,7 @@ impl ConnectionsManagerWASM {
         js_opts: &Opts
     ) -> bool
     {
-        match Connection::new(particle, neighbor, js_opts) {
+        match Connection::new(particle, neighbor, js_opts, self.connection_max_dist) {
             Some(connection) => {
                 self.connections_set.insert(connection);
                 true
@@ -46,5 +47,9 @@ impl ConnectionsManagerWASM {
 
     pub fn get_vec_len(&mut self) -> usize {
         self.connections_set.len()
+    }
+
+    pub fn set_connection_max_dist(&mut self, value: f32) {
+        self.connection_max_dist = value;
     }
 }

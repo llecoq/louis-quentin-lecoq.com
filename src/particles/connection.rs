@@ -17,18 +17,19 @@ impl Connection {
     pub fn new(
         particle: (&Particle, f32),
         neighbor: (&Particle, f32),
-        js_opts: &Opts
+        js_opts: &Opts,
+        connection_max_dist: f32
     ) -> Option<Self> 
     {
         let distance = particle.0.get_distance_from(neighbor.0.x, neighbor.0.y);
 
-        if distance < js_opts.connection_max_dist as f32 {
+        if distance < connection_max_dist {
             let mut global_alpha = if particle.0.is_active() && neighbor.0.is_active() {
                 js_opts.active_connections_global_alpha
             } else {
                 js_opts.connection_global_alpha
             };
-            global_alpha -= distance / js_opts.connection_max_dist as f32;
+            global_alpha -= distance / connection_max_dist;
 
             let particles: (f32, f32) = if particle.1 < neighbor.1 {
                 (particle.1, neighbor.1)

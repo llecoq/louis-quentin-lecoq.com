@@ -146,7 +146,7 @@ impl Particle {
         let dist_to_mouse = self.get_distance_from(mouse_x as f32, mouse_y as f32);
 
         self.active == 0.0
-            && dist_to_mouse < opts.connection_max_dist as f32
+            && dist_to_mouse < opts.connection_max_dist 
             && number_of_active_impulses < opts.max_impulses as usize
     }
 

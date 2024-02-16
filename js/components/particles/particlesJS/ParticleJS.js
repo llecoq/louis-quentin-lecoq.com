@@ -15,6 +15,7 @@ export default class ParticleJS {
     speedY
     neighbors = []
     active = false
+    connectionMaxDist
 
     // Constructor
     constructor(canvas) {
@@ -26,6 +27,7 @@ export default class ParticleJS {
         this.color = 'rgb(255, 255, 255)';
         this.speedX = 0;
         this.speedY = 0;
+        this.connectionMaxDist = opts.CONNECTION_MAX_DIST;
     }
 
     setParticleData(data, index) {
@@ -86,15 +88,19 @@ export default class ParticleJS {
         this.neighbors[neighborPosition] = neighbor;
     }
 
+    setConnectionMaxDist(value) {
+        this.connectionMaxDist = value;
+    }
+
     // Render connections between `Particle` on the canvas
     renderConnections(ctx, mouseX, mouseY, mouseIsOverCanvas) {
         this.neighbors.forEach(neighbor => {
             const dist = getDist(this.x, this.y, neighbor.x, neighbor.y);
             
             // render connections between particles
-            if (dist < opts.CONNECTION_MAX_DIST) {
+            if (dist < this.connectionMaxDist) {
                 const globalAlpha = this.active && neighbor.active ? opts.ACTIVE_CONNECTIONS_GLOBAL_ALPHA : opts.CONNECTIONS_GLOBAL_ALPHA;
-                ctx.globalAlpha = globalAlpha - dist / opts.CONNECTION_MAX_DIST;
+                ctx.globalAlpha = globalAlpha - dist / this.connectionMaxDist;
 
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
@@ -106,7 +112,7 @@ export default class ParticleJS {
             if (mouseIsOverCanvas) {
                 const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
 
-                if (distToMouse < opts.CONNECTION_MAX_DIST) {
+                if (distToMouse < this.connectionMaxDist) {
                     ctx.beginPath();
                     ctx.moveTo(this.x, this.y);
                     ctx.lineTo(mouseX, mouseY);
@@ -121,7 +127,7 @@ export default class ParticleJS {
     canCreateImpulse(mouseX, mouseY, numberOfActiveImpules) {
         const distToMouse = getDist(this.x, this.y, mouseX, mouseY);
 
-        if (distToMouse < opts.CONNECTION_MAX_DIST 
+        if (distToMouse < this.connectionMaxDist 
                 && this.active === false
                 && numberOfActiveImpules < opts.MAX_IMPULSES) {
             return true;
@@ -131,10 +137,10 @@ export default class ParticleJS {
 
     // Create a new `ImpulseJS` and returns it on success
     createImpulse(mouseX, mouseY) {
-        const neighbor = this.neighbors.find(neighbor => getDist(neighbor.x, neighbor.y, this.x, this.y) < opts.CONNECTION_MAX_DIST);
+        const neighbor = this.neighbors.find(neighbor => getDist(neighbor.x, neighbor.y, this.x, this.y) < this.connectionMaxDist);
         if (neighbor) {
             this.activateTimer();
-            return new ImpulseJS(mouseX, mouseY, this, neighbor);
+            return new ImpulseJS(mouseX, mouseY, this, neighbor, this.connectionMaxDist);
         }
         return null;
     }

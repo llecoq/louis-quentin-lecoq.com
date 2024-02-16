@@ -51,6 +51,10 @@ onmessage = function (e) {
                     break;
                 case 'numberOfWorkersChange':
                     animationController.changeNumberOfWorkers(e.data.numberOfWorkers);
+                    break;
+                case 'connectionMaxDistChange':
+                    animationController.changeConnectionMaxDist(e.data.connectionMaxDist);
+                    break;
             }
         }
     }
@@ -277,5 +281,12 @@ class AnimationController {
         clearInterval(this.sortNeighborsId);
         this.workersManager.changeNumberOfWorkers(value);
         this.sortNeighborsId = this.sortNeighbors();
+    }
+
+    changeConnectionMaxDist(value) {
+        this.particlesManagerJS.setConnectionMaxDist(value);
+        this.impulsesManagerJS.setConnectionMaxDist(value);
+        this.particlesManagerWASM.set_connection_max_dist(value);
+        this.impulsesManagerWASM.set_connection_max_dist(value);
     }
 }
