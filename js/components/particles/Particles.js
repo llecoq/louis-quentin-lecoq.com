@@ -7,7 +7,7 @@ export const opts = {
     // Particles
     NUMBER_OF_PARTICLES: 800, // Do not exceed MAX_NUMBER_OF_PARTICLES
     MAX_NUMBER_OF_PARTICLES: 1500, // Change this number only to match max range of id='particles-number-range'
-    PARTICLE_MAX_SIZE: 2.5,
+    PARTICLE_MAX_SIZE: 2.1,
     PARTICLE_MIN_SIZE: 0.6,
     PARTICLE_ACTIVE_DELAY: 1000,
     PARTICLE_ACTIVE_COLOR: 'rgb(0, 150, 255)',
@@ -15,11 +15,12 @@ export const opts = {
     PARTICLE_COLOR_1: 'rgb(255, 255, 255)',
     PARTICLE_COLOR_2: 'rgb(72, 217, 247)',
     PARTICLE_COLOR_3: 'rgb(50, 130, 240)',
-    
+    ARC_RAD: Math.PI * 2,
+
     // Connections
     CONNECTION_MAX_DIST: 60,
     CONNECTIONS_STROKE_STYLE: 'rgba(72, 217, 247, 0.5)',
-    CONNECTIONS_LINE_WIDTH: 0.9,
+    CONNECTIONS_LINE_WIDTH: 0.7,
     CONNECTIONS_GLOBAL_ALPHA: 1.2,
     ACTIVE_CONNECTIONS_GLOBAL_ALPHA: 1.6, 
     PARTICLE_MAX_CONNECTIONS: 10,

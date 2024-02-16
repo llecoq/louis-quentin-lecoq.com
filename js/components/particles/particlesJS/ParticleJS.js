@@ -65,7 +65,7 @@ export default class ParticleJS {
     render(ctx) {
         ctx.beginPath();
         ctx.fillStyle = this.active ? opts.PARTICLE_ACTIVE_COLOR : this.color;
-        ctx.arc(this.x, this.y, this.active ? this.activeSize : this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.active ? this.activeSize : this.size, 0, opts.ARC_RAD);
         ctx.fill();
     }
 
