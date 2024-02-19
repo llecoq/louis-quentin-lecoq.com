@@ -248,8 +248,8 @@ class AnimationController {
                 this.activeParticlesManager = this.particlesManagerWASM;
             }
 
-        this.workersManager.changeAnimationMode();
         clearInterval(this.sortNeighborsId);
+        this.workersManager.changeAnimationMode();
         this.sortNeighborsId = this.sortNeighbors();
     }
 
