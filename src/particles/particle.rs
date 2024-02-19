@@ -63,16 +63,16 @@ impl Particle {
             speed_x : speed_x * dir_x,
             speed_y : speed_y * dir_y,
             active : 0.0,
-            neighbor_1: 0.0,
-            neighbor_2: 0.0,
-            neighbor_3: 0.0,
-            neighbor_4: 0.0,
-            neighbor_5: 0.0,
-            neighbor_6: 0.0,
-            neighbor_7: 0.0,
-            neighbor_8: 0.0,
-            neighbor_9: 0.0,
-            neighbor_10: 0.0,
+            neighbor_1: -1.0,
+            neighbor_2: -1.0,
+            neighbor_3: -1.0,
+            neighbor_4: -1.0,
+            neighbor_5: -1.0,
+            neighbor_6: -1.0,
+            neighbor_7: -1.0,
+            neighbor_8: -1.0,
+            neighbor_9: -1.0,
+            neighbor_10: -1.0,
         }
     }
 
@@ -80,24 +80,24 @@ impl Particle {
         Particle { 
             x: mouse_x, 
             y: mouse_y, 
-            speed_x: 0.0, 
-            speed_y: 0.0, 
-            size: 0.0, 
-            active_size: 0.0, 
-            color_red: 0.0, 
-            color_green: 0.0, 
-            color_blue: 0.0, 
-            active: 0.0, 
-            neighbor_1: 0.0, 
-            neighbor_2: 0.0, 
-            neighbor_3: 0.0, 
-            neighbor_4: 0.0, 
-            neighbor_5: 0.0, 
-            neighbor_6: 0.0, 
-            neighbor_7: 0.0, 
-            neighbor_8: 0.0, 
-            neighbor_9: 0.0, 
-            neighbor_10: 0.0 
+            speed_x: -1.0, 
+            speed_y: -1.0, 
+            size: -1.0, 
+            active_size: -1.0, 
+            color_red: -1.0, 
+            color_green: -1.0, 
+            color_blue: -1.0, 
+            active: -1.0, 
+            neighbor_1: -1.0, 
+            neighbor_2: -1.0, 
+            neighbor_3: -1.0, 
+            neighbor_4: -1.0, 
+            neighbor_5: -1.0, 
+            neighbor_6: -1.0, 
+            neighbor_7: -1.0, 
+            neighbor_8: -1.0, 
+            neighbor_9: -1.0, 
+            neighbor_10: -1.0 
         }
     }
     
@@ -164,6 +164,19 @@ impl Particle {
 
     pub fn is_active(&self) -> bool {
         self.active == 2.0 || self.active == 1.0
+    }
+
+    pub fn clear_neighbors(&mut self) {
+        self.neighbor_1 = -1.0;
+        self.neighbor_2 = -1.0;
+        self.neighbor_3 = -1.0;
+        self.neighbor_4 = -1.0;
+        self.neighbor_5 = -1.0;
+        self.neighbor_6 = -1.0;
+        self.neighbor_7 = -1.0;
+        self.neighbor_8 = -1.0;
+        self.neighbor_9 = -1.0;
+        self.neighbor_10 = -1.0;
     }
 }
 

@@ -71,12 +71,17 @@ impl ParticlesManagerWASM {
             if particle_index < self.number_of_particles {
                 // Create connections between Particles
                 for neighbor_number in 0..10 {
-                    let neighbor_index: usize = self.get_neighbor_index(particle, neighbor_number);
-                    let neighbor: &Particle = &particles[neighbor_index];
+                    let neighbor_index: f32 = self.get_neighbor_index(particle, neighbor_number);
+                    
+                    if neighbor_index == -1.0 || neighbor_index >= self.number_of_particles as f32 {
+                        break;
+                    }
+                    
+                    let neighbor: &Particle = &particles[neighbor_index as usize];
         
                     if !self.connections_manager.add_connection(
                         (particle, particle_index as f32),
-                        (neighbor, neighbor_index as f32), 
+                        (neighbor, neighbor_index), 
                         &self.opts
                     ) {
                         break;
@@ -153,6 +158,14 @@ impl ParticlesManagerWASM {
         self.connection_max_dist = value;
         self.connections_manager.set_connection_max_dist(value);
     }
+
+    pub fn clear_neighbors(&mut self) {
+        self.particles.borrow_mut()
+            .iter_mut()
+            .for_each(|particle| {
+                particle.clear_neighbors();
+            });
+    }
 }
 
 impl ParticlesManagerWASM {
@@ -221,19 +234,19 @@ impl ParticlesManagerWASM {
         }
     }
 
-    fn get_neighbor_index(&self, particle: &Particle, neighbor_number: usize) -> usize {
+    fn get_neighbor_index(&self, particle: &Particle, neighbor_number: usize) -> f32 {
         match neighbor_number {
-            0 => particle.neighbor_1 as usize,
-            1 => particle.neighbor_2 as usize,
-            2 => particle.neighbor_3 as usize,
-            3 => particle.neighbor_4 as usize,
-            4 => particle.neighbor_5 as usize,
-            5 => particle.neighbor_6 as usize,
-            6 => particle.neighbor_7 as usize,
-            7 => particle.neighbor_8 as usize,
-            8 => particle.neighbor_9 as usize,
-            9 => particle.neighbor_10 as usize,
-            _ => 0
+            0 => particle.neighbor_1,
+            1 => particle.neighbor_2,
+            2 => particle.neighbor_3,
+            3 => particle.neighbor_4,
+            4 => particle.neighbor_5,
+            5 => particle.neighbor_6,
+            6 => particle.neighbor_7,
+            7 => particle.neighbor_8,
+            8 => particle.neighbor_9,
+            9 => particle.neighbor_10,
+            _ => -1.0
         }
     } 
 }

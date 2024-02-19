@@ -48,6 +48,6 @@
 [x] compteur de fps ? accès à setNeighbors
 [x] fix particles size when switching from JS to WASM
 
-[] fix bug when changing particles number and switching animation mode
+[x] fix bug when changing particles number and switching animation mode
 [] shooting start mode fix in js when small connection dist and many particles
 

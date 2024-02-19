@@ -155,4 +155,7 @@ export default class ParticleJS {
         this.y = mouseY;
     }
 
+    clearNeighbors() {
+        this.neighbors = [];
+    }
 }

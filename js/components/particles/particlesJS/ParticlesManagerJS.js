@@ -69,10 +69,12 @@ export default class ParticlesManagerJS {
             const neighbors = particle.getNeighbors();
 
             neighbors.forEach(neighbor => {
-                const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
-
-                if (dist < this.connectionMaxDist)
-                    this.connectionManager.addConnection(particle, neighbor, dist);
+                if (neighbor.index < this.numberOfParticles) {
+                    const dist = getDist(particle.x, particle.y, neighbor.x, neighbor.y);
+                    
+                    if (dist < this.connectionMaxDist)
+                        this.connectionManager.addConnection(particle, neighbor, dist);
+                }
             })
 
             // Create connections between Particles and Mouse
@@ -104,5 +106,11 @@ export default class ParticlesManagerJS {
 
     clearConnections() {
         this.connectionManager.clearConnections();
+    }
+
+    clear_neighbors() {
+        this.particles.forEach(particle => {
+            particle.clearNeighbors();
+        })
     }
 }
