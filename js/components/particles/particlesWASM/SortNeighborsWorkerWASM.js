@@ -48,7 +48,7 @@ class SetNeighborsWorkerWASM {
                 this.endIndex
             )
             postMessage({
-                type: 'wasmModuleInitialized',
+                type: 'workerInitialized',
                 workerIndex: this.workerIndex
             });
 

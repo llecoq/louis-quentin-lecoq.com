@@ -165,12 +165,13 @@ class AnimationController {
 
     // Animate the particles and impulses
     animate(timestamp) {
-        if (!this.timeData.lastTimestamp) this.timeData.lastTimestamp = timestamp;
+        if (!this.timeData.lastTimestamp) 
+            this.timeData.lastTimestamp = timestamp;
+       
         const delta = timestamp - this.timeData.lastTimestamp;
+        const scaleFPS = delta / opts.BASE_DELTA;
         
         this.timeData.computeFps(timestamp);
- 
-        const scaleFPS = delta / opts.BASE_DELTA;
 
         if (this.mouseIsOverCanvas) {
             this.activeImpulsesManager.create_impulses();
@@ -267,6 +268,7 @@ class AnimationController {
     }
 
     changeNumberOfParticles(value) {
+        this.activeParticlesManager.clear_neighbors();
         this.particlesManagerWASM.change_number_of_particles(value);
         this.particlesManagerJS.changeNumberOfParticles(value);
         this.wasmBufferInterpreter.changeNumberOfParticles(value);

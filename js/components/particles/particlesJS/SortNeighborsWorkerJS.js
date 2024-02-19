@@ -41,7 +41,7 @@ class SortNeighborsWorkerJS {
         this.endIndex = data.endIndex;
         this.sharedParticlesView = data.buffer;
         postMessage({
-            type: 'wasmModuleInitialized',
+            type: 'workerInitialized',
             workerIndex: this.workerIndex
         });
     }

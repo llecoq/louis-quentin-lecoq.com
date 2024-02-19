@@ -168,9 +168,9 @@ export default class WorkersManager {
 
     handleMessageFromWorker(event) {
         switch (event.data.type) {
-            case "wasmModuleInitialized":
+            case "workerInitialized":
                 this.workers[event.data.workerIndex].initialized = true;
-                if (this.wasmModulesInitilialized()) {
+                if (this.workerInitialized() === true) {
                     // update workers with the real number of particles as soon as all the wasm modules are initialized
                     this.changeNumberOfParticles(this.numberOfParticles);
                 }
@@ -258,7 +258,7 @@ export default class WorkersManager {
         }
     }
 
-    wasmModulesInitilialized() {
+    workerInitialized() {
         let numberOfModulesInit = 0;
 
         this.workers.forEach(workerData => {
@@ -267,6 +267,6 @@ export default class WorkersManager {
             }
         })
 
-        return numberOfModulesInit === this.numberOfWorkers;
+        return numberOfModulesInit == this.numberOfWorkers;
     }
 }
