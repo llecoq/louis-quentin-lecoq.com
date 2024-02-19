@@ -51,6 +51,7 @@ export class Particles {
     workersNumberOutput    
     connectionDistanceRangeSlider
     connectionDistanceOutput    
+    fpsOutput
 
     init() {
         document.body.style.height = "100vh";
@@ -75,6 +76,15 @@ export class Particles {
         this.handleParticlesNumberRange();
         this.handleWorkersNumberRange();
         this.handleConnectionMaxDistanceRange();
+        this.handleFpsCount();
+    }
+
+    handleFpsCount() {
+        this.fpsOutput = document.getElementById("fps-count");
+
+        this.worker.onmessage = (e) => {
+            this.fpsOutput.innerHTML = e.data.fps;
+        }
     }
 
     handleParticlesNumberRange() {

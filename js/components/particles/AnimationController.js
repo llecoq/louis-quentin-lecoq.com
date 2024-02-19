@@ -77,6 +77,11 @@ class TimeData {
             this.fps = (this.frameCount / ((timestamp - this.lastFpsUpdate) / 1000)).toFixed(2);
             this.lastFpsUpdate = timestamp;
             this.frameCount = 0;
+
+            postMessage({
+                type: "fpsUpdate",
+                fps: Math.round(this.fps)
+            });
         }
     }
 }
@@ -187,7 +192,7 @@ class AnimationController {
         this.animationRenderer.renderConnections(this.animationMode, this.particlesManagerWASM.get_connections_len());
         this.animationRenderer.renderImpulses(scaleFPS, this.animationMode, this.activeImpulsesManager);
         this.animationRenderer.renderParticles(this.animationMode);
-        this.animationRenderer.renderFPS(this.timeData.getFps());
+        // this.animationRenderer.renderFPS(this.timeData.getFps());
 
         this.timeData.lastTimestamp = timestamp;
         this.animationFrameId = requestAnimationFrame(this.animate.bind(this));       
