@@ -46,14 +46,14 @@ export default class WorkersManager {
         this.numberOfWorkers = opts.NUMBER_OF_WEB_WORKERS;
         this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
 
-        if (opts.NUMBER_OF_WEB_WORKERS) {
+        if (opts.NUMBER_OF_WEB_WORKERS > 0) {
             this.initSharedParticlesData();
             this.setupWorkersManager();
         }
     }
         
     sortNeighbors() {
-        if (this.numberOfWorkers) {
+        if (this.numberOfWorkers > 0) {
             this.updateSharedParticlesData();
             
             // Send transferable buffer to each worker
@@ -88,7 +88,7 @@ export default class WorkersManager {
     }
 
     setupWorkersManager() {
-        if (this.numberOfWorkers) {
+        if (this.numberOfWorkers > 0) {
             this.initWorkers();
             this.updateSharedParticlesData();
         }
@@ -135,7 +135,7 @@ export default class WorkersManager {
     }
 
     terminateWorkers() {
-        if (this.numberOfWorkers) {
+        if (this.numberOfWorkers > 0) {
             this.workers.forEach(workerData => {
                 workerData.worker.terminate();
             })
@@ -252,7 +252,7 @@ export default class WorkersManager {
         this.numberOfWorkers = value;
         this.terminateWorkers();
 
-        if (this.numberOfWorkers) {
+        if (this.numberOfWorkers > 0) {
             this.initSharedParticlesData();
             this.setupWorkersManager();
         }

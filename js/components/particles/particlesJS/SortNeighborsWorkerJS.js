@@ -68,10 +68,11 @@ class SortNeighborsWorkerJS {
                 }
                 // Sort distances from closest to farthest
                 distances.sort((a, b) => a.distance - b.distance);
-    
+
                 // Put the indices of the 10 closest neighbors for each particle within the transferable array buffer
                 for (let k = 0; k < 10; k++) {
-                    sortedNeighborsView[(i - this.startIndex) * 10 + k] = distances[k].index;
+                    if (k < distances.length)
+                        sortedNeighborsView[(i - this.startIndex) * 10 + k] = distances[k].index;
                 }
             }
         }
