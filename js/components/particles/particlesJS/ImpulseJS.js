@@ -53,9 +53,9 @@ export default class ImpulseJS {
     // Get up to two neighbors
     getNextNeighbors(origin, particle) {
         const neighbors = particle.neighbors.filter(neighbor => 
-            getDist(particle.x, particle.y, neighbor.x, neighbor.y) < this.connectionMaxDist &&
-            neighbor !== origin && 
-            !neighbor.active
+            getDist(particle.x, particle.y, neighbor.x, neighbor.y) < this.connectionMaxDist 
+                && neighbor !== origin 
+                && !neighbor.active
         );
 
         return neighbors.length > 1 ? neighbors.slice(0, 2) : neighbors;
@@ -75,7 +75,7 @@ export default class ImpulseJS {
                 // Duplicate Impulse
                 case neighbors.length === 2: {
                     const nextTarget = neighbors[1];
-                    const duplicateImpulse = new ImpulseJS(this.target.x, this.target.y, this.target, nextTarget, this.distAutonomy);
+                    const duplicateImpulse = new ImpulseJS(this.target.x, this.target.y, this.target, nextTarget, this.connectionMaxDist, this.distAutonomy);
 
                     nextTarget.activateTimer();
                     impulses.push(duplicateImpulse);

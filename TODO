@@ -49,5 +49,5 @@
 [x] fix particles size when switching from JS to WASM
 
 [x] fix bug when changing particles number and switching animation mode
-[] shooting start mode fix in js when small connection dist and many particles
+[x] shooting start mode fix in js when small connection dist and many particles
 
