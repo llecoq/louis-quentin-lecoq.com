@@ -191,11 +191,6 @@ h4 {
   background-color: none;
 }
 
-#animation-control-panel-overlay.open { 
-  transform: scale(1);
-}
-
-
 #setting-div {
   margin-top: 10px;
   margin-bottom: 10px;

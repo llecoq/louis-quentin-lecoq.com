@@ -1,3 +1,7 @@
 /target
 /Cargo.lock
 /node_modules
+/dist
+/src/rs/target
+/src/rs/pkg
+/src/rs/debug

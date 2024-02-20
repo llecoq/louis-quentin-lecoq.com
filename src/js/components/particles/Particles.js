@@ -59,7 +59,7 @@ export class Particles {
         // Creation of an OffscreenCanvas
         const offscreen = document.querySelector('canvas').transferControlToOffscreen();
         // Creation of a new module Worker
-        this.worker = new Worker('js/components/particles/AnimationController.js', {
+        this.worker = new Worker('js/components/particles/AnimationController.worker.js', {
             type: 'module'
         });
         offscreen.height = document.body.clientHeight;
