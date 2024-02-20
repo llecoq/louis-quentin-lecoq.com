@@ -15,6 +15,7 @@ export const opts = {
     PARTICLE_COLOR_1: 'rgb(255, 255, 255)',
     PARTICLE_COLOR_2: 'rgb(72, 217, 247)',
     PARTICLE_COLOR_3: 'rgb(50, 130, 240)',
+    PARTICLE_COLOR_4: 'rgb(72, 163, 247)',
     ARC_RAD: Math.PI * 2,
 
     // Connections

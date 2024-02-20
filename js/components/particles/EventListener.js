@@ -1,11 +1,14 @@
+import { opts } from "./Particles.js";
+
 export default class EventListener {
 
     worker
     canvas
-    useWASM
+    animationMode
 
     constructor(worker) {
         this.worker = worker;
+        this.animationMode = "WASM";
         
         this.canvas = document.querySelector('canvas');
         if (!this.canvas) {
@@ -84,7 +87,20 @@ export default class EventListener {
     toggleAnimation() {
         this.worker.postMessage({
             type: 'changeAnimationMode',
-        });   
+        });
+
+        const rustWasmSpan = document.getElementById("rust-wasm-toggle");
+        const jsSpan = document.getElementById("js-toggle");
+
+        if (this.animationMode === "WASM") {
+            this.animationMode = "JS";
+            rustWasmSpan.style.color = opts.PARTICLE_COLOR_2;
+            jsSpan.style.color = opts.PARTICLE_COLOR_4;
+        } else {
+            this.animationMode = "WASM";
+            rustWasmSpan.style.color = opts.PARTICLE_COLOR_4;
+            jsSpan.style.color = opts.PARTICLE_COLOR_2;
+        }
     }
 
     startAnimation() {
