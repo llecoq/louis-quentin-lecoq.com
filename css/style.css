@@ -4,4 +4,6 @@
 @import url('layout/footer.css');
 @import url('sections/sections.css');
 @import url('sections/home.css');
-@import url('components/button.css');
+@import url('components/buttons.css');
+@import url('components/switch.css');
+@import url('components/rangeSlider.css');
