@@ -128,9 +128,9 @@ export default class WorkersManager {
     getWorkerPath() {
         switch (this.animationMode) {
             case "JS":
-                return '/js/components/particles/particlesJS/SortNeighborsWorkerJS.js';
+                return '/js/components/particles/particlesJS/SortNeighborsJS.worker.js';
             case "WASM":
-                return '/js/components/particles/particlesWASM/SortNeighborsWorkerWASM.js';
+                return '/js/components/particles/particlesWASM/SortNeighborsWASM.worker.js';
         }
     }
 
