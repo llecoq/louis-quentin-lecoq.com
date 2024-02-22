@@ -42,7 +42,7 @@ export default class ImpulsesManagerJS {
     }
 
     setConnectionMaxDist(value) {
-        this.connectionMaxDist = this.connectionMaxDist;
+        this.connectionMaxDist = value;
 
         this.impulses.forEach(impulse => {
             impulse.setConnectionMaxDist(value);
