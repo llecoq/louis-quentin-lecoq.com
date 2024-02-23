@@ -9,43 +9,39 @@ p {
     margin: 10px;
     padding: 50px;
     text-align: justify;
-    box-shadow: 0 0 0 0.2x var(--text-color-3);
+    box-shadow: 0 0 0 0.2 var(--text-color-3);
     background-color: #120b0574;
     border-radius: 15px;
 }
 
 #about {
-  background: linear-gradient(to bottom, black, rgba(0, 0, 30, 0));
-  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0, 30, 50));
+  background: linear-gradient(to bottom, black, rgba(0 0 30 / 0%));
+  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0 30 50));
   background-size: cover;
   height: 100vh;
   position: relative;
-  /* background-color: rgba(var(--section2-background-dark-r), var(--section2-background-dark-g), var(--section2-background-dark-b), 0.6); */
 }
 
 #skills {
-  background: linear-gradient(to top, black, rgba(0, 0, 30, 0));
-  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to top, black, rgb(0, 30, 50));
+  background: linear-gradient(to top, black, rgba(0 0 30 / 0%));
+  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to top, black, rgb(0 30 50));
   background-size: cover;
   height: 100vh;
   position: relative;
-  /* background-color: rgba(var(--section1-background-dark-r), var(--section1-background-dark-g), var(--section1-background-dark-b), 0.6); */
 }
 
 #projects {
-  background: linear-gradient(to bottom, black, rgba(0, 0, 30, 0));
-  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0, 30, 50));
+  background: linear-gradient(to bottom, black, rgba(0 0 30 / 0%));
+  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0 30 50));
   background-size: cover;
   height: 100vh;
   position: relative;
-  /* background-color: rgba(var(--section2-background-dark-r), var(--section2-background-dark-g), var(--section2-background-dark-b), 0.6); */
 }
 
 #contact {
-  background: linear-gradient(to top, black, rgba(0, 0, 30, 0));
-  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to top, black, rgb(0, 30, 50));
+  background: linear-gradient(to top, black, rgba(0 0 30 / 0%));
+  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to top, black, rgb(0 30 50));
   background-size: cover;
   height: 100vh;
   position: relative;
-  /* background-color: rgba(var(--section1-background-dark-r), var(--section1-background-dark-g), var(--section1-background-dark-b), 0.6); */
 }

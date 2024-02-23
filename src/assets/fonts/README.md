@@ -21,17 +21,17 @@ Import `satoshi.css` at the top of you main Stylesheet.
 
 
 ```
-font-family: 'Satoshi-Variable';
-font-family: 'Satoshi-VariableItalic';
-font-family: 'Satoshi-Light';
-font-family: 'Satoshi-LightItalic';
-font-family: 'Satoshi-Regular';
-font-family: 'Satoshi-Italic';
-font-family: 'Satoshi-Medium';
-font-family: 'Satoshi-MediumItalic';
-font-family: 'Satoshi-Bold';
-font-family: 'Satoshi-BoldItalic';
-font-family: 'Satoshi-Black';
-font-family: 'Satoshi-BlackItalic';
+font-family: Satoshi-Variable;
+font-family: Satoshi-VariableItalic;
+font-family: Satoshi-Light;
+font-family: Satoshi-LightItalic;
+font-family: Satoshi-Regular;
+font-family: Satoshi-Italic;
+font-family: Satoshi-Medium;
+font-family: Satoshi-MediumItalic;
+font-family: Satoshi-Bold;
+font-family: Satoshi-BoldItalic;
+font-family: Satoshi-Black;
+font-family: Satoshi-BlackItalic;
 ```
 

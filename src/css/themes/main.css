@@ -1,15 +1,14 @@
 body {
     background-color: var(--background-color);
-    background-image: url('../../assets/images/background-dark-theme.png');
     background-position: center;
     background-repeat: repeat-y;
     color: var(--text-color);
-    font-family: Satoshi-Light;
+    font-family: Satoshi-Light, sans-serif;
     margin: 0;
 }
 
 :root {
-    --background-color: #000000;
+    --background-color: #000;
     --navbar-background-dark-r: 0;
     --navbar-background-dark-g: 0;
     --navbar-background-dark-b: 0;
@@ -23,14 +22,35 @@ body {
     --text-color: #fff;
     --link-color: #48d9f7;
     --navbar-color: black;
-    --footer-color: rgb(7, 22, 25);
-
-    --text-color-1: rgb(72, 247, 219);
-    --text-color-2: rgb(72, 163, 247);
-    --text-color-3: rgb(72, 217, 247);
-    --text-color-4: rgb(74, 247, 161);
-    --text-color-5: rgb(72, 107, 247);
+    --footer-color: rgb(7 22 25);
+    --text-color-1: rgb(72 247 219);
+    --text-color-2: rgb(72 163 247);
+    --text-color-3: rgb(72 217 247);
+    --text-color-4: rgb(74 247 161);
+    --text-color-5: rgb(72 107 247);
     --text-color-6: #60B4C4;
     --text-color-7: #648A91;
-    
 }
+
+/* Heading styles */
+h1, h2 {
+    font-size: 2.5vw;
+    margin-top: 0.12em;
+    margin-bottom: 0.12em;
+    color: white;
+  }
+  
+  h3 {
+    font-size: large;
+    font-family: Satoshi-Light, sans-serif;
+    margin-top: 0.12em;
+    margin-bottom: 0.2em;
+    color: var(--text-color-3);
+  }
+  
+  h4 {
+    font-size: medium;
+    margin-top: 0;
+    font-family: Satoshi-Light, sans-serif;
+    margin-bottom: 1.6em;
+  }

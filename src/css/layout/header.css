@@ -10,7 +10,7 @@ html {
 #navbar {
     z-index: 4;
     width: 100%;
-    background-color: rgba(var(--navbar-background-dark-r), var(--navbar-background-dark-g), var(--navbar-background-dark-b), 0.1);
+    background-color: rgba(var(--navbar-background-dark-r) var(--navbar-background-dark-g) var(--navbar-background-dark-b) / 10%);
     position: fixed;
     backdrop-filter: blur(5px);
     height: var(--navbar-height);
@@ -48,7 +48,7 @@ html {
     height: 60px; 
     object-fit: cover;
     box-shadow: 0.5px 1px 1px 0.5px var(--text-color-2);
-    background-color: rgba(72, 163, 247, 0.05);
+    background-color: rgba(72 163 247 / 5%);
 }
 
 #logo {
@@ -58,7 +58,7 @@ html {
 
 #logo a {
     text-decoration: none;
-    font-family: 'Satoshi-Regular';
+    font-family: Satoshi-Regular, sans-serif;
     font-size: large;
     color: #fff;
     align-items: center;
@@ -78,9 +78,9 @@ html {
     color: var(--text-color);
     position: relative;
     text-decoration: none;
-    font-family: 'Satoshi-Regular';
+    font-family: Satoshi-Regular, sans-serif;
     font-size: large;
-    padding: 0px 20px 0px 20px;
+    padding: 0 20px;
 }
 
 #nav-links a:hover,
