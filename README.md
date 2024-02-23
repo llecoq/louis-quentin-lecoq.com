@@ -4,9 +4,11 @@ Welcome to the source code repository for [louis-quentin-lecoq.com](https://loui
 
 ## Interactive Particle Animation: A Live Performance Lab 🔥
 
+The Particle animation (inspired by [ParticleJs](https://vincentgarreau.com/particles.js/) with my own twist) is coded from scratch.
+
 - **Experiment with Particle Dynamics**: The animation allows you to adjust parameters like particle count in real-time. See how the system's performance varies with different load scenarios.
+- **Technology Switching in Action**: Seamlessly switch between JavaScript and Rust/WebAssembly implementations. Both use the same logic, providing a direct comparison of their performance capabilities under identical algorithmic conditions.
 - **Web Workers Usage**: Discover the impact of adding or removing web workers. Start with zero workers and incrementally increase, observing how the performance scales with JavaScript and how it further enhances with Rust.
-- **Technology Switching in Action**: Seamlessly switch between JavaScript and Rust/WebAssembly implementations. Both use the same logical framework, providing a direct comparison of their performance capabilities under identical algorithmic conditions.
 - **Live Performance Metrics**: The FPS counter provides immediate feedback on your adjustments, offering tangible insights into the computational efficiency of JS vs. Rust & WASM.
 
 ## Technologies Used 🛠️
