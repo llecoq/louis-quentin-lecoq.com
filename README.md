@@ -2,10 +2,6 @@
 
 Welcome to the source code repository for [louis-quentin-lecoq.com](https://louis-quentin-lecoq.com). This portfolio website showcases my professional journey, skills, and projects as a software engineer. 🚀 The site is a creative playground demonstrating the fusion of JavaScript and Rust with WebAssembly in real-time performance experiments through an immersive particle animation feature.
 
-## Overview 🔍
-
-The site provides an insight into my achievements, software development skills, and the services I offer. It is designed to be straightforward, intuitive, and easy to navigate.
-
 ## Interactive Particle Animation: A Live Performance Lab 🔥
 
 - **Experiment with Particle Dynamics**: The animation allows you to adjust parameters like particle count in real-time. See how the system's performance varies with different load scenarios.
@@ -23,14 +19,6 @@ This project incorporates several modern web technologies:
 - [Rust](https://www.rust-lang.org/) 🦀
 - [WebAssembly](https://webassembly.org/) with [wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/) 🔩
 - [HTML5 Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) 🎨
-
-## Features ✨
-
-- Cool particles animation
-- About me 
-- Skills
-- Project portfolio 
-- Contact form
 
 ## Installation 💻
 
@@ -50,7 +38,7 @@ cd louis-quentin-lecoq.com
   ```bash
   npm run dev
   ```
-  Sets up and builds for development, including WebAssembly.
+  Sets up, builds for development, including WebAssembly and start development server.
 
 - **Start Development Server**
   ```bash
