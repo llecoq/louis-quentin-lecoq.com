@@ -4,22 +4,22 @@ button {
 	align-items: center;
 	pointer-events: all;
 	border: 1px solid var(--text-color-3);
-	padding: 10px 20px 10px 20px;
+	padding: 10px 20px;
 	border-radius: 50px;
 	font-size: large;
-    font-family: 'Satoshi-Regular';
+    font-family: Satoshi-Regular, sans-serif;
 	color: var(--text-color-3);
 	text-decoration: none;
     cursor: pointer;
 	backdrop-filter: blur(2px);
-	background-color: rgba(72, 163, 247, 0.05);
-	box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+	background-color: rgba(72 163 247 / 5%);
+	box-shadow: rgba(0 0 0 / 30%) 0 19px 38px, rgba(0 0 0 / 22%) 0 15px 12px;
 }
 
 button:hover {
-	background-color: rgba(72, 163, 247, 0.2);
+	background-color: rgba(72 163 247 / 20%);
 }
 
 #settings-button {
-	padding: 10px 10px 10px 10px;
+	padding: 10px;
 }

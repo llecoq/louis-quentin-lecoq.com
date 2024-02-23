@@ -1,7 +1,7 @@
 /* Home section styling */
 #home {
-  background: linear-gradient(to bottom, black, rgba(0, 0, 30, 0));
-  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0, 30, 50));
+  background: linear-gradient(to bottom, black, rgba(0 0 30 / 0%));
+  background: radial-gradient(circle at center, transparent 50%, black 100%), linear-gradient(to bottom, black, rgb(0 30 50));
   background-size: cover;
   height: 100vh;
   position: relative;
@@ -11,11 +11,11 @@
 /* Canvas styling with initial animation */
 #canvas {
   opacity: 0;
-  animation: apparitionCanvas 4s ease-in forwards; 
+  animation: canvas-appearance 4s ease-in forwards; 
 }
 
 /* Define keyframes for canvas appearance animation */
-@keyframes apparitionCanvas {
+@keyframes canvas-appearance {
   from { opacity: 0; }
   to { opacity: 1; }
 }
@@ -27,7 +27,7 @@
   left: 50%; 
   transform: translate(-50%, -50%);
   color: white;
-  font-family: Satoshi-Regular;
+  font-family: Satoshi-Regular, sans-serif;
   min-height: 20vw;
 }
 
@@ -43,32 +43,9 @@
   visibility: hidden;
 }
 
-/* Heading styles */
-h1, h2 {
-  font-size: 2.5vw;
-  margin-top: 0.12em;
-  margin-bottom: 0.12em;
-  color: white;
-}
-
-h3 {
-  font-size: large;
-  font-family: Satoshi-Light;
-  margin-top: 0.12em;
-  margin-bottom: 0.2em;
-  color: var(--text-color-3);
-}
-
-h4 {
-  font-size: medium;
-  margin-top: 0em;
-  font-family: Satoshi-Light;
-  margin-bottom: 1.6em;
-}
-
 .bold-italic {
   font-size: large;
-  font-family: Satoshi-BoldItalic;
+  font-family: Satoshi-BoldItalic, sans-serif;
   color: var(--text-color-2);
 }
 
@@ -106,14 +83,6 @@ h4 {
   transition: opacity 2s ease;
 }
 
-/* Specific styling for 'info-button' */
-#info-button {
-  position: absolute;
-  top: 95%;  
-  left: 80.5%;
-  padding: 10px 17px 10px 17px;
-}
-
 #overlay-info {
   position: absolute;
   top: 70%;  
@@ -124,7 +93,7 @@ h4 {
   padding: 20px;
   border-radius: 10px;
   backdrop-filter: blur(2px);
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  box-shadow: rgba(0 0 0 / 30%) 0 19px 38px, rgba(0 0 0 / 22%) 0 15px 12px;
 }
 
 #animation-control-panel {
@@ -139,8 +108,8 @@ h4 {
   color: var(--text-color-3);
   border-radius: 10px;
   backdrop-filter: blur(2px);
-  background-color: rgba(72, 163, 247, 0.08);
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  background-color: rgba(72 163 247 / 8%);
+  box-shadow: rgba(0 0 0 / 30%) 0 19px 38px, rgba(0 0 0 / 22%) 0 15px 12px;
   right: 20px;
   bottom: 20px;
   width: 210px;
@@ -156,7 +125,7 @@ h4 {
 }
 
 .tab {
-  font-family: Satoshi-Regular;
+  font-family: Satoshi-Regular, sans-serif;
   font-size: small;
   padding: 5px 10px;
 	border-bottom: 1px solid var(--text-color-3);
@@ -165,16 +134,16 @@ h4 {
   width: 70px;
   text-align: center;
   border-radius: 0 0 10px 10px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0 0 0 / 30%);
 }
 
 .tab:hover {
   cursor: pointer;
-	background-color: rgba(72, 163, 247, 0.2);
+	background-color: rgba(72 163 247 / 20%);
 }
 
 .tab-selected {
-  font-family: Satoshi-Regular;
+  font-family: Satoshi-Regular, sans-serif;
   font-size: small;
   padding: 5px 10px;
   border-bottom: none;
@@ -183,18 +152,18 @@ h4 {
   color: var(--text-color-2);
   border-right: none;
   border-left: none;
-  background-color: rgba(72, 162, 247, 0);
-  border-radius: 10 10 0px 0px;
+  background-color: rgba(72 162 247 / 0%);
+  border-radius: 10 10 0 0;
 }
 
 .tab-selected:hover {
   background-color: none;
 }
 
-#setting-div {
+.setting-div {
   margin-top: 10px;
   margin-bottom: 10px;
-  font-family: Satoshi-Regular;
+  font-family: Satoshi-Regular, sans-serif;
   font-size: small;
   text-align: center;
   display: flex;
@@ -225,7 +194,7 @@ h4 {
 
 #fps-box {
   font-size: small;
-  font-family: Satoshi-Regular;
+  font-family: Satoshi-Regular, sans-serif;
 }
 
 #rust-wasm-toggle {

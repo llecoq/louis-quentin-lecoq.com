@@ -79,7 +79,9 @@ export default class ImpulseJS {
 
                     nextTarget.activateTimer();
                     impulses.push(duplicateImpulse);
+                    
                 }
+                /* falls through */
                 case neighbors.length > 0: {
                     const nextTarget = neighbors[0];
 

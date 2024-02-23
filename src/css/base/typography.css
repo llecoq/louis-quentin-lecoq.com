@@ -35,7 +35,7 @@
 */
 
 @font-face {
-  font-family: 'Satoshi-Variable';
+  font-family: Satoshi-Variable;
   src: url('../../assets/fonts/Satoshi-Variable.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-Variable.woff') format('woff'),
        url('../../assets/fonts/Satoshi-Variable.ttf') format('truetype');
@@ -57,7 +57,7 @@
 */
 
 @font-face {
-  font-family: 'Satoshi-VariableItalic';
+  font-family: Satoshi-VariableItalic;
   src: url('../../assets/fonts/Satoshi-VariableItalic.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-VariableItalic.woff') format('woff'),
        url('../../assets/fonts/Satoshi-VariableItalic.ttf') format('truetype');
@@ -68,7 +68,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-Light';
+  font-family: Satoshi-Light;
   src: url('../../assets/fonts/Satoshi-Light.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-Light.woff') format('woff'),
        url('../../assets/fonts/Satoshi-Light.ttf') format('truetype');
@@ -79,7 +79,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-LightItalic';
+  font-family: Satoshi-LightItalic;
   src: url('../../assets/fonts/Satoshi-LightItalic.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-LightItalic.woff') format('woff'),
        url('../../assets/fonts/Satoshi-LightItalic.ttf') format('truetype');
@@ -90,7 +90,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-Regular';
+  font-family: Satoshi-Regular;
   src: url('../../assets/fonts/Satoshi-Regular.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-Regular.woff') format('woff'),
        url('../../assets/fonts/Satoshi-Regular.ttf') format('truetype');
@@ -101,7 +101,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-Italic';
+  font-family: Satoshi-Italic;
   src: url('../../assets/fonts/Satoshi-Italic.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-Italic.woff') format('woff'),
        url('../../assets/fonts/Satoshi-Italic.ttf') format('truetype');
@@ -112,7 +112,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-Medium';
+  font-family: Satoshi-Medium;
   src: url('../../assets/fonts/Satoshi-Medium.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-Medium.woff') format('woff'),
        url('../../assets/fonts/Satoshi-Medium.ttf') format('truetype');
@@ -123,7 +123,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-MediumItalic';
+  font-family: Satoshi-MediumItalic;
   src: url('../../assets/fonts/Satoshi-MediumItalic.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-MediumItalic.woff') format('woff'),
        url('../../assets/fonts/Satoshi-MediumItalic.ttf') format('truetype');
@@ -134,7 +134,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-Bold';
+  font-family: Satoshi-Bold;
   src: url('../../assets/fonts/Satoshi-Bold.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-Bold.woff') format('woff'),
        url('../../assets/fonts/Satoshi-Bold.ttf') format('truetype');
@@ -145,7 +145,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-BoldItalic';
+  font-family: Satoshi-BoldItalic;
   src: url('../../assets/fonts/Satoshi-BoldItalic.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-BoldItalic.woff') format('woff'),
        url('../../assets/fonts/Satoshi-BoldItalic.ttf') format('truetype');
@@ -156,7 +156,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-Black';
+  font-family: Satoshi-Black;
   src: url('../../assets/fonts/Satoshi-Black.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-Black.woff') format('woff'),
        url('../../assets/fonts/Satoshi-Black.ttf') format('truetype');
@@ -167,7 +167,7 @@
 
 
 @font-face {
-  font-family: 'Satoshi-BlackItalic';
+  font-family: Satoshi-BlackItalic;
   src: url('../../assets/fonts/Satoshi-BlackItalic.woff2') format('woff2'),
        url('../../assets/fonts/Satoshi-BlackItalic.woff') format('woff'),
        url('../../assets/fonts/Satoshi-BlackItalic.ttf') format('truetype');

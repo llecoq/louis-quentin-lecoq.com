@@ -54,9 +54,9 @@
                         </div>
                     </div>
                     <div id="animation-settings">
-                        <div id="setting-div">
+                        <div class="setting-div">
                             <div class="text-separator">
-                                <span id="rust-wasm-toggle">Rust & WASM</span> / <span id="js-toggle">JS</span>
+                                <span id="rust-wasm-toggle">Rust &amp; WASM</span> / <span id="js-toggle">JS</span>
                             </div>
                             <div id="toggle-swicth-box">
                                 <label class="switch">
@@ -66,27 +66,27 @@
                             </div>
                         </div>
                         <div>
-                            <div id="setting-div">
+                            <div class="setting-div">
                                 <div class="text-separator">
                                     <span>Number of particles</span>
                                 </div>
                                 <input class="custom-slider" type="range" min="0" max="1500" value="800" id="particles-number-range">
                                 <span id="particles-number"></span>
                             </div>
-                            <div id="setting-div">
+                            <div class="setting-div">
                                 <div class="text-separator">
                                     <span>Number of Web Workers</span>
                                 </div>
                                 <input class="custom-slider" type="range" id="workers-number-range" min="0" max="8" step="1">
                                 <span id="workers-number"></span>
                             </div>
-                            <div id="setting-div">
+                            <div class="setting-div">
                                 <div class="text-separator">
                                     <span>Connection max distance</span>
                                 </div>
                                 <input class="custom-slider" type="range" id="connection-max-distance-range" min="0" max="500">
                                 <span id="connection-max-distance"></span>
-                                <div id="setting-div">
+                                <div class="setting-div">
                                     <div class="text-separator">
                                         <span> FPS:</span><span id="fps-count"> </span>
                                     </div>
@@ -95,36 +95,6 @@
                         </div>              
                     </div>
                 </div>                
-
-                <!-- <div id="info-toggle-box">
-                    <button id="info-button">?</button>
-                    <div id="overlay-info">
-                        The particles animation is coded from scratch with <span id="actual-animation-language">Rust and WebAssembly</span>.</br></br>
-                        Activate this toggle to switch the animation to <span id="switch-to-animation-language">JavaScript</span> and see for yourself the performance difference.
-                    </br>
-                    </br>
-                        <div>
-                            WASM
-                            <label class="switch">
-                                <input id="animation-toggle-switch" type="checkbox"/>
-                                <div></div>
-                            </label>
-                            JS
-                        </div>
-                        <div>
-                            <input type="range" min="0" max="1500" value="800" id="particles-number-range">
-                            <span id="particles-number"></span>
-                            <input type="range" id="workers-number-range" min="0" max="8" step="1">
-                            <span id="workers-number"></span>
-                            <input type="range" id="connection-max-distance-range" min="0" max="500">
-                            <span id="connection-max-distance"></span>
-                            <div>
-                                FPS: 
-                                <span id="fps-count"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </section>
         <section id="about">

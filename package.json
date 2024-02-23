@@ -9,7 +9,7 @@
     "build:wasm": "cd src/rs/ && wasm-pack build --target web",
     "build:webpack": "npx webpack --env production --config config.bundlers/webpack.config.js",
     "lint:all": "npm run lint:js & npm run lint:css & npm run lint:html",
-    "lint:js": "eslint . --ext .js --config config.linters/.eslintrc.json",
+    "lint:js": "eslint . --ext .js --config config.linters/.eslintrc.json --ignore-path config.linters/.eslintignore",
     "lint:css": "stylelint '**/*.css' --config config.linters/.stylelintrc",
     "lint:html": "htmlhint ."
   },
