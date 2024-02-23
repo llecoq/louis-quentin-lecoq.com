@@ -4,7 +4,7 @@ Welcome to the source code repository for [louis-quentin-lecoq.com](https://loui
 
 ## Interactive Particle Animation: A Live Performance Lab 🔥
 
-The Particle animation (inspired by [ParticleJs](https://vincentgarreau.com/particles.js/) with my own twist) is coded from scratch.
+The Particle animation (heavily inspired by [ParticleJs](https://vincentgarreau.com/particles.js/) with my own twist) is coded from scratch.
 
 - **Experiment with Particle Dynamics**: The animation allows you to adjust parameters like particle count in real-time. See how the system's performance varies with different load scenarios.
 - **Technology Switching in Action**: Seamlessly switch between JavaScript and Rust/WebAssembly implementations. Both use the same logic, providing a direct comparison of their performance capabilities under identical algorithmic conditions.
