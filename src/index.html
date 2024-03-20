@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Louis-Quentin Lecoq</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" initial-scale=1.0>
+    <meta name="description" content="Explore Louis-Quentin Lecoq's software engineering portfolio, featuring innovative projects with JavaScript, Rust, and WebAssembly. Discover interactive particle animations and performance experiments.">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></noscript>    
 </head>
 <body>
     <header>
         <div id="navbar">
             <nav id="navbar-box">
                 <div class="logo-container" id="logo">
-                    <img class="navbar-item" src="/assets/images/profile_picture.png" alt="Louis-Quentin Lecoq">
+                    <img class="navbar-item" src="/assets/images/profile-picture.avif" alt="Louis-Quentin Lecoq">
                     <a class="navbar-item" href="#home">Louis-Quentin Lecoq</a>
                 </div>
                 <div id="nav-links">
@@ -25,24 +28,24 @@
     </header>
     <main>
         <section id="home">
-            <canvas id="canvas"></canvas>
+            <canvas id="canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
             <div class="overlay-text">
                 <div class="top-row">
-                    <h3 id="hello-world"><span class="invisible">Hello world! </span></h3>
-                    <h3 id="my-name-is"><span class="invisible">My name is...</span></h3>
+                    <h3 id="hello-world"></h3>
+                    <h3 id="my-name-is"></h3>
                 </div>
-                <h1 id="louis-quentin-lecoq"><span class="invisible">Louis-Quentin Lecoq,</span></h1>
+                <h1 id="louis-quentin-lecoq"></h1>
                 <div class="top-row">
-                    <h2 id="i-m-a"><span class="invisible">I'm a </span></h2>
-                    <h2 id="software-engineer"><span class="invisible">Software Engineer.</span></h2>
+                    <h2 id="i-m-a"></h2>
+                    <h2 id="software-engineer"></h2>
                 </div>
                 <div class="top-row">
-                    <h4 id="working-at"><span>Former <span class="bold-italic">42 student</span>, I am currently working for <span class="bold-italic">Avisto</span> in Lyon.</span></h4>
+                    <h3 id="working-at"><span>Former <span class="bold-italic">42 student</span>, I am currently working for <span class="bold-italic">Avisto</span> in Lyon.</span></h4>
                 </div>
                 <button id="about-button" class="button-to-blink" onclick="window.location.href='#about'">About me</button>
             </div>
             <div id="animation-control-panel">
-                <button id="settings-button">
+                <button id="settings-button" aria-label="Animation's settings">
                     <i class="fa-solid fa-gear"></i>
                 </button>
                 <div id="animation-control-panel-overlay">
@@ -61,7 +64,7 @@
                             <div id="toggle-swicth-box">
                                 <label class="switch">
                                     <input id="animation-toggle-switch" type="checkbox"/>
-                                <div></div>
+                                <div id="clickable-element"></div>
                                 </label>
                             </div>
                         </div>

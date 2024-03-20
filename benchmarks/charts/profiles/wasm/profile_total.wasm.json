@@ -1,0 +1,23 @@
+[
+  {
+    "tech": "wasm",
+    "numberOfParticles": "average",
+    "numberOfWorkers": "average",
+    "traceDuration": 8100000,
+    "animationData": {
+      "fps": 49,
+      "totalDuration": 1731369569,
+      "numberOfFrames": 399900,
+      "averageDuration": 4329.506299074768
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1860621621,
+      "count": 133236,
+      "averageDuration": 13964.856502747005
+    },
+    "CPU": 126.6755555555555,
+    "USS": 99.40444444444444,
+    "maxCPU": 236.29999999999998,
+    "maxUSS": 166.7
+  }
+]

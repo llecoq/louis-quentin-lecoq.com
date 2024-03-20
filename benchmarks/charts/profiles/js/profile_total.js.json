@@ -1,0 +1,23 @@
+[
+  {
+    "tech": "js",
+    "numberOfParticles": "average",
+    "numberOfWorkers": "average",
+    "traceDuration": 8100000,
+    "animationData": {
+      "fps": 39,
+      "totalDuration": 2351033316,
+      "numberOfFrames": 313796,
+      "averageDuration": 7492.234814975334
+    },
+    "sortNeighborsData": {
+      "totalDuration": 10736634074,
+      "count": 126571,
+      "averageDuration": 84826.96726738353
+    },
+    "CPU": 240.34370370370374,
+    "USS": 160.1955555555556,
+    "maxCPU": 795.9,
+    "maxUSS": 293.4
+  }
+]

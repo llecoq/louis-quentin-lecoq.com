@@ -161,7 +161,7 @@ class AnimationController {
         this.activeImpulsesManager = this.impulsesManagerWASM;
 
         // Init WebWorkers
-        this.workersManager = new WorkersManager(this.particlesManagerJS, this.wasmBufferInterpreter);
+        this.workersManager = new WorkersManager(this.particlesManagerJS, this.wasmBufferInterpreter, this);
 
         // Start animation
         this.start();
@@ -215,6 +215,22 @@ class AnimationController {
             cancelAnimationFrame(this.animationFrameId);
             clearInterval(this.sortNeighborsId);
         }
+    }
+
+    // Pause Animation without clearing sortNeighbors interval
+    pause() {
+        if (this.isAnimating === true) {
+            this.isAnimating = false;
+            cancelAnimationFrame(this.animationFrameId);
+        } 
+    }
+
+    // Restart Animation
+    restart() {
+        if (this.isAnimating === false) {
+            this.isAnimating = true;
+            this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
+        } 
     }
 
     // Update mouse position

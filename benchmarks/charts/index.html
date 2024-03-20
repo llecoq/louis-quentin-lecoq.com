@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Performance Visualization</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/dashboards/datagrid.js"></script>
+    <script src="https://code.highcharts.com/dashboards/dashboards.js"></script>
+    <script src="https://code.highcharts.com/dashboards/modules/layout.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/dashboards/modules/dashboards-plugin.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <!-- <h1>Performance Analysis in JS and WASM</h1> -->
+    </header>
+
+    <main>
+        <div id="table-of-content">
+            <h1>Table Of Content</h1>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#fps">Animation's FPS</a>
+            <a href="#sort-algo">Sorting Algorithm Duration</a>
+            <a href="#cpu-metrics">CPU Metrics</a>
+        </div>
+            <h1 id="dashboard">Dashboard</h1>
+            <div class="container" id="container-radar"></div>
+            <div id="container-dashboard">
+                <div class="row" id="top-row">
+                    <div id="container-donut-js" class="elem-dashboard"></div>
+                    <div id="container-donut-wasm" class="elem-dashboard"></div>
+                </div>
+                <div class="row" id="middle-row">
+                    <div id="container-fps-average" class="elem-dashboard"></div>
+                    <div id="container-sort-algo-average" class="elem-dashboard"></div>
+                </div>
+                <div class="row" id="bottom-row">
+                    <div id="container-cpu-metrics-average" class="elem-dashboard"></div>
+                    <div id="container-ram-metrics-average" class="elem-dashboard"></div>
+                </div>
+            </div>
+        <figure class="highcharts-figure">
+            <h1 id="fps">Animation's FPS</h1>
+            <a href="#table-of-content">Back to top</a>
+            <div id="container-fps-0" class="container"></div>
+            <div id="container-fps-1" class="container"></div>
+            <div id="container-fps-2" class="container"></div>
+            <div id="container-fps-3" class="container"></div>
+            <div id="container-fps-4" class="container"></div>
+            <div id="container-fps-5" class="container"></div>
+            <div id="container-fps-6" class="container"></div>
+            <div id="container-fps-7" class="container"></div>
+            <div id="container-fps-8" class="container"></div>
+        </figure>
+        <figure class="highcharts-figure">
+            <h1 id="sort-algo">Sorting Algorithm Duration</h1>
+            <a href="#table-of-content">Back to top</a>
+            <div id="container-sort-algo-0" class="container"></div>
+            <div id="container-sort-algo-1" class="container"></div>
+            <div id="container-sort-algo-2" class="container"></div>
+            <div id="container-sort-algo-3" class="container"></div>
+            <div id="container-sort-algo-4" class="container"></div>
+            <div id="container-sort-algo-5" class="container"></div>
+            <div id="container-sort-algo-6" class="container"></div>
+            <div id="container-sort-algo-7" class="container"></div>
+            <div id="container-sort-algo-8" class="container"></div>
+        </figure>
+        <figure class="highcharts-figure">
+            <h1 id="cpu-metrics">CPU Metrics</h1>
+            <a href="#table-of-content">Back to top</a>
+            <div class="container" id="speedometers-container">
+                <div id="speedometer-cpu-js"></div>
+                <div id="speedometer-cpu-wasm"></div>
+            </div>
+        </figure>
+
+    </main>
+
+    <footer>
+        <!-- <p>© 2024 YourName</p> -->
+    </footer>
+</body>
+</html>
