@@ -1,4 +1,4 @@
-import { opts } from "../Particles.js";
+import { opts } from "../opts.js";
 import { getDist } from "./utilsJS.js";
 import ImpulseJS from "./ImpulseJS.js";
 

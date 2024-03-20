@@ -1,4 +1,4 @@
-import { opts } from "../Particles.js"
+import { opts } from "../opts.js"
 
 export default class ImpulsesManagerJS {
 

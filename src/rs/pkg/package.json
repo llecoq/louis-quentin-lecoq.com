@@ -1,0 +1,22 @@
+{
+  "name": "louis-quentin-lecoq",
+  "collaborators": [
+    "Louis-Quentin Lecoq <lecoqlq@gmail.com>"
+  ],
+  "description": "Personal SPA projet built with wasm-pack",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/llecoq/louis-quentin-lecoq.com"
+  },
+  "files": [
+    "louis_quentin_lecoq_bg.wasm",
+    "louis_quentin_lecoq.js",
+    "louis_quentin_lecoq.d.ts"
+  ],
+  "module": "louis_quentin_lecoq.js",
+  "types": "louis_quentin_lecoq.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

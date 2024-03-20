@@ -1,4 +1,4 @@
-import { opts } from "./Particles.js"
+import { opts } from "./opts.js"
 
 const sharedBuffer = {
     INDEX: 0,
@@ -100,7 +100,6 @@ export default class WorkersManager {
     // Init workers 
     initWorkers() {
         const workerBatchSize = Math.floor(opts.MAX_NUMBER_OF_PARTICLES / this.numberOfWorkers);
-        const workerPath = this.getWorkerPath();
 
         // Init workers with MAX_NUMBER_OF_PARTICLES for buffer size
         for (let i = 0; i < this.numberOfWorkers; i++) {
@@ -108,10 +107,18 @@ export default class WorkersManager {
             const endIndex = i === this.numberOfWorkers - 1 
                 ? opts.MAX_NUMBER_OF_PARTICLES
                 : startIndex + workerBatchSize;
-
-            const worker = new Worker(workerPath, {
-                type: 'module'
-            });
+            let worker;
+                
+            // WebPack needs it to be explicit in order to build the workers bundle
+            if (this.animationMode === 'JS') {
+                worker = new Worker(new URL('./particlesJS/SortNeighborsJS.worker.js', import.meta.url), {
+                    type: 'module'
+                });
+            } else {
+                worker = new Worker(new URL('./particlesWASM/SortNeighborsWASM.worker.js', import.meta.url), {
+                    type: 'module'
+                });
+            }
             
             worker.postMessage({
                 type: 'initWorker',
@@ -121,19 +128,20 @@ export default class WorkersManager {
                 endIndex: endIndex,
                 buffer: this.sharedParticlesData
             });
-
+            
             worker.onmessage = this.handleMessageFromWorker.bind(this);
-
+            
             this.workers.push(new WorkerData(worker, startIndex, endIndex));
         }
+
     }
 
     getWorkerPath() {
         switch (this.animationMode) {
             case "JS":
-                return '/js/components/particles/particlesJS/SortNeighborsJS.worker.js';
+                return './particlesJS/SortNeighborsJS.worker.js';
             case "WASM":
-                return '/js/components/particles/particlesWASM/SortNeighborsWASM.worker.js';
+                return './particlesWASM/SortNeighborsWASM.worker.js';
         }
     }
 

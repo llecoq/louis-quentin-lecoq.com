@@ -3,7 +3,7 @@
 /node_modules
 /dist
 /src/rs/target
-/src/rs/pkg
+# /src/rs/pkg
 /src/rs/debug
 package-lock.json
 /benchmarks/data

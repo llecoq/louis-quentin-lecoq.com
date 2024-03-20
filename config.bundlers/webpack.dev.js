@@ -1,16 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = (env, argv) => {
-  const isProduction = env.production === true;
-
-  return {
-    entry: isProduction ? './dist/bundle.js' : './src/js/app.js',
-    output: {
-      filename: isProduction ? 'bundle.js' : './src/js/app.js',
-      path: path.resolve(__dirname, isProduction ? '../dist' : './src/js'),
-    },
-    mode: argv.mode || 'development',
+module.exports = {
+    entry: './src/js/app.js',
+    mode: 'development',
     module: {
       rules: [
         {
@@ -27,10 +20,6 @@ module.exports = (env, argv) => {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],
         },
-        {
-          test: /\.worker\.js$/,
-          use: { loader: 'worker-loader' }
-        }
       ],
     },
     plugins: [
@@ -47,5 +36,4 @@ module.exports = (env, argv) => {
         "Cross-Origin-Opener-Policy": "same-origin",
       },
     },
-  }
-};  
+}

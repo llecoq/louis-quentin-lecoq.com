@@ -1,4 +1,4 @@
-import { opts } from "../Particles.js";
+import { opts } from "../opts.js";
 
 // indices and size of the `Particle` struct from Rust
 // Needs to be changed manually if an element is added  

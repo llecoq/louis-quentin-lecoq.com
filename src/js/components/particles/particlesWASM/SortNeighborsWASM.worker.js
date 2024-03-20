@@ -1,4 +1,4 @@
-import init, {SortNeighborsFromWorker} from "/rs/pkg/louis_quentin_lecoq.js";
+import init, {SortNeighborsFromWorker} from "../../../../rs/pkg/louis_quentin_lecoq.js";
 
 async function loadWasm() {
     await init();
@@ -24,7 +24,7 @@ onmessage = function (e) {
     }
 }
 
-class SetNeighborsWorkerWASM {
+export default class SetNeighborsWorkerWASM {
 
     workerIndex
     numberOfParticles
