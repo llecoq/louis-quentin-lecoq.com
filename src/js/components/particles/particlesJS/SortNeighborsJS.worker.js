@@ -26,7 +26,7 @@ onmessage = function (e) {
     }
 }
 
-class SortNeighborsWorkerJS {
+export default class SortNeighborsWorkerJS {
 
     workerIndex
     numberOfParticles

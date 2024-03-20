@@ -1,6 +1,6 @@
 import ParticleJS from "./ParticleJS.js";
 import { getDist } from "./utilsJS.js";
-import { opts } from "../Particles.js";
+import { opts } from "../opts.js";
 import ConnectionsManager from "./ConnectionsManager.js";
 
 export default class ParticlesManagerJS {

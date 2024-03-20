@@ -1,4 +1,4 @@
-import { opts } from "../Particles.js";
+import { opts } from "../opts.js";
 import Connection from "./Connection.js";
 
 export default class ConnectionsManager {

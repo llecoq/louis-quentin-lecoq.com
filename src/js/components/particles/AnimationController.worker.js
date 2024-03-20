@@ -1,10 +1,10 @@
-import { opts } from "./Particles.js";
+import { opts } from "./opts.js";
 import { AnimationRenderer } from "./AnimationRenderer.js";
-import { ParticlesWASM } from "/rs/pkg/louis_quentin_lecoq.js";
+import { ParticlesWASM } from "../../../rs/pkg/louis_quentin_lecoq.js";
 import ImpulsesManagerJS from "./particlesJS/ImpulsesManagerJS.js";
 import ParticlesManagerJS from "./particlesJS/ParticlesManagerJS.js";
 import { WasmBufferInterpreter } from "./particlesWASM/WasmBufferInterpreter.js";
-import init from "/rs/pkg/louis_quentin_lecoq.js";
+import init from "../../../rs/pkg/louis_quentin_lecoq.js";
 import WorkersManager from "./WorkersManager.js";
 
 async function loadWasm() {

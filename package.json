@@ -4,11 +4,11 @@
   "description": "demo project.",
   "scripts": {
     "dev": "npm i & npm run build:wasm & npm run start:dev",
-    "start:dev": "npx webpack serve --config config.bundlers/webpack.config.js",
-    "start:prod": "npm run build:webpack && webpack serve --env production --config config.bundlers/webpack.config.js",
-    "start:charts": "webpack serve --config config.bundlers/webpack.charts.config.js",
+    "start:dev": "npx webpack serve --config config.bundlers/webpack.dev.js",
+    "start:charts": "webpack serve --config config.bundlers/webpack.charts.js",
+    "start:test": "webpack serve --config config.bundlers/webpack.test.js",
     "build:wasm": "cd src/rs/ && wasm-pack build --target web",
-    "build:webpack": "npx webpack --env production --config config.bundlers/webpack.config.js",
+    "build:webpack": "npx webpack --config config.bundlers/webpack.prod.js",
     "lint:all": "npm run lint:js & npm run lint:css & npm run lint:html",
     "lint:js": "eslint . --ext .js --config config.linters/.eslintrc.json --ignore-path config.linters/.eslintignore",
     "lint:css": "stylelint '**/*.css' --config config.linters/.stylelintrc",
@@ -29,20 +29,24 @@
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "babel-loader": "^9.1.3",
+    "circular-dependency-plugin": "^5.2.2",
+    "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^6.10.0",
     "eslint": "^8.56.0",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.0",
     "htmlhint": "^1.1.4",
     "style-loader": "^3.3.4",
     "stylelint-config-standard": "^36.0.0",
+    "url-loader": "^4.1.1",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.2",
-    "worker-loader": "^3.0.8"
+    "webpack-dev-server": "^5.0.2"
   },
   "dependencies": {
     "fs": "^0.0.1-security",
     "highcharts": "^11.4.0",
+    "mini-css-extract-plugin": "^2.8.1",
     "puppeteer": "^22.3.0"
   }
 }

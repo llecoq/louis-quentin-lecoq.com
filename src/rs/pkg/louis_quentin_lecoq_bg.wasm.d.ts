@@ -1,0 +1,38 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export function __wbg_impulsesmanagerwasm_free(a: number): void;
+export function impulsesmanagerwasm_create_impulses(a: number): void;
+export function impulsesmanagerwasm_update_impulses_position(a: number, b: number): void;
+export function impulsesmanagerwasm_remove_expired_impulses(a: number): void;
+export function impulsesmanagerwasm_move_and_duplicate_impulses(a: number): void;
+export function impulsesmanagerwasm_get_impulses_ptr(a: number): number;
+export function impulsesmanagerwasm_get_impulses_len(a: number): number;
+export function impulsesmanagerwasm_change_number_of_particles(a: number, b: number): void;
+export function impulsesmanagerwasm_set_connection_max_dist(a: number, b: number): void;
+export function __wbg_particlesmanagerwasm_free(a: number): void;
+export function particlesmanagerwasm_init(a: number): void;
+export function particlesmanagerwasm_get_particles_ptr(a: number): number;
+export function particlesmanagerwasm_update(a: number, b: number): void;
+export function particlesmanagerwasm_create_connections(a: number, b: number, c: number, d: number): void;
+export function particlesmanagerwasm_get_connections_ptr(a: number): number;
+export function particlesmanagerwasm_get_connections_len(a: number): number;
+export function particlesmanagerwasm_resize_canvas(a: number, b: number, c: number): void;
+export function particlesmanagerwasm_sort_neighbors(a: number): void;
+export function particlesmanagerwasm_change_number_of_particles(a: number, b: number): void;
+export function particlesmanagerwasm_set_connection_max_dist(a: number, b: number): void;
+export function particlesmanagerwasm_clear_neighbors(a: number): void;
+export function __wbg_sortneighborsfromworker_free(a: number): void;
+export function sortneighborsfromworker_new(a: number, b: number, c: number): number;
+export function sortneighborsfromworker_sort_neighbors(a: number, b: number, c: number, d: number, e: number, f: number): void;
+export function sortneighborsfromworker_change_number_of_particles(a: number, b: number, c: number, d: number): void;
+export function __wbg_particleswasm_free(a: number): void;
+export function particleswasm_new(a: number, b: number): number;
+export function particleswasm_memory(a: number): number;
+export function particleswasm_get_particles_manager(a: number): number;
+export function particleswasm_get_impulses_manager(a: number): number;
+export function particleswasm_get_mouse_position_ptr(a: number): number;
+export function __wbindgen_malloc(a: number, b: number): number;
+export function __wbindgen_realloc(a: number, b: number, c: number, d: number): number;
+export function __wbindgen_free(a: number, b: number, c: number): void;
+export function __wbindgen_exn_store(a: number): void;
