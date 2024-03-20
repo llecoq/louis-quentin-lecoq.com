@@ -1,0 +1,287 @@
+[
+  {
+    "tech": "js",
+    "numberOfParticles": "100",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 60,
+      "totalDuration": 3584707,
+      "numberOfFrames": 3593,
+      "averageDuration": 997.6919009184526
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1011869,
+      "count": 1440,
+      "averageDuration": 702.6868055555556
+    },
+    "CPU": 69.6,
+    "USS": 96
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "200",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 60,
+      "totalDuration": 6772439,
+      "numberOfFrames": 3601,
+      "averageDuration": 1880.7106359344627
+    },
+    "sortNeighborsData": {
+      "totalDuration": 3727494,
+      "count": 1440,
+      "averageDuration": 2588.5375
+    },
+    "CPU": 96.3,
+    "USS": 101.69999999999999
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "300",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 60,
+      "totalDuration": 11365489,
+      "numberOfFrames": 3589,
+      "averageDuration": 3166.7564781276124
+    },
+    "sortNeighborsData": {
+      "totalDuration": 9627682,
+      "count": 1446,
+      "averageDuration": 6658.147994467497
+    },
+    "CPU": 95.8,
+    "USS": 142
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "400",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 59,
+      "totalDuration": 17363492,
+      "numberOfFrames": 3547,
+      "averageDuration": 4895.261347617705
+    },
+    "sortNeighborsData": {
+      "totalDuration": 16847893,
+      "count": 1439,
+      "averageDuration": 11708.056289089645
+    },
+    "CPU": 120.79999999999998,
+    "USS": 158.10000000000002
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "500",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 57,
+      "totalDuration": 19569079,
+      "numberOfFrames": 3438,
+      "averageDuration": 5691.995055264689
+    },
+    "sortNeighborsData": {
+      "totalDuration": 28278550,
+      "count": 1440,
+      "averageDuration": 19637.881944444445
+    },
+    "CPU": 133.4,
+    "USS": 209.89999999999998
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "600",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 49,
+      "totalDuration": 21752295,
+      "numberOfFrames": 2956,
+      "averageDuration": 7358.692489851151
+    },
+    "sortNeighborsData": {
+      "totalDuration": 40816736,
+      "count": 1440,
+      "averageDuration": 28344.955555555556
+    },
+    "CPU": 182.9,
+    "USS": 213
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "700",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 42,
+      "totalDuration": 21070331,
+      "numberOfFrames": 2549,
+      "averageDuration": 8266.116516280894
+    },
+    "sortNeighborsData": {
+      "totalDuration": 58083093,
+      "count": 1440,
+      "averageDuration": 40335.48125
+    },
+    "CPU": 282.90000000000003,
+    "USS": 217.20000000000005
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "800",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 39,
+      "totalDuration": 25742873,
+      "numberOfFrames": 2357,
+      "averageDuration": 10921.880780653373
+    },
+    "sortNeighborsData": {
+      "totalDuration": 80033759,
+      "count": 1438,
+      "averageDuration": 55656.29972183588
+    },
+    "CPU": 296.20000000000005,
+    "USS": 221.10000000000002
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "900",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 35,
+      "totalDuration": 26173395,
+      "numberOfFrames": 2092,
+      "averageDuration": 12511.183078393882
+    },
+    "sortNeighborsData": {
+      "totalDuration": 108179943,
+      "count": 1440,
+      "averageDuration": 75124.96041666667
+    },
+    "CPU": 316.3,
+    "USS": 224.70000000000005
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1000",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 30,
+      "totalDuration": 26015383,
+      "numberOfFrames": 1773,
+      "averageDuration": 14673.086858432036
+    },
+    "sortNeighborsData": {
+      "totalDuration": 138437047,
+      "count": 1437,
+      "averageDuration": 96337.54140570633
+    },
+    "CPU": 442.90000000000003,
+    "USS": 226
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1100",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 27,
+      "totalDuration": 26526585,
+      "numberOfFrames": 1627,
+      "averageDuration": 16303.98586355255
+    },
+    "sortNeighborsData": {
+      "totalDuration": 158682772,
+      "count": 1440,
+      "averageDuration": 110196.36944444444
+    },
+    "CPU": 356.3,
+    "USS": 231.70000000000005
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1200",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 22,
+      "totalDuration": 25812477,
+      "numberOfFrames": 1348,
+      "averageDuration": 19148.72181008902
+    },
+    "sortNeighborsData": {
+      "totalDuration": 197893510,
+      "count": 1415,
+      "averageDuration": 139854.07067137808
+    },
+    "CPU": 563.0000000000001,
+    "USS": 232.5
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1300",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 19,
+      "totalDuration": 23905063,
+      "numberOfFrames": 1119,
+      "averageDuration": 21362.880250223414
+    },
+    "sortNeighborsData": {
+      "totalDuration": 238623164,
+      "count": 1400,
+      "averageDuration": 170445.11714285714
+    },
+    "CPU": 583.3000000000001,
+    "USS": 239.89999999999998
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1400",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 17,
+      "totalDuration": 22339094,
+      "numberOfFrames": 993,
+      "averageDuration": 22496.569989929507
+    },
+    "sortNeighborsData": {
+      "totalDuration": 251608364,
+      "count": 1319,
+      "averageDuration": 190756.90978013646
+    },
+    "CPU": 722.9,
+    "USS": 240.89999999999998
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1500",
+    "numberOfWorkers": "6",
+    "traceDuration": "60000",
+    "animationData": {
+      "fps": 15,
+      "totalDuration": 22333117,
+      "numberOfFrames": 902,
+      "averageDuration": 24759.553215077605
+    },
+    "sortNeighborsData": {
+      "totalDuration": 256584543,
+      "count": 1175,
+      "averageDuration": 218369.82382978723
+    },
+    "CPU": 489.6,
+    "USS": 244.20000000000005
+  }
+]

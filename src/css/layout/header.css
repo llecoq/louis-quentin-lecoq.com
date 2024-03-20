@@ -35,7 +35,7 @@ html {
 }
 
 #navbar-box {
-    width: 65vw;
+    width: 65%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,11 +44,14 @@ html {
 /* Logo Styles */
 .logo-container img {
     border-radius: 50%;
+    min-width: 60px;
     width: 60px; 
     height: 60px; 
     object-fit: cover;
     box-shadow: 0.5px 1px 1px 0.5px var(--text-color-2);
     background-color: rgba(72 163 247 / 5%);
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 #logo {

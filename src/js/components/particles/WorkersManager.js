@@ -38,13 +38,15 @@ export default class WorkersManager {
     wasmBufferInterpreter
     sharedParticlesData
     numberOfWorkers
+    animationController
 
-    constructor(particlesManagerJS, wasmBufferInterpreter) {
+    constructor(particlesManagerJS, wasmBufferInterpreter, animationController) {
         this.animationMode = "WASM";
         this.particlesManagerJS = particlesManagerJS;
         this.wasmBufferInterpreter = wasmBufferInterpreter;
         this.numberOfWorkers = opts.NUMBER_OF_WEB_WORKERS;
         this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.animationController = animationController;
 
         if (opts.NUMBER_OF_WEB_WORKERS > 0) {
             this.initSharedParticlesData();
@@ -71,6 +73,7 @@ export default class WorkersManager {
                     workerData.setBusy(true);
                 } else {
                     console.log(this.animationMode,"Worker busy; skip sortNeighbors.");
+                    this.animationController.pause();
                 }
             })
         }
@@ -198,6 +201,7 @@ export default class WorkersManager {
             }
         }
         worker.setBusy(false);
+        this.animationController.restart();
     }
 
     setNeighborsFromWorkerInJS(particleIndex, worker) {
@@ -249,8 +253,8 @@ export default class WorkersManager {
     }
 
     changeNumberOfWorkers(value) {
-        this.numberOfWorkers = value;
         this.terminateWorkers();
+        this.numberOfWorkers = value;
 
         if (this.numberOfWorkers > 0) {
             this.initSharedParticlesData();

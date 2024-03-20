@@ -1,0 +1,302 @@
+[
+  {
+    "tech": "js",
+    "numberOfParticles": "100",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 60,
+      "totalDuration": 26680219,
+      "numberOfFrames": 32392,
+      "averageDuration": 823.6669239318351
+    },
+    "sortNeighborsData": {
+      "totalDuration": 7748046,
+      "count": 8880,
+      "averageDuration": 872.5277027027028
+    },
+    "CPU": 59.42222222222222,
+    "USS": 85.75555555555556,
+    "maxCPU": 69.6
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "200",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 60,
+      "totalDuration": 53887236,
+      "numberOfFrames": 32386,
+      "averageDuration": 1663.905267708269
+    },
+    "sortNeighborsData": {
+      "totalDuration": 31593092,
+      "count": 8888,
+      "averageDuration": 3554.578307830783
+    },
+    "CPU": 83.65555555555554,
+    "USS": 99.86666666666666,
+    "maxCPU": 96.3
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "300",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 59,
+      "totalDuration": 92266844,
+      "numberOfFrames": 32083,
+      "averageDuration": 2875.8795623850638
+    },
+    "sortNeighborsData": {
+      "totalDuration": 73000040,
+      "count": 8897,
+      "averageDuration": 8205.017421602788
+    },
+    "CPU": 102.85555555555554,
+    "USS": 116.88888888888889,
+    "maxCPU": 122.89999999999998
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "400",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 58,
+      "totalDuration": 142089118,
+      "numberOfFrames": 31359,
+      "averageDuration": 4531.047482381454
+    },
+    "sortNeighborsData": {
+      "totalDuration": 143430424,
+      "count": 8888,
+      "averageDuration": 16137.536453645365
+    },
+    "CPU": 116.92222222222222,
+    "USS": 140.27777777777777,
+    "maxCPU": 158.29999999999998
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "500",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 55,
+      "totalDuration": 157518976,
+      "numberOfFrames": 29815,
+      "averageDuration": 5283.21234278048
+    },
+    "sortNeighborsData": {
+      "totalDuration": 221019267,
+      "count": 8887,
+      "averageDuration": 24869.95240238551
+    },
+    "CPU": 152.24444444444444,
+    "USS": 162.4777777777778,
+    "maxCPU": 222.99999999999997
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "600",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 49,
+      "totalDuration": 182162409,
+      "numberOfFrames": 26577,
+      "averageDuration": 6854.1373744214925
+    },
+    "sortNeighborsData": {
+      "totalDuration": 324752384,
+      "count": 8880,
+      "averageDuration": 36571.21441441441
+    },
+    "CPU": 199.23333333333335,
+    "USS": 165.51111111111112,
+    "maxCPU": 229.6
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "700",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 43,
+      "totalDuration": 176939966,
+      "numberOfFrames": 23179,
+      "averageDuration": 7633.632425902757
+    },
+    "sortNeighborsData": {
+      "totalDuration": 461061629,
+      "count": 8879,
+      "averageDuration": 51927.20227503097
+    },
+    "CPU": 234.33333333333334,
+    "USS": 168.52222222222224,
+    "maxCPU": 329.6
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "800",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 36,
+      "totalDuration": 199037147,
+      "numberOfFrames": 19246,
+      "averageDuration": 10341.74098513977
+    },
+    "sortNeighborsData": {
+      "totalDuration": 679274390,
+      "count": 8874,
+      "averageDuration": 76546.58440387649
+    },
+    "CPU": 244.5222222222222,
+    "USS": 172.32222222222222,
+    "maxCPU": 342.90000000000003
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "900",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 33,
+      "totalDuration": 203735311,
+      "numberOfFrames": 17802,
+      "averageDuration": 11444.518087855296
+    },
+    "sortNeighborsData": {
+      "totalDuration": 804286545,
+      "count": 8750,
+      "averageDuration": 91918.46228571428
+    },
+    "CPU": 302.30000000000004,
+    "USS": 175.83333333333337,
+    "maxCPU": 362.90000000000003
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1000",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 29,
+      "totalDuration": 204582451,
+      "numberOfFrames": 15481,
+      "averageDuration": 13215.066920741554
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1009537955,
+      "count": 8661,
+      "averageDuration": 116561.36185198014
+    },
+    "CPU": 351.0555555555556,
+    "USS": 177.70000000000002,
+    "maxCPU": 469.6
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1100",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 26,
+      "totalDuration": 203886891,
+      "numberOfFrames": 13892,
+      "averageDuration": 14676.568600633458
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1127095995,
+      "count": 8508,
+      "averageDuration": 132474.84661495063
+    },
+    "CPU": 352.16666666666674,
+    "USS": 181.86666666666667,
+    "maxCPU": 496.3
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1200",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 22,
+      "totalDuration": 195585956,
+      "numberOfFrames": 12067,
+      "averageDuration": 16208.333139968508
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1303640607,
+      "count": 8304,
+      "averageDuration": 156989.47579479768
+    },
+    "CPU": 348.9444444444445,
+    "USS": 184.26666666666668,
+    "maxCPU": 563.0000000000001
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1300",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 19,
+      "totalDuration": 181925984,
+      "numberOfFrames": 10456,
+      "averageDuration": 17399.195103289978
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1476792722,
+      "count": 7917,
+      "averageDuration": 186534.38448907415
+    },
+    "CPU": 357.81111111111113,
+    "USS": 187.95555555555555,
+    "maxCPU": 636.3000000000001
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1400",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 17,
+      "totalDuration": 168166244,
+      "numberOfFrames": 8961,
+      "averageDuration": 18766.459546925566
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1537865975,
+      "count": 7152,
+      "averageDuration": 215026.00321588365
+    },
+    "CPU": 391.26666666666665,
+    "USS": 190.36666666666665,
+    "maxCPU": 722.9
+  },
+  {
+    "tech": "js",
+    "numberOfParticles": "1500",
+    "numberOfWorkers": "average",
+    "traceDuration": 540000,
+    "animationData": {
+      "fps": 15,
+      "totalDuration": 162568564,
+      "numberOfFrames": 8100,
+      "averageDuration": 20070.193086419753
+    },
+    "sortNeighborsData": {
+      "totalDuration": 1535535003,
+      "count": 6206,
+      "averageDuration": 247427.49000966805
+    },
+    "CPU": 420.4222222222222,
+    "USS": 193.32222222222222,
+    "maxCPU": 795.9
+  }
+]

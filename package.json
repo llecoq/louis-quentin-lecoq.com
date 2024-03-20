@@ -6,12 +6,22 @@
     "dev": "npm i & npm run build:wasm & npm run start:dev",
     "start:dev": "npx webpack serve --config config.bundlers/webpack.config.js",
     "start:prod": "npm run build:webpack && webpack serve --env production --config config.bundlers/webpack.config.js",
+    "start:charts": "webpack serve --config config.bundlers/webpack.charts.config.js",
     "build:wasm": "cd src/rs/ && wasm-pack build --target web",
     "build:webpack": "npx webpack --env production --config config.bundlers/webpack.config.js",
     "lint:all": "npm run lint:js & npm run lint:css & npm run lint:html",
     "lint:js": "eslint . --ext .js --config config.linters/.eslintrc.json --ignore-path config.linters/.eslintignore",
     "lint:css": "stylelint '**/*.css' --config config.linters/.stylelintrc",
-    "lint:html": "htmlhint ."
+    "lint:html": "htmlhint .",
+    "benchmark": "node benchmarks/scripts/benchmark.js",
+    "test": "node benchmarks/scripts/test.js",
+    "benchmark:all": "sh benchmarks/scripts/runAllBenchmarks.sh",
+    "benchmark:clean-data": "rm -rf benchmarks/data/",
+    "benchmark:clean-profiles": "rm -rf benchmarks/profiles/",
+    "profiling:cpu": "node benchmarks/scripts/CpuMetricsProfiler.js",
+    "profiling:ram": "node benchmarks/scripts/RamMetricsProfiler.js",
+    "profiling:trace": "node benchmarks/scripts/TraceDataProfiler.js",
+    "profiling:all": "npm run profiling:trace && npm run profiling:ram && npm run profiling:cpu"
   },
   "author": "",
   "license": "ISC",
@@ -29,5 +39,10 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.2",
     "worker-loader": "^3.0.8"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "highcharts": "^11.4.0",
+    "puppeteer": "^22.3.0"
   }
 }
