@@ -10,17 +10,29 @@
 </head>
 <body>
     <header>
-        <div id="navbar" class="navbar-item">
+        <!-- <div id="navbar" class="navbar-item"> -->
+        <div id="navbar">
             <nav id="navbar-box">
-                <div class="logo-container" id="logo">
+                <!-- <div class="logo-container" id="logo">
                     <img class="navbar-item" src="/assets/images/profile-picture.avif" alt="Louis-Quentin Lecoq">
-                    <a class="navbar-item" href="#home">Louis-Quentin Lecoq</a>
+                    <a class="navbar-item" href="#home" id="louis-quentin-lecoq-nav">Louis-Quentin Lecoq</a>
                 </div>
                 <div id="nav-links">
                     <a class="navbar-item" href="#about">About</a>
                     <a class="navbar-item" href="#skills">Skills</a>
                     <a class="navbar-item" href="#projects">Projects</a>
                     <button class="navbar-item" onclick="window.location.href='#contact'">Contact</button>
+                </div> -->
+                <div class="logo-container" id="logo">
+                    <img src="/assets/images/profile-picture.avif" alt="Louis-Quentin Lecoq">
+                    <a href="#home" id="louis-quentin-lecoq-nav">Louis-Quentin Lecoq</a>
+                </div>
+                <div id="nav-links">
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <button onclick="window.location.href='#contact'">Contact</button>
+                    <i class="fa-solid fa-bars fa-lg" id="fa-bars"></i>
                 </div>
             </nav>
         </div>
@@ -51,9 +63,7 @@
                     <div id="tabs">
                         <div class="tab-selected" id="settings-tab">Settings</div>
                         <div class="tab" id="infos-tab">Infos</div>
-                        <div id="xmark">
-                            <i class="fa-solid fa-xmark"></i>
-                        </div>
+                        <i class="fa-solid fa-xmark" id="xmark"></i>
                     </div>
                     <div id="animation-settings">
                         <div class="setting-div">
