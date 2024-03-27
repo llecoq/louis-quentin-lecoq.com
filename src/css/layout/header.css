@@ -48,6 +48,10 @@ html {
     align-items: center;
 }
 
+.logo-container {
+    width: 0;
+}
+
 /* Logo Styles */
 .logo-container img {
     border-radius: 50%;
@@ -118,6 +122,10 @@ html {
     #fa-bars {
         display: none;
         width: 0;
+    }
+
+    .logo-container {
+        width: auto;
     }
 }
 
