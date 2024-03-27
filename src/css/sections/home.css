@@ -26,6 +26,11 @@
   color: white;
   font-family: Satoshi-Regular, sans-serif;
   min-height: 270px;
+  padding: 10px;
+  /* background-color: rgba(var(--navbar-background-dark-r) var(--navbar-background-dark-g) var(--navbar-background-dark-b) / 10%); */
+  backdrop-filter: blur(1px);
+  border-radius: 5%;
+	/* box-shadow: rgba(0 0 0 / 5%) 0 19px 38px, rgba(0 0 0 / 5%) 0 15px 12px; */
   /* min-width: 480px; */
 }
 
