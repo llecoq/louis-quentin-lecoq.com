@@ -9,7 +9,7 @@ html {
 
 #navbar {
     z-index: 4;
-    width: 100%;
+    /* width: 100%; */
     background-color: rgba(var(--navbar-background-dark-r) var(--navbar-background-dark-g) var(--navbar-background-dark-b) / 10%);
     position: fixed;
     backdrop-filter: blur(5px);
@@ -23,15 +23,22 @@ html {
 }
 
 .navbar-item {
-    opacity: 0; /* Initialement invisible */
-    transform: translateY(-20px); /* Commence au-dessus de sa position finale */
-    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition sur l'opacité et le déplacement */
+    opacity: 0; 
+    transform: translateY(-20px); 
+    transition: opacity 0.5s ease, transform 0.5s ease; 
 }
 
-/* Ajoutez une classe pour animer l'élément */
+#fa-bars {
+    cursor: pointer;
+}
+
 .navbar-item-visible {
     opacity: 1;
-    transform: translateY(0); /* Retour à sa position initiale */
+    transform: translateY(0); 
+}
+
+#louis-quentin-lecoq-nav {
+    visibility: hidden;
 }
 
 #navbar-box {
@@ -55,7 +62,7 @@ html {
 }
 
 #logo {
-    width: 400px;
+    /* width: 400px; */
     display: flex;	
 }
 
@@ -77,13 +84,15 @@ html {
     flex-grow: 1;
 }
 
-#nav-links a {
+#nav-links a, button {
     color: var(--text-color);
     position: relative;
     text-decoration: none;
     font-family: Satoshi-Regular, sans-serif;
     font-size: large;
     padding: 0 20px;
+    visibility: hidden;
+    width: 0;
 }
 
 #nav-links a:hover,
@@ -94,4 +103,53 @@ html {
 #nav-links a:hover::after, 
 #nav-links a.active::after {
     width: 100%;
+}
+
+@media (min-width: 700px) {
+    #nav-links a, button {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        flex-grow: 1;
+        visibility: visible;
+        width: auto;
+    }
+
+    #fa-bars {
+        display: none;
+        width: 0;
+    }
+}
+
+@media (min-width: 1025px) {
+    #louis-quentin-lecoq-nav {
+        visibility: visible;
+    }
+
+    #navbar-box {
+        width: 65%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #logo {
+        width: 400px;
+        display: flex;
+    }
+
+    #navbar {
+        z-index: 4;
+        width: 100%;
+        background-color: rgba(var(--navbar-background-dark-r) var(--navbar-background-dark-g) var(--navbar-background-dark-b) / 10%);
+        position: fixed;
+        backdrop-filter: blur(5px);
+        height: var(--navbar-height);
+        top: 0;
+        left: 0;
+        right: 0;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
 }
