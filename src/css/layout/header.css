@@ -89,13 +89,18 @@ html {
     flex-grow: 1;
 }
 
-#nav-links a, #nav-links button {
+#nav-links a {
     color: var(--text-color);
     position: relative;
     text-decoration: none;
     font-family: Satoshi-Regular, sans-serif;
     font-size: large;
     padding: 0 20px;
+    visibility: hidden;
+    width: 0;
+}
+
+#nav-links button {
     visibility: hidden;
     width: 0;
 }
@@ -111,13 +116,17 @@ html {
 }
 
 @media (min-width: 700px) {
-    #nav-links a, button {
+    #nav-links a {
         display: flex;
         justify-content: right;
         align-items: center;
         flex-grow: 1;
         visibility: visible;
+    }
+
+    #nav-links button {
         width: auto;
+        visibility: visible;
     }
 
     #fa-bars {
