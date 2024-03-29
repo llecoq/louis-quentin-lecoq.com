@@ -10,14 +10,14 @@ export class AnimationRenderer {
     impulsesJS
     numberOfParticles
 
-    constructor(ctx, wasmBufferInterpreter, particlesJS, impulsesJS, canvas) {
+    constructor(ctx, wasmBufferInterpreter, particlesJS, impulsesJS, canvas, numberOfParticles) {
         this.ctx = ctx;
         this.canvas = canvas;
         this.wasmBufferInterpreter = wasmBufferInterpreter;
         this.particlesJS = particlesJS;
         this.impulsesJS = impulsesJS;
         this.ctx.font = "20px Arial";
-        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.numberOfParticles = numberOfParticles;
     }
 
     // Clear canvas rectangle

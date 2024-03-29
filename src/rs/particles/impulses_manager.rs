@@ -35,9 +35,9 @@ impl ImpulsesManagerWASM {
     ///
     /// Returns:
     ///     ImpulsesManagerWASM - A new instance of the impulses manager ready for use with WebAssembly.
-    pub fn new(particles_ref: Rc<RefCell<Vec<Particle>>>) -> ImpulsesManagerWASM {
+    pub fn new(particles_ref: Rc<RefCell<Vec<Particle>>>, number_of_particles: usize) -> ImpulsesManagerWASM {
         let js_opts: Opts = get_opts_from_js().expect("Error while fetching Opts from JS");
-        let number_of_particles = js_opts.number_of_particles;
+        let number_of_particles = number_of_particles;
         let connection_max_dist: f32 = js_opts.connection_max_dist;
 
         ImpulsesManagerWASM {

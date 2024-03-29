@@ -12,13 +12,13 @@ pub struct ParticlesWASM {
 
 #[wasm_bindgen]
 impl ParticlesWASM {
-    pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesWASM {
-        let new_particles_manager = ParticlesManagerWASM::new(canvas_height, canvas_width);
+    pub fn new(canvas_height: u32, canvas_width: u32, number_of_particles: usize) -> ParticlesWASM {
+        let new_particles_manager = ParticlesManagerWASM::new(canvas_height, canvas_width, number_of_particles);
         let particles_ref = new_particles_manager.get_particles_ref();
     
         ParticlesWASM {
             particles_manager: new_particles_manager,
-            impulses_manager: ImpulsesManagerWASM::new(particles_ref),
+            impulses_manager: ImpulsesManagerWASM::new(particles_ref, number_of_particles),
         }
     }
 

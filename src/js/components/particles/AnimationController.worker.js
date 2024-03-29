@@ -20,10 +20,11 @@ onmessage = function (e) {
     if (e.data.type === 'initAnimation') {
         const canvas = e.data.canvas;
         const ctx = canvas.getContext("2d");
+        const numberOfParticles = e.data.numberOfParticles;
     
         loadWasm().then(() => {
             animationController = new AnimationController();
-            animationController.init(canvas, ctx);
+            animationController.init(canvas, ctx, numberOfParticles);
         });
     } else {
         if (animationController) { 
@@ -47,6 +48,7 @@ onmessage = function (e) {
                     animationController.resizeCanvas(e.data.width, e.data.height);
                     break;
                 case 'numberOfParticlesChange':
+                    console.log("oui")
                     animationController.changeNumberOfParticles(e.data.numberOfParticles);
                     break;
                 case 'numberOfWorkersChange':
@@ -116,11 +118,11 @@ class AnimationController {
         this.numberOfWorkers = opts.NUMBER_OF_WEB_WORKERS;
     }
 
-    init(canvas, ctx) {
+    init(canvas, ctx, numberOfParticles) {
         this.offscreenCanvas = canvas;
 
         // Init animation from WASM side
-        const particlesWASM = ParticlesWASM.new(canvas.height, canvas.width);
+        const particlesWASM = ParticlesWASM.new(canvas.height, canvas.width, numberOfParticles);
         this.particlesManagerWASM = particlesWASM.get_particles_manager();
         this.particlesManagerWASM.init();
         this.impulsesManagerWASM = particlesWASM.get_impulses_manager();
@@ -130,7 +132,7 @@ class AnimationController {
 
         // Setup Particles buffer
         const particlesPtr = this.particlesManagerWASM.get_particles_ptr();
-        this.wasmBufferInterpreter = new WasmBufferInterpreter(memory);
+        this.wasmBufferInterpreter = new WasmBufferInterpreter(memory, numberOfParticles);
         this.wasmBufferInterpreter.setWasmParticlesBuffer(particlesPtr);
 
         // Setup MousePosition buffer
@@ -141,19 +143,19 @@ class AnimationController {
         const impulsesPtr = this.impulsesManagerWASM.get_impulses_ptr();
         this.wasmBufferInterpreter.setWasmImpulsesBuffer(impulsesPtr);
 
-         // Setup Connections buffer
-         const connectionsPtr = this.particlesManagerWASM.get_connections_ptr();
-         this.wasmBufferInterpreter.setWasmConnectionsBuffer(connectionsPtr);
+        // Setup Connections buffer
+        const connectionsPtr = this.particlesManagerWASM.get_connections_ptr();
+        this.wasmBufferInterpreter.setWasmConnectionsBuffer(connectionsPtr);
 
         // Init animation from JS side (empty, waiting for a toggle change from the client side)
-        this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.MAX_NUMBER_OF_PARTICLES, canvas);
-        this.impulsesManagerJS = new ImpulsesManagerJS(ctx, this.particlesManagerJS.getParticles());
+        this.particlesManagerJS = new ParticlesManagerJS(ctx, opts.MAX_NUMBER_OF_PARTICLES, canvas, numberOfParticles);
+        this.impulsesManagerJS = new ImpulsesManagerJS(ctx, this.particlesManagerJS.getParticles(), numberOfParticles);
 
 
         // Create a new AnimationRenderer
         const particlesJS = this.particlesManagerJS.getParticles();
         const impulsesJS = this.impulsesManagerJS.getImpulses();
-        this.animationRenderer = new AnimationRenderer(ctx, this.wasmBufferInterpreter, particlesJS, impulsesJS, canvas);
+        this.animationRenderer = new AnimationRenderer(ctx, this.wasmBufferInterpreter, particlesJS, impulsesJS, canvas, numberOfParticles);
         this.animationRenderer.setParticlesManagerJS(this.particlesManagerJS);
 
         // Setup the active ParticlesManager
@@ -161,7 +163,7 @@ class AnimationController {
         this.activeImpulsesManager = this.impulsesManagerWASM;
 
         // Init WebWorkers
-        this.workersManager = new WorkersManager(this.particlesManagerJS, this.wasmBufferInterpreter, this);
+        this.workersManager = new WorkersManager(this.particlesManagerJS, this.wasmBufferInterpreter, this, numberOfParticles);
 
         // Start animation
         this.start();

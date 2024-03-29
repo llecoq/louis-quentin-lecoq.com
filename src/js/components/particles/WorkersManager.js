@@ -40,12 +40,12 @@ export default class WorkersManager {
     numberOfWorkers
     animationController
 
-    constructor(particlesManagerJS, wasmBufferInterpreter, animationController) {
+    constructor(particlesManagerJS, wasmBufferInterpreter, animationController, numberOfParticles) {
         this.animationMode = "WASM";
         this.particlesManagerJS = particlesManagerJS;
         this.wasmBufferInterpreter = wasmBufferInterpreter;
         this.numberOfWorkers = opts.NUMBER_OF_WEB_WORKERS;
-        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.numberOfParticles = numberOfParticles;
         this.animationController = animationController;
 
         if (opts.NUMBER_OF_WEB_WORKERS > 0) {

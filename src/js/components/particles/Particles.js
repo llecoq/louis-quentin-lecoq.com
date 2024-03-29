@@ -16,31 +16,30 @@ export class Particles {
     init() {
         document.body.style.height = "100vh";
         // Creation of an OffscreenCanvas
-        if (!canvas.hasAttribute('transferred')) {
-            const offscreen = document.querySelector('canvas').transferControlToOffscreen();
-            // Transférer `offscreen` à votre Web Worker ici
-            canvas.setAttribute('transferred', 'true');
-            // Creation of a new module Worker
-            this.worker = new Worker(new URL('./AnimationController.worker.js', import.meta.url), {
-                type: 'module'
-            });
-            offscreen.height = document.body.clientHeight;
-            offscreen.width = document.body.clientWidth;
-            // Sending the context to the worker
-            this.worker.postMessage({
-                type: 'initAnimation',
-                canvas: offscreen,
-            }, [offscreen]);
-        
-            // EventListener
-            this.eventListener = new EventListener(this.worker);
-            this.eventListener.init();
+        const offscreen = document.querySelector('canvas').transferControlToOffscreen();
+        // Transférer `offscreen` à votre Web Worker ici
+        canvas.setAttribute('transferred', 'true');
+        // Creation of a new module Worker
+        this.worker = new Worker(new URL('./AnimationController.worker.js', import.meta.url), {
+            type: 'module'
+        });
+        offscreen.height = document.body.clientHeight;
+        offscreen.width = document.body.clientWidth;
+        // Sending the context to the worker
+        this.worker.postMessage({
+            type: 'initAnimation',
+            canvas: offscreen,
+            numberOfParticles: this.getDynamicNumberOfParticles()
+        }, [offscreen]);
     
-            this.handleParticlesNumberRange();
-            this.handleWorkersNumberRange();
-            this.handleConnectionMaxDistanceRange();
-            this.handleFpsCount();
-        }
+        // EventListener
+        this.eventListener = new EventListener(this.worker);
+        this.eventListener.init();
+
+        this.handleParticlesNumberRange();
+        this.handleWorkersNumberRange();
+        this.handleConnectionMaxDistanceRange();
+        this.handleFpsCount();
     }
 
     handleFpsCount() {
@@ -54,8 +53,9 @@ export class Particles {
     handleParticlesNumberRange() {
         this.particlesRangeSlider = document.getElementById("particles-number-range");
         this.particlesNumberOutput = document.getElementById("particles-number");
-        this.particlesRangeSlider.value = opts.NUMBER_OF_PARTICLES;
+        this.particlesRangeSlider.value = this.getDynamicNumberOfParticles();
         this.particlesNumberOutput.innerHTML = this.particlesRangeSlider.value;
+
         this.particlesRangeSlider.oninput = () => {
             this.particlesNumberOutput.innerHTML = this.particlesRangeSlider.value;
             this.worker.postMessage({
@@ -94,11 +94,11 @@ export class Particles {
     }
 
     getDynamicNumberOfParticles() {
-        const screenArea = window.innerWidth * window.innerHeight;
+        const screenArea = self.window.innerWidth * self.window.innerHeight;
         const minScreenArea = 320 * 568;
         const maxScreenArea = 1980 * 1080;
         const value = 100 + (screenArea - minScreenArea) * (650 / (maxScreenArea - minScreenArea));
         
-        return Math.min(Math.max(value, 100), 750);
+        return Math.round(Math.min(Math.max(value, 100), 750));
     }
 }

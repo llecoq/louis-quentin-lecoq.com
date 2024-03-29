@@ -10,11 +10,11 @@ export default class ImpulsesManagerJS {
     numberOfParticles
     connectionMaxDist
 
-    constructor(ctx, particles) {
+    constructor(ctx, particles, numberOfParticles) {
         this.ctx = ctx;
         this.impulses = [];
         this.particles = particles;
-        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.numberOfParticles = numberOfParticles;
         this.connectionMaxDist = opts.CONNECTION_MAX_DIST;
     }
 

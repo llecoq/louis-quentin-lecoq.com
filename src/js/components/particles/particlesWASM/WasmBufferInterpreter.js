@@ -75,9 +75,9 @@ export class WasmBufferInterpreter {
     wasmConnectionsBuffer
     numberOfParticles
 
-    constructor(wasmMemory) {
+    constructor(wasmMemory, numberOfParticles) {
         this.wasmMemory = wasmMemory;
-        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.numberOfParticles = numberOfParticles;
     }
 
     setWasmParticlesBuffer(particlesPtr) {

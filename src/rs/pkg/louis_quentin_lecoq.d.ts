@@ -108,9 +108,10 @@ export class ParticlesWASM {
 /**
 * @param {number} canvas_height
 * @param {number} canvas_width
+* @param {number} number_of_particles
 * @returns {ParticlesWASM}
 */
-  static new(canvas_height: number, canvas_width: number): ParticlesWASM;
+  static new(canvas_height: number, canvas_width: number, number_of_particles: number): ParticlesWASM;
 /**
 * @returns {any}
 */
@@ -182,7 +183,7 @@ export interface InitOutput {
   readonly sortneighborsfromworker_sort_neighbors: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
   readonly sortneighborsfromworker_change_number_of_particles: (a: number, b: number, c: number, d: number) => void;
   readonly __wbg_particleswasm_free: (a: number) => void;
-  readonly particleswasm_new: (a: number, b: number) => number;
+  readonly particleswasm_new: (a: number, b: number, c: number) => number;
   readonly particleswasm_memory: (a: number) => number;
   readonly particleswasm_get_particles_manager: (a: number) => number;
   readonly particleswasm_get_impulses_manager: (a: number) => number;

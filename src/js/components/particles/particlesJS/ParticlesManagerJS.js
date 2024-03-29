@@ -11,10 +11,10 @@ export default class ParticlesManagerJS {
     connectionManager
     connectionMaxDist
     
-    constructor(ctx, maxNumberOfParticles, canvas) {
+    constructor(ctx, maxNumberOfParticles, canvas, numberOfParticles) {
         this.ctx = ctx;
         this.particles = [];
-        this.numberOfParticles = opts.NUMBER_OF_PARTICLES;
+        this.numberOfParticles = numberOfParticles;
         this.connectionManager = new ConnectionsManager();
         this.connectionMaxDist = opts.CONNECTION_MAX_DIST;
 

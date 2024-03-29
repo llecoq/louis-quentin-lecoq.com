@@ -463,10 +463,11 @@ export class ParticlesWASM {
     /**
     * @param {number} canvas_height
     * @param {number} canvas_width
+    * @param {number} number_of_particles
     * @returns {ParticlesWASM}
     */
-    static new(canvas_height, canvas_width) {
-        const ret = wasm.particleswasm_new(canvas_height, canvas_width);
+    static new(canvas_height, canvas_width, number_of_particles) {
+        const ret = wasm.particleswasm_new(canvas_height, canvas_width, number_of_particles);
         return ParticlesWASM.__wrap(ret);
     }
     /**

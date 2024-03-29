@@ -170,7 +170,7 @@ impl ParticlesManagerWASM {
 
 impl ParticlesManagerWASM {
     // Create a new ParticlesManagerWASM and get the animation options from the JS side
-    pub fn new(canvas_height: u32, canvas_width: u32) -> ParticlesManagerWASM {
+    pub fn new(canvas_height: u32, canvas_width: u32, number_of_particles: usize) -> ParticlesManagerWASM {
         // Sets a custom panic hook to output Rust panics to the JavaScript console.
         std::panic::set_hook(Box::new(console_error_panic_hook::hook));
         // Initializes console logging for WebAssembly, enabling Rust log output in the browser's console.
@@ -178,7 +178,7 @@ impl ParticlesManagerWASM {
 
         // Get the animation options from the JS side
         let js_opts: Opts = get_opts_from_js().unwrap();
-        let number_of_particles = js_opts.number_of_particles;
+        let number_of_particles = number_of_particles;
         let max_number_of_particles: usize = js_opts.max_number_of_particles;
         let connection_max_dist = js_opts.connection_max_dist;
 

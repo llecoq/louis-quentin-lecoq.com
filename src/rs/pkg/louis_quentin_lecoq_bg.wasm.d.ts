@@ -27,7 +27,7 @@ export function sortneighborsfromworker_new(a: number, b: number, c: number): nu
 export function sortneighborsfromworker_sort_neighbors(a: number, b: number, c: number, d: number, e: number, f: number): void;
 export function sortneighborsfromworker_change_number_of_particles(a: number, b: number, c: number, d: number): void;
 export function __wbg_particleswasm_free(a: number): void;
-export function particleswasm_new(a: number, b: number): number;
+export function particleswasm_new(a: number, b: number, c: number): number;
 export function particleswasm_memory(a: number): number;
 export function particleswasm_get_particles_manager(a: number): number;
 export function particleswasm_get_impulses_manager(a: number): number;
