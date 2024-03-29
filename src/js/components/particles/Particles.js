@@ -32,7 +32,7 @@ export class Particles {
                 canvas: offscreen,
             }, [offscreen]);
         
-            // // EventListener
+            // EventListener
             this.eventListener = new EventListener(this.worker);
             this.eventListener.init();
     
@@ -92,6 +92,13 @@ export class Particles {
             });
         };
     }
+
+    getDynamicNumberOfParticles() {
+        const screenArea = window.innerWidth * window.innerHeight;
+        const minScreenArea = 320 * 568;
+        const maxScreenArea = 1980 * 1080;
+        const value = 100 + (screenArea - minScreenArea) * (650 / (maxScreenArea - minScreenArea));
+        
+        return Math.min(Math.max(value, 100), 750);
+    }
 }
-
-

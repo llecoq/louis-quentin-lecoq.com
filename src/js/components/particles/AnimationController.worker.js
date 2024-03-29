@@ -312,4 +312,5 @@ class AnimationController {
         this.particlesManagerWASM.set_connection_max_dist(value);
         this.impulsesManagerWASM.set_connection_max_dist(value);
     }
+
 }

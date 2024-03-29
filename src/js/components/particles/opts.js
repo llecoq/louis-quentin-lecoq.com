@@ -1,6 +1,6 @@
 export const opts = {
     SHOOTING_STARS: false,
-    NUMBER_OF_WEB_WORKERS: 4,
+    NUMBER_OF_WEB_WORKERS: getNumberOfWorkers(),
 
     // Particles
     NUMBER_OF_PARTICLES: 750, // Do not exceed MAX_NUMBER_OF_PARTICLES
@@ -45,3 +45,15 @@ export function getOpts() {
 }
 
 self.getOpts = getOpts;
+
+function getNumberOfWorkers() {
+    const numOfThreads = navigator.hardwareConcurrency;
+
+    if (numOfThreads >= 4) {
+        return 4;
+    } else if (numOfThreads > 1) {
+        return numOfThreads;
+    } else {
+        return 0;
+    }
+}
